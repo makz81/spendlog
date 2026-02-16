@@ -19,7 +19,7 @@ import { formatCurrency } from '../utils/format.js';
 import { getCurrentUserId, getDefaultProjectName } from './index.js';
 import { Between, FindOptionsWhere, In } from 'typeorm';
 import { queueForSync } from '../services/sync.js';
-import { FREE_PROJECT_LIMIT } from '../constants.js';
+import { FREE_PROJECT_LIMIT, FREE_TRANSACTION_LIMIT, isFreemiumEnabled, UPGRADE_URL } from '../constants.js';
 import { t } from '../i18n/index.js';
 
 export function getTransactionToolDefinitions(): Tool[] {
@@ -246,7 +246,7 @@ async function findOrCreateProjectByName(
   const projectRepo = AppDataSource.getRepository(Project);
   const projectCount = await projectRepo.count({ where: { userId } });
 
-  if (projectCount >= FREE_PROJECT_LIMIT) {
+  if (isFreemiumEnabled() && projectCount >= FREE_PROJECT_LIMIT) {
     // At limit — don't block the transaction, but flag it
     return { entity: null, created: false, skipped: true };
   }
@@ -261,9 +261,25 @@ async function findOrCreateProjectByName(
   return { entity: project, created: true };
 }
 
+async function checkTransactionLimit(userId: string): Promise<{ allowed: boolean; message?: string }> {
+  if (!isFreemiumEnabled()) return { allowed: true };
+  const transactionRepo = AppDataSource.getRepository(Transaction);
+  const count = await transactionRepo.count({ where: { userId } });
+  if (count >= FREE_TRANSACTION_LIMIT) {
+    return {
+      allowed: false,
+      message: t('transactions.limitReached', { limit: String(FREE_TRANSACTION_LIMIT), url: UPGRADE_URL }),
+    };
+  }
+  return { allowed: true };
+}
+
 export async function addIncome(args: Record<string, unknown>): Promise<unknown> {
   const input = addIncomeSchema.parse(args) as AddIncomeInput;
   const userId = getCurrentUserId();
+
+  const limitCheck = await checkTransactionLimit(userId);
+  if (!limitCheck.allowed) return { success: false, message: limitCheck.message };
 
   const transactionRepo = AppDataSource.getRepository(Transaction);
 
@@ -336,6 +352,9 @@ export async function addIncome(args: Record<string, unknown>): Promise<unknown>
 export async function addExpense(args: Record<string, unknown>): Promise<unknown> {
   const input = addExpenseSchema.parse(args) as AddExpenseInput;
   const userId = getCurrentUserId();
+
+  const limitCheck = await checkTransactionLimit(userId);
+  if (!limitCheck.allowed) return { success: false, message: limitCheck.message };
 
   const transactionRepo = AppDataSource.getRepository(Transaction);
 

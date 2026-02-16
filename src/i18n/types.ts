@@ -61,6 +61,7 @@ export interface TranslationDictionary {
     newCategoryCreated: string;
     newProjectCreated: string;
     projectLimitSkipped: string;
+    limitReached: string;
     notFound: string;
     deleted: string;
     updated: string;

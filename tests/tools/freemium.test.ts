@@ -2,18 +2,22 @@
  * Freemium Gate Tests
  *
  * Tests for: feature gates (invoice, export, connection, recurring), budget limits, PRO bypass
+ * NOTE: These tests enable SPENDLOG_FREEMIUM=true via vi.stubEnv to test gate behavior.
  */
-import { describe, it, expect, beforeEach, afterAll } from 'vitest';
-import { tools } from '../helpers/index.js';
-import {
-  setupTestDb,
-  teardownTestDb,
-  TEST_USER_ID,
-  TestDataSource,
-} from '../setup.js';
-import { expenseFactory, profileFactory, resetFactories } from '../fixtures/index.js';
-import { User } from '../../src/entities/User.js';
-import { Recurring } from '../../src/entities/Recurring.js';
+import { describe, it, expect, beforeEach, afterAll, vi } from 'vitest';
+
+// Enable freemium BEFORE importing modules that read the env var
+vi.stubEnv('SPENDLOG_FREEMIUM', 'true');
+
+// Dynamic imports so they pick up the stubbed env
+const { tools } = await import('../helpers/index.js');
+const { setupTestDb, teardownTestDb, TEST_USER_ID, TestDataSource } = await import(
+  '../setup.js'
+);
+const { expenseFactory, profileFactory, resetFactories } = await import(
+  '../fixtures/index.js'
+);
+const { User } = await import('../../src/entities/User.js');
 
 async function setUserTier(tier: 'free' | 'pro'): Promise<void> {
   const userRepo = TestDataSource.getRepository(User);
@@ -27,26 +31,16 @@ describe('Freemium Gates', () => {
   });
 
   afterAll(async () => {
+    vi.unstubAllEnvs();
     await teardownTestDb();
   });
 
-  describe('transactions (unlimited)', () => {
-    it('allows transactions without limit', async () => {
+  describe('transaction limit', () => {
+    it('allows transactions under limit', async () => {
       const result = await tools.addExpense(
         expenseFactory.create({ amount: 50, description: 'Normal expense' })
       );
       expect(result.success).toBe(true);
-      expect(result.hints).toBeUndefined();
-    });
-
-    it('allows many transactions for free tier', async () => {
-      // Add 60 transactions (was blocked at 50 before)
-      for (let i = 0; i < 60; i++) {
-        const result = await tools.addExpense(
-          expenseFactory.create({ amount: 10, description: `Bulk tx ${i + 1}` })
-        );
-        expect(result.success).toBe(true);
-      }
     });
   });
 
@@ -109,8 +103,8 @@ describe('Freemium Gates', () => {
   });
 
   describe('recurring limit', () => {
-    it('allows up to 3 recurring for free tier', async () => {
-      for (let i = 0; i < 3; i++) {
+    it('allows up to 5 recurring for free tier', async () => {
+      for (let i = 0; i < 5; i++) {
         const result = await tools.createRecurring({
           type: 'expense',
           amount: 10,
@@ -121,8 +115,8 @@ describe('Freemium Gates', () => {
       }
     });
 
-    it('blocks 4th recurring for free tier', async () => {
-      for (let i = 0; i < 3; i++) {
+    it('blocks 6th recurring for free tier', async () => {
+      for (let i = 0; i < 5; i++) {
         await tools.createRecurring({
           type: 'expense',
           amount: 10,
@@ -134,7 +128,7 @@ describe('Freemium Gates', () => {
       const result = await tools.createRecurring({
         type: 'expense',
         amount: 10,
-        description: 'Recurring 4',
+        description: 'Recurring 6',
         interval: 'monthly',
       });
       expect(result.success).toBe(false);
@@ -143,7 +137,7 @@ describe('Freemium Gates', () => {
 
     it('PRO users can create unlimited recurring', async () => {
       await setUserTier('pro');
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 7; i++) {
         const result = await tools.createRecurring({
           type: 'expense',
           amount: 10,
@@ -156,14 +150,20 @@ describe('Freemium Gates', () => {
   });
 
   describe('budget limit', () => {
-    it('allows first budget for free tier', async () => {
-      const result = await tools.setBudget({ amount: 500 });
-      expect(result.success).toBe(true);
+    it('allows up to 3 budgets for free tier', async () => {
+      const r1 = await tools.setBudget({ amount: 500 });
+      expect(r1.success).toBe(true);
+      const r2 = await tools.setBudget({ amount: 200, category: 'IT & Software' });
+      expect(r2.success).toBe(true);
+      const r3 = await tools.setBudget({ amount: 100, category: 'Marketing & Werbung' });
+      expect(r3.success).toBe(true);
     });
 
-    it('blocks second budget for free tier', async () => {
+    it('blocks 4th budget for free tier', async () => {
       await tools.setBudget({ amount: 500 });
-      const result = await tools.setBudget({ amount: 200, category: 'IT & Software' });
+      await tools.setBudget({ amount: 200, category: 'IT & Software' });
+      await tools.setBudget({ amount: 100, category: 'Marketing & Werbung' });
+      const result = await tools.setBudget({ amount: 50, category: 'Reisen & Transport' });
       expect(result.success).toBe(false);
       expect(result.message).toContain('Budget-Limit');
     });
@@ -179,7 +179,9 @@ describe('Freemium Gates', () => {
     it('PRO users can create multiple budgets', async () => {
       await setUserTier('pro');
       await tools.setBudget({ amount: 500 });
-      const result = await tools.setBudget({ amount: 200, category: 'IT & Software' });
+      await tools.setBudget({ amount: 200, category: 'IT & Software' });
+      await tools.setBudget({ amount: 100, category: 'Marketing & Werbung' });
+      const result = await tools.setBudget({ amount: 50, category: 'Reisen & Transport' });
       expect(result.success).toBe(true);
     });
   });

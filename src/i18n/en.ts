@@ -63,6 +63,8 @@ export const en: TranslationDictionary = {
     newProjectCreated: 'New project "{project}" created.',
     projectLimitSkipped:
       'Project "{project}" could not be created (max. {limit} projects on free tier). Transaction saved without project.',
+    limitReached:
+      'Transaction limit reached ({limit} transactions on free tier). Upgrade to PRO: {url}',
     notFound: 'Transaction not found',
     deleted: 'Transaction deleted: {amount} - "{description}"',
     updated: 'Transaction updated',

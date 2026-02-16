@@ -178,24 +178,22 @@ describe('Default Project (Multi-Project Support)', () => {
       expect(matching).toHaveLength(1);
     });
 
-    it('silently skips auto-create when at project limit', async () => {
-      // Create 3 projects (the free limit)
+    it('auto-creates projects beyond 3 when freemium is off', async () => {
       await createTestProject({ name: 'Project 1' });
       await createTestProject({ name: 'Project 2' });
       await createTestProject({ name: 'Project 3' });
 
       registerTools(TEST_USER_ID, 'FourthProject');
 
-      // Should still succeed but without project assignment
-      const result = await tools.addExpense({ amount: 25, description: 'Over limit' });
+      // Should succeed and create the 4th project (no limit without freemium)
+      const result = await tools.addExpense({ amount: 25, description: 'No limit' });
 
       expect(result.success).toBe(true);
-      expect(result.transaction.project).toBeNull();
+      expect(result.transaction.project).toBe('FourthProject');
 
-      // Verify no 4th project was created
       const projectRepo = TestDataSource.getRepository(Project);
       const count = await projectRepo.count({ where: { userId: TEST_USER_ID } });
-      expect(count).toBe(3);
+      expect(count).toBe(4);
     });
   });
 

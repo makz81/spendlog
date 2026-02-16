@@ -67,29 +67,12 @@ describe('Project Tools', () => {
       expect(listResult.total).toBe(3);
     });
 
-    it('enforces 3-project limit (CRITICAL)', async () => {
+    it('allows unlimited projects when freemium is off', async () => {
       await tools.createProject({ name: 'Project 1' });
       await tools.createProject({ name: 'Project 2' });
       await tools.createProject({ name: 'Project 3' });
-
-      // Fourth project should fail
-      await expect(
-        tools.createProject({ name: 'Project 4' })
-      ).rejects.toThrow(/Projekt-Limit erreicht|3 Projekte/);
-    });
-
-    it('shows helpful error message when limit reached', async () => {
-      await tools.createProject({ name: 'Project 1' });
-      await tools.createProject({ name: 'Project 2' });
-      await tools.createProject({ name: 'Project 3' });
-
-      try {
-        await tools.createProject({ name: 'Project 4' });
-        expect.fail('Should have thrown');
-      } catch (error) {
-        expect((error as Error).message).toContain('3');
-        expect((error as Error).message).toContain('Lösche ein bestehendes Projekt');
-      }
+      const result = await tools.createProject({ name: 'Project 4' });
+      expect(result.success).toBe(true);
     });
 
     it('rejects duplicate project names', async () => {
@@ -145,16 +128,10 @@ describe('Project Tools', () => {
       expect(result.projects[0].name).toBe('Completed');
     });
 
-    it('shows project limit information', async () => {
+    it('does not show limit info when freemium is off', async () => {
       await tools.createProject({ name: 'Project 1' });
-      await tools.createProject({ name: 'Project 2' });
-
       const result = await tools.listProjects({ status: 'all' });
-
-      expect(result.limit.used).toBe(2);
-      expect(result.limit.max).toBe(3);
-      expect(result.limit.remaining).toBe(1);
-      expect(result.limit.tier).toBe('free');
+      expect(result.limit).toBeUndefined();
     });
 
     it('calculates project spending correctly', async () => {
@@ -238,20 +215,10 @@ describe('Project Tools', () => {
       expect(listResult.total).toBe(0);
     });
 
-    it('frees up project slot after deletion', async () => {
+    it('allows creating many projects when freemium is off', async () => {
       await tools.createProject({ name: 'Project 1' });
       await tools.createProject({ name: 'Project 2' });
       await tools.createProject({ name: 'Project 3' });
-
-      // At limit
-      await expect(
-        tools.createProject({ name: 'Project 4' })
-      ).rejects.toThrow();
-
-      // Delete one
-      await tools.deleteProject({ project: 'Project 2' });
-
-      // Now we can create a new one
       const result = await tools.createProject({ name: 'Project 4' });
       expect(result.success).toBe(true);
     });
@@ -335,31 +302,10 @@ describe('Project Tools', () => {
       expect(allTransactions.total).toBe(2);
     });
 
-    it('manages project limit throughout lifecycle', async () => {
-      // Start with 0 projects
-      let list = await tools.listProjects({ status: 'all' });
-      expect(list.limit.remaining).toBe(3);
-
-      // Create 3 projects
+    it('does not show limit info when freemium is off', async () => {
       await tools.createProject({ name: 'P1' });
-      await tools.createProject({ name: 'P2' });
-      await tools.createProject({ name: 'P3' });
-
-      list = await tools.listProjects({ status: 'all' });
-      expect(list.limit.remaining).toBe(0);
-
-      // Delete one
-      await tools.deleteProject({ project: 'P2' });
-
-      list = await tools.listProjects({ status: 'all' });
-      expect(list.limit.remaining).toBe(1);
-
-      // Create replacement
-      const result = await tools.createProject({ name: 'P4' });
-      expect(result.success).toBe(true);
-
-      list = await tools.listProjects({ status: 'all' });
-      expect(list.limit.remaining).toBe(0);
+      const list = await tools.listProjects({ status: 'all' });
+      expect(list.limit).toBeUndefined();
     });
   });
 });

@@ -6,8 +6,7 @@ import { formatCurrency } from '../utils/format.js';
 import { queueForSync } from '../services/sync.js';
 import { t } from '../i18n/index.js';
 
-// Freemium limits
-const FREE_PROJECT_LIMIT = 3;
+import { FREE_PROJECT_LIMIT, isFreemiumEnabled } from '../constants.js';
 
 export function getProjectToolDefinitions(): Tool[] {
   return [
@@ -147,12 +146,13 @@ export async function listProjects(args: Record<string, unknown>): Promise<unkno
   return {
     projects: projectStats,
     total: projects.length,
-    limit: {
-      used: projects.length,
-      max: FREE_PROJECT_LIMIT,
-      remaining: Math.max(0, FREE_PROJECT_LIMIT - projects.length),
-      tier: 'free',
-    },
+    ...(isFreemiumEnabled() && {
+      limit: {
+        used: projects.length,
+        max: FREE_PROJECT_LIMIT,
+        remaining: Math.max(0, FREE_PROJECT_LIMIT - projects.length),
+      },
+    }),
   };
 }
 
@@ -204,10 +204,12 @@ export async function createProject(args: Record<string, unknown>): Promise<unkn
     throw new Error(t('projects.projectNameRequired'));
   }
 
-  // Check project limit (Free tier: 3 projects)
-  const projectCount = await projectRepo.count({ where: { userId } });
-  if (projectCount >= FREE_PROJECT_LIMIT) {
-    throw new Error(t('projects.limitReached', { limit: String(FREE_PROJECT_LIMIT) }));
+  // Check project limit (Free tier)
+  if (isFreemiumEnabled()) {
+    const projectCount = await projectRepo.count({ where: { userId } });
+    if (projectCount >= FREE_PROJECT_LIMIT) {
+      throw new Error(t('projects.limitReached', { limit: String(FREE_PROJECT_LIMIT) }));
+    }
   }
 
   // Check if project with same name exists
