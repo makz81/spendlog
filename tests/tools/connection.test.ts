@@ -10,7 +10,6 @@ import { tools } from '../helpers/index.js';
 import {
   setupTestDb,
   teardownTestDb,
-  setTestUserTier,
 } from '../setup.js';
 import {
   resetFactories,
@@ -22,7 +21,6 @@ describe('Connection Tools', () => {
     await setupTestDb();
     resetFactories();
     // Cloud sync is a PRO feature
-    await setTestUserTier('pro');
     // Clear any existing connection state to ensure clean test environment
     clearConnectionState();
   });

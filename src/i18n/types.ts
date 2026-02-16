@@ -60,8 +60,6 @@ export interface TranslationDictionary {
     expenseSaved: string;
     newCategoryCreated: string;
     newProjectCreated: string;
-    projectLimitSkipped: string;
-    limitReached: string;
     notFound: string;
     deleted: string;
     updated: string;
@@ -88,7 +86,6 @@ export interface TranslationDictionary {
     taxSummaryDesc: string;
     yearDesc: string;
     quarterDesc: string;
-    taxProOnly: string;
     taxHint: string;
     exportTip: string;
   };
@@ -113,7 +110,6 @@ export interface TranslationDictionary {
     updateActiveDesc: string;
     categoryNotFound: string;
     budgetUpdated: string;
-    limitReached: string;
     budgetCreated: string;
     noBudgets: string;
     noBudgetsList: string;
@@ -168,7 +164,6 @@ export interface TranslationDictionary {
     statusDraft: string;
     statusSent: string;
     statusPaid: string;
-    proOnly: string;
   };
 
   // Export tool descriptions + messages
@@ -188,10 +183,8 @@ export interface TranslationDictionary {
     transactionsExported: string;
     noInvoices: string;
     invoicesExported: string;
-    taxProOnly: string;
     noTransactionsForPeriod: string;
     taxExportCreated: string;
-    proOnly: string;
   };
 
   // Connection tool descriptions + messages
@@ -246,7 +239,6 @@ export interface TranslationDictionary {
     syncedWithErrors: string;
     connectionHint: string;
     connectionHintSummary: string;
-    proOnly: string;
   };
 
   // Category tool descriptions + messages
@@ -284,7 +276,6 @@ export interface TranslationDictionary {
     projectNotFound: string;
     renamed: string;
     projectNameRequired: string;
-    limitReached: string;
     alreadyExists: string;
     created: string;
     deleted: string;
@@ -310,7 +301,6 @@ export interface TranslationDictionary {
     deleted: string;
     nothingDue: string;
     processed: string;
-    limitReached: string;
   };
 
   // Profile tool descriptions + messages
@@ -348,8 +338,6 @@ export interface TranslationDictionary {
     summaryCountImportant: string;
   };
 
-  // Freemium messages
-  freemium: Record<string, never>;
 
   // Intervals
   intervals: {

@@ -11,7 +11,6 @@ import {
   getApiUrl,
 } from '../services/connection.js';
 import { getSyncStatus, fullSync, processQueue } from '../services/sync.js';
-import { requirePro } from '../services/freemium.js';
 import { t } from '../i18n/index.js';
 
 // ============================================================================
@@ -81,13 +80,6 @@ export function getConnectionToolDefinitions(): Tool[] {
 // ============================================================================
 
 export async function connect(): Promise<unknown> {
-  // PRO-only feature
-  const { getCurrentUserId } = await import('./index.js');
-  const proCheck = await requirePro(getCurrentUserId(), 'connection');
-  if (!proCheck.allowed) {
-    return { success: false, message: proCheck.message };
-  }
-
   // Check if already connected
   if (isConnected()) {
     const state = getConnectionState();
@@ -386,13 +378,6 @@ export async function syncStatus(): Promise<unknown> {
 }
 
 export async function syncNow(args: Record<string, unknown>): Promise<unknown> {
-  // PRO-only feature
-  const { getCurrentUserId } = await import('./index.js');
-  const proCheck = await requirePro(getCurrentUserId(), 'connection');
-  if (!proCheck.allowed) {
-    return { success: false, message: proCheck.message };
-  }
-
   if (!isConnected()) {
     return {
       success: false,

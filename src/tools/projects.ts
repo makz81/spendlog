@@ -6,8 +6,6 @@ import { formatCurrency } from '../utils/format.js';
 import { queueForSync } from '../services/sync.js';
 import { t } from '../i18n/index.js';
 
-import { FREE_PROJECT_LIMIT, isFreemiumEnabled } from '../constants.js';
-
 export function getProjectToolDefinitions(): Tool[] {
   return [
     {
@@ -45,7 +43,7 @@ export function getProjectToolDefinitions(): Tool[] {
     },
     {
       name: 'create_project',
-      description: t('projects.createDesc', { limit: String(FREE_PROJECT_LIMIT) }),
+      description: t('projects.createDesc'),
       inputSchema: {
         type: 'object',
         properties: {
@@ -146,13 +144,6 @@ export async function listProjects(args: Record<string, unknown>): Promise<unkno
   return {
     projects: projectStats,
     total: projects.length,
-    ...(isFreemiumEnabled() && {
-      limit: {
-        used: projects.length,
-        max: FREE_PROJECT_LIMIT,
-        remaining: Math.max(0, FREE_PROJECT_LIMIT - projects.length),
-      },
-    }),
   };
 }
 
@@ -202,14 +193,6 @@ export async function createProject(args: Record<string, unknown>): Promise<unkn
 
   if (!name) {
     throw new Error(t('projects.projectNameRequired'));
-  }
-
-  // Check project limit (Free tier)
-  if (isFreemiumEnabled()) {
-    const projectCount = await projectRepo.count({ where: { userId } });
-    if (projectCount >= FREE_PROJECT_LIMIT) {
-      throw new Error(t('projects.limitReached', { limit: String(FREE_PROJECT_LIMIT) }));
-    }
   }
 
   // Check if project with same name exists

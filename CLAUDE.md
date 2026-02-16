@@ -10,7 +10,7 @@ MCP server for expense tracking. Track finances directly in Claude.
 | MCP | @modelcontextprotocol/sdk |
 | Database | TypeORM + better-sqlite3 (SQLite) |
 | Validation | Zod |
-| Testing | Vitest (399 tests) |
+| Testing | Vitest (382 tests) |
 | PDF | Puppeteer (optional, lazy-loaded) |
 | i18n | EN (default), DE, ES, FR |
 
@@ -45,10 +45,10 @@ src/
   index.ts              # MCP server entry point
   server.ts             # Server setup & tool registration
   cli.ts                # CLI installer (npx spendlog)
-  constants.ts          # Freemium limits, URLs
+  constants.ts          # App constants
   tools/                # MCP tool definitions (one file per tool group)
   entities/             # TypeORM entities (Transaction, Invoice, etc.)
-  services/             # Business logic (freemium, pdf, sync, connection)
+  services/             # Business logic (pdf, sync, connection)
   db/                   # Database setup, migrations, seeds
   i18n/                 # Translation dictionaries
 templates/

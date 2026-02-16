@@ -719,15 +719,10 @@ async function status(): Promise<void> {
         const countRow = db
           .prepare('SELECT COUNT(*) as count FROM transactions WHERE date >= ? AND date <= ?')
           .get(monthStart, monthEnd) as { count: number };
-        const userRow = db.prepare('SELECT tier FROM users LIMIT 1').get() as
-          | { tier: string }
-          | undefined;
         db.close();
 
-        const isPro = userRow?.tier === 'pro';
-        const tierLabel = isPro ? 'PRO' : 'Free';
         console.log(
-          chalk.green('  ✓') + chalk.gray(` Transactions: ${countRow.count} (${tierLabel})`)
+          chalk.green('  ✓') + chalk.gray(` Transactions: ${countRow.count}`)
         );
       } catch {
         // DB query failed, skip tx count
@@ -903,14 +898,9 @@ async function quick(periodArg?: string, allArgs: string[] = []): Promise<void> 
       const countRow = countDb
         .prepare('SELECT COUNT(*) as count FROM transactions WHERE date >= ? AND date <= ?')
         .get(monthStart, monthEnd) as { count: number };
-      const userRow = countDb.prepare('SELECT tier FROM users LIMIT 1').get() as
-        | { tier: string }
-        | undefined;
       countDb.close();
 
-      const isPro = userRow?.tier === 'pro';
-      const tierLabel = isPro ? 'PRO' : 'Free';
-      const txLine = `  📊 Transactions: ${countRow.count} (${tierLabel})`;
+      const txLine = `  📊 Transactions: ${countRow.count}`;
       console.log(chalk.cyan('  ║') + chalk.gray(txLine.padEnd(boxWidth)) + chalk.cyan('║'));
     } catch {
       // Skip tx count on error

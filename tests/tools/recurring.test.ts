@@ -9,7 +9,6 @@ import { tools } from '../helpers/index.js';
 import {
   setupTestDb,
   teardownTestDb,
-  setTestUserTier,
 } from '../setup.js';
 import {
   recurringFactory,
@@ -23,7 +22,6 @@ describe('Recurring Tools', () => {
     await setupTestDb();
     resetFactories();
     // Set PRO to avoid free tier limit of 3
-    await setTestUserTier('pro');
   });
 
   afterAll(async () => {

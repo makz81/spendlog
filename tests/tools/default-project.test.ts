@@ -178,14 +178,14 @@ describe('Default Project (Multi-Project Support)', () => {
       expect(matching).toHaveLength(1);
     });
 
-    it('auto-creates projects beyond 3 when freemium is off', async () => {
+    it('auto-creates projects beyond 3', async () => {
       await createTestProject({ name: 'Project 1' });
       await createTestProject({ name: 'Project 2' });
       await createTestProject({ name: 'Project 3' });
 
       registerTools(TEST_USER_ID, 'FourthProject');
 
-      // Should succeed and create the 4th project (no limit without freemium)
+      // Should succeed and create the 4th project (no limits)
       const result = await tools.addExpense({ amount: 25, description: 'No limit' });
 
       expect(result.success).toBe(true);

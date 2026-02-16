@@ -11,8 +11,6 @@ import {
 import { parseDate, formatDate } from '../utils/date.js';
 import { getCurrentUserId } from './index.js';
 import { Between, FindOptionsWhere } from 'typeorm';
-import { getUserTier, requirePro } from '../services/freemium.js';
-import { UPGRADE_URL } from '../constants.js';
 import { writeFileSync, existsSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -294,12 +292,6 @@ export async function exportTransactions(args: Record<string, unknown>): Promise
   const input = exportTransactionsSchema.parse(args) as ExportTransactionsInput;
   const userId = getCurrentUserId();
 
-  // PRO-only feature
-  const proCheck = await requirePro(userId, 'export');
-  if (!proCheck.allowed) {
-    return { success: false, message: proCheck.message };
-  }
-
   const txRepo = AppDataSource.getRepository(Transaction);
 
   const where: FindOptionsWhere<Transaction> = { userId };
@@ -391,12 +383,6 @@ export async function exportTransactions(args: Record<string, unknown>): Promise
 export async function exportInvoices(args: Record<string, unknown>): Promise<unknown> {
   const status = (args.status as string) || 'all';
   const userId = getCurrentUserId();
-
-  // PRO-only feature
-  const proCheck = await requirePro(userId, 'export');
-  if (!proCheck.allowed) {
-    return { success: false, message: proCheck.message };
-  }
 
   const invoiceRepo = AppDataSource.getRepository(Invoice);
 
@@ -776,15 +762,6 @@ function taxExportToJSON(
 export async function exportForTaxAdvisor(args: Record<string, unknown>): Promise<unknown> {
   const input = exportForTaxAdvisorSchema.parse(args) as ExportForTaxAdvisorInput;
   const userId = getCurrentUserId();
-
-  // PRO-only feature
-  const tier = await getUserTier(userId);
-  if (tier !== 'pro') {
-    return {
-      success: false,
-      message: t('export.taxProOnly', { url: UPGRADE_URL }),
-    };
-  }
 
   const txRepo = AppDataSource.getRepository(Transaction);
 

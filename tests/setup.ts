@@ -289,14 +289,6 @@ export async function getAllTransactions(): Promise<Transaction[]> {
 }
 
 /**
- * Helper to set user tier (free/pro) for testing freemium gates
- */
-export async function setTestUserTier(tier: 'free' | 'pro'): Promise<void> {
-  const userRepo = TestDataSource.getRepository(User);
-  await userRepo.update(TEST_USER_ID, { tier });
-}
-
-/**
  * Helper to get sync queue entries
  */
 export async function getSyncQueue(): Promise<SyncQueue[]> {

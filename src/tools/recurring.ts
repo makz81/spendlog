@@ -6,8 +6,6 @@ import { Category } from '../entities/Category.js';
 import { getCurrentUserId } from './index.js';
 import { parseDate, formatDate } from '../utils/date.js';
 import { formatCurrency } from '../utils/format.js';
-import { getUserTier } from '../services/freemium.js';
-import { FREE_RECURRING_LIMIT, UPGRADE_URL } from '../constants.js';
 import { t } from '../i18n/index.js';
 import { z } from 'zod';
 import {
@@ -172,21 +170,6 @@ export async function createRecurring(args: Record<string, unknown>): Promise<un
   const input = createRecurringSchema.parse(args);
   const userId = getCurrentUserId();
   const recurringRepo = AppDataSource.getRepository(Recurring);
-
-  // Free tier: max 3 active recurring transactions
-  const tier = await getUserTier(userId);
-  if (tier === 'free') {
-    const count = await recurringRepo.count({ where: { userId, active: true } });
-    if (count >= FREE_RECURRING_LIMIT) {
-      return {
-        success: false,
-        message: t('recurring.limitReached', {
-          limit: String(FREE_RECURRING_LIMIT),
-          url: UPGRADE_URL,
-        }),
-      };
-    }
-  }
 
   const startDate = input.start_date ? parseDate(input.start_date) : new Date();
   const endDate = input.end_date ? parseDate(input.end_date) : undefined;

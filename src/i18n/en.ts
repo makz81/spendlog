@@ -61,10 +61,6 @@ export const en: TranslationDictionary = {
     expenseSaved: 'Expense saved: {amount} for "{description}"',
     newCategoryCreated: 'New category "{category}" created.',
     newProjectCreated: 'New project "{project}" created.',
-    projectLimitSkipped:
-      'Project "{project}" could not be created (max. {limit} projects on free tier). Transaction saved without project.',
-    limitReached:
-      'Transaction limit reached ({limit} transactions on free tier). Upgrade to PRO: {url}',
     notFound: 'Transaction not found',
     deleted: 'Transaction deleted: {amount} - "{description}"',
     updated: 'Transaction updated',
@@ -90,11 +86,9 @@ export const en: TranslationDictionary = {
     currentDateDesc: 'Reference date for current period (YYYY-MM-DD). Default: today',
     compareDateDesc: 'Reference date for comparison period (YYYY-MM-DD). Default: previous period',
     taxSummaryDesc:
-      '[PRO] Shows tax overview for a year or quarter. Perfect for tax return preparation. Example: "Show tax overview for 2025" or "What was my profit in Q3?"',
+      'Shows tax overview for a year or quarter. Perfect for tax return preparation. Example: "Show tax overview for 2025" or "What was my profit in Q3?"',
     yearDesc: 'Year for tax overview (e.g. 2025)',
     quarterDesc: 'Optional quarter (1-4). Without: yearly overview with all quarters',
-    taxProOnly:
-      'Tax overview is a PRO feature. Upgrade for tax return preparation and quarterly comparison: {url}',
     taxHint:
       'This overview serves as a basis for tax returns. Please coordinate with your tax advisor.',
     exportTip:
@@ -123,8 +117,6 @@ export const en: TranslationDictionary = {
     categoryNotFound:
       'Category "{category}" not found. Use list_categories to see available categories.',
     budgetUpdated: 'Budget updated: {amount} {period}{category}',
-    limitReached:
-      'Budget limit reached ({limit} budget on free tier). Upgrade to PRO for unlimited budgets: {url}',
     budgetCreated: 'Budget created: {amount} {period}{category}',
     noBudgets: 'No active budgets found. Create one with set_budget.',
     noBudgetsList: 'No budgets found. Create one with set_budget.',
@@ -180,7 +172,6 @@ export const en: TranslationDictionary = {
     statusDraft: 'Draft',
     statusSent: 'Sent',
     statusPaid: 'Paid',
-    proOnly: 'Invoices are a PRO feature. Upgrade for PDF invoices: {url}',
   },
 
   export: {
@@ -191,7 +182,7 @@ export const en: TranslationDictionary = {
     invoicesDesc: 'Exports all invoices as JSON for backup or analysis.',
     invoiceStatusDesc: 'Status filter (default: all)',
     taxAdvisorDesc:
-      '[PRO] Exports transaction data for your tax advisor. With SKR03/SKR04 account mapping and tax return line mapping. Format: csv (default), json, or datev (DATEV-compatible). NOTE: This is a data export, not tax advice.',
+      'Exports transaction data for your tax advisor. With SKR03/SKR04 account mapping and tax return line mapping. Format: csv (default), json, or datev (DATEV-compatible). NOTE: This is a data export, not tax advice.',
     taxYearDesc: 'Tax year (e.g. 2025)',
     taxQuarterDesc: 'Optional: Quarter (1-4) for quarterly overview',
     taxFormatDesc:
@@ -201,11 +192,8 @@ export const en: TranslationDictionary = {
     transactionsExported: '{count} transactions exported',
     noInvoices: 'No invoices found.',
     invoicesExported: '{count} invoices exported',
-    taxProOnly:
-      'Tax advisor export is a PRO feature. Upgrade for DATEV export, SKR03/SKR04 mapping and tax return mapping: {url}',
     noTransactionsForPeriod: 'No transactions found for {period}.',
     taxExportCreated: 'Tax advisor export for {period} created',
-    proOnly: 'Export is a PRO feature. Upgrade for CSV/JSON export: {url}',
   },
 
   connection: {
@@ -261,7 +249,6 @@ export const en: TranslationDictionary = {
     syncedWithErrors: '{succeeded} synced, {failed} failed.',
     connectionHint: '💡 Tip: Dashboard & charts at spendlog.dev\n   Say: "Connect Spendlog to web"',
     connectionHintSummary: '💡 More details in the web dashboard: Say "Connect Spendlog"',
-    proOnly: 'Cloud sync is a PRO feature. Upgrade for dashboard, charts & multi-device: {url}',
   },
 
   categories: {
@@ -288,7 +275,7 @@ export const en: TranslationDictionary = {
     renameDesc: 'Rename a project. Example: "Old Name" → "New Name"',
     projectNameDesc: 'Current project name (or part of it)',
     newNameDesc: 'New name for the project',
-    createDesc: 'Create a new project. Free limit: {limit} projects.',
+    createDesc: 'Create a new project.',
     createNameDesc: 'Project name',
     createDescriptionDesc: 'Description (optional)',
     createBudgetDesc: 'Budget in Euro (optional)',
@@ -298,8 +285,6 @@ export const en: TranslationDictionary = {
     projectNotFound: 'Project "{name}" not found',
     renamed: 'Project renamed: "{old}" → "{new}"',
     projectNameRequired: 'Project name is required',
-    limitReached:
-      'Project limit reached ({limit} projects). Delete an existing project or upgrade to PRO for unlimited projects.',
     alreadyExists: 'Project "{name}" already exists',
     created: 'Project created: "{name}"',
     deleted:
@@ -325,8 +310,6 @@ export const en: TranslationDictionary = {
     deleted: 'Recurring transaction deleted: "{description}"',
     nothingDue: 'No due recurring transactions',
     processed: '{count} recurring transaction(s) processed',
-    limitReached:
-      'Recurring limit reached ({limit} on free tier). Upgrade for unlimited recurring transactions: {url}',
   },
 
   profile: {
@@ -362,8 +345,6 @@ export const en: TranslationDictionary = {
     summaryCount: '{count} notifications',
     summaryCountImportant: '{count} notifications ({important} important)',
   },
-
-  freemium: {},
 
   intervals: {
     weekly: 'weekly',

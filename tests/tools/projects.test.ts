@@ -2,7 +2,6 @@
  * Project Tool Integration Tests
  *
  * Tests for: list_projects, create_project, rename_project, delete_project
- * Critical: Tests the 3-project freemium limit enforcement
  */
 import { describe, it, expect, beforeEach, afterAll } from 'vitest';
 import { tools } from '../helpers/index.js';
@@ -67,7 +66,7 @@ describe('Project Tools', () => {
       expect(listResult.total).toBe(3);
     });
 
-    it('allows unlimited projects when freemium is off', async () => {
+    it('allows unlimited projects', async () => {
       await tools.createProject({ name: 'Project 1' });
       await tools.createProject({ name: 'Project 2' });
       await tools.createProject({ name: 'Project 3' });
@@ -128,7 +127,7 @@ describe('Project Tools', () => {
       expect(result.projects[0].name).toBe('Completed');
     });
 
-    it('does not show limit info when freemium is off', async () => {
+    it('does not show limit info', async () => {
       await tools.createProject({ name: 'Project 1' });
       const result = await tools.listProjects({ status: 'all' });
       expect(result.limit).toBeUndefined();
@@ -215,7 +214,7 @@ describe('Project Tools', () => {
       expect(listResult.total).toBe(0);
     });
 
-    it('allows creating many projects when freemium is off', async () => {
+    it('allows creating many projects', async () => {
       await tools.createProject({ name: 'Project 1' });
       await tools.createProject({ name: 'Project 2' });
       await tools.createProject({ name: 'Project 3' });
@@ -302,7 +301,7 @@ describe('Project Tools', () => {
       expect(allTransactions.total).toBe(2);
     });
 
-    it('does not show limit info when freemium is off', async () => {
+    it('does not show limit info', async () => {
       await tools.createProject({ name: 'P1' });
       const list = await tools.listProjects({ status: 'all' });
       expect(list.limit).toBeUndefined();

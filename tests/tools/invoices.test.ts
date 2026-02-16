@@ -19,14 +19,10 @@ import {
   today,
   daysFromNow,
 } from '../fixtures/index.js';
-import { User } from '../../src/entities/User.js';
-
 describe('Invoice Tools', () => {
   beforeEach(async () => {
     await setupTestDb();
     resetFactories();
-    // Invoices are a PRO feature
-    await TestDataSource.getRepository(User).update(TEST_USER_ID, { tier: 'pro' });
   });
 
   afterAll(async () => {

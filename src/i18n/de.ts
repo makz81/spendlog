@@ -63,10 +63,6 @@ export const de: TranslationDictionary = {
     expenseSaved: 'Ausgabe gespeichert: {amount} für "{description}"',
     newCategoryCreated: 'Neue Kategorie "{category}" erstellt.',
     newProjectCreated: 'Neues Projekt "{project}" erstellt.',
-    projectLimitSkipped:
-      'Projekt "{project}" konnte nicht erstellt werden (max. {limit} Projekte im Free-Tier). Transaktion ohne Projekt gespeichert.',
-    limitReached:
-      'Transaktionslimit erreicht ({limit} Transaktionen im Free-Tier). Upgrade auf PRO: {url}',
     notFound: 'Transaktion nicht gefunden',
     deleted: 'Transaktion gelöscht: {amount} - "{description}"',
     updated: 'Transaktion aktualisiert',
@@ -94,11 +90,9 @@ export const de: TranslationDictionary = {
     compareDateDesc:
       'Referenz-Datum für Vergleichszeitraum (YYYY-MM-DD). Standard: vorheriger Zeitraum',
     taxSummaryDesc:
-      '[PRO] Zeigt Steuerübersicht für ein Jahr oder Quartal. Perfekt für EÜR-Vorbereitung und Steuerberater. Beispiel: "Zeig mir die Steuerübersicht für 2025" oder "Was war mein Gewinn in Q3?"',
+      'Zeigt Steuerübersicht für ein Jahr oder Quartal. Perfekt für EÜR-Vorbereitung und Steuerberater. Beispiel: "Zeig mir die Steuerübersicht für 2025" oder "Was war mein Gewinn in Q3?"',
     yearDesc: 'Jahr für die Steuerübersicht (z.B. 2025)',
     quarterDesc: 'Optionales Quartal (1-4). Ohne Angabe: Jahresübersicht mit allen Quartalen',
-    taxProOnly:
-      'Steuerübersicht ist ein PRO-Feature. Upgrade für EÜR-Vorbereitung und Quartalsvergleich: {url}',
     taxHint: 'Diese Übersicht dient als Grundlage für die EÜR. Bitte mit Steuerberater abstimmen.',
     exportTip:
       'Für CSV-Export: Nutze "export_transactions" mit from_date und to_date für das gewünschte Jahr.',
@@ -126,8 +120,6 @@ export const de: TranslationDictionary = {
     categoryNotFound:
       'Kategorie "{category}" nicht gefunden. Verwende list_categories um verfügbare Kategorien zu sehen.',
     budgetUpdated: 'Budget aktualisiert: {amount} {period}{category}',
-    limitReached:
-      'Budget-Limit erreicht ({limit} Budget im Free-Tier). Upgrade auf PRO für unbegrenzte Budgets: {url}',
     budgetCreated: 'Budget erstellt: {amount} {period}{category}',
     noBudgets: 'Keine aktiven Budgets gefunden. Erstelle eines mit set_budget.',
     noBudgetsList: 'Keine Budgets vorhanden. Erstelle eines mit set_budget.',
@@ -183,7 +175,6 @@ export const de: TranslationDictionary = {
     statusDraft: 'Entwurf',
     statusSent: 'Versendet',
     statusPaid: 'Bezahlt',
-    proOnly: 'Rechnungen sind ein PRO-Feature. Upgrade für PDF-Rechnungen: {url}',
   },
 
   export: {
@@ -195,7 +186,7 @@ export const de: TranslationDictionary = {
     invoicesDesc: 'Exportiert alle Rechnungen als JSON für Backup oder Analyse.',
     invoiceStatusDesc: 'Status-Filter (Standard: all)',
     taxAdvisorDesc:
-      '[PRO] Exportiert Transaktionsdaten für die Weitergabe an den Steuerberater. Mit SKR03/SKR04-Kontozuordnung und EÜR-Zeilen-Mapping. Format: csv (Standard), json, oder datev (DATEV-kompatibel). HINWEIS: Dies ist ein Datenexport, keine Steuerberatung.',
+      'Exportiert Transaktionsdaten für die Weitergabe an den Steuerberater. Mit SKR03/SKR04-Kontozuordnung und EÜR-Zeilen-Mapping. Format: csv (Standard), json, oder datev (DATEV-kompatibel). HINWEIS: Dies ist ein Datenexport, keine Steuerberatung.',
     taxYearDesc: 'Steuerjahr (z.B. 2025)',
     taxQuarterDesc: 'Optional: Quartal (1-4) für Quartalsübersicht',
     taxFormatDesc:
@@ -205,11 +196,8 @@ export const de: TranslationDictionary = {
     transactionsExported: '{count} Transaktionen exportiert',
     noInvoices: 'Keine Rechnungen gefunden.',
     invoicesExported: '{count} Rechnungen exportiert',
-    taxProOnly:
-      'Steuerberater-Export ist ein PRO-Feature. Upgrade für DATEV-Export, SKR03/SKR04-Zuordnung und EÜR-Mapping: {url}',
     noTransactionsForPeriod: 'Keine Transaktionen für {period} gefunden.',
     taxExportCreated: 'Steuerberater-Export für {period} erstellt',
-    proOnly: 'Export ist ein PRO-Feature. Upgrade für CSV/JSON-Export: {url}',
   },
 
   connection: {
@@ -266,7 +254,6 @@ export const de: TranslationDictionary = {
     connectionHint:
       '💡 Tipp: Dashboard & Charts auf spendlog.dev\n   Sag: "Verbinde Spendlog mit Web"',
     connectionHintSummary: '💡 Mehr Details im Web-Dashboard: Sag "Verbinde Spendlog"',
-    proOnly: 'Cloud-Sync ist ein PRO-Feature. Upgrade für Dashboard, Charts & Multi-Device: {url}',
   },
 
   categories: {
@@ -293,7 +280,7 @@ export const de: TranslationDictionary = {
     renameDesc: 'Benenne ein Projekt um. Beispiel: "Alter Name" → "Neuer Name"',
     projectNameDesc: 'Aktueller Projekt-Name (oder Teil davon)',
     newNameDesc: 'Neuer Name für das Projekt',
-    createDesc: 'Erstelle ein neues Projekt. Free-Limit: {limit} Projekte.',
+    createDesc: 'Erstelle ein neues Projekt.',
     createNameDesc: 'Name des Projekts',
     createDescriptionDesc: 'Beschreibung (optional)',
     createBudgetDesc: 'Budget in Euro (optional)',
@@ -304,8 +291,6 @@ export const de: TranslationDictionary = {
     projectNotFound: 'Projekt "{name}" nicht gefunden',
     renamed: 'Projekt umbenannt: "{old}" → "{new}"',
     projectNameRequired: 'Projekt-Name ist erforderlich',
-    limitReached:
-      'Projekt-Limit erreicht ({limit} Projekte). Lösche ein bestehendes Projekt oder upgrade auf PRO für unbegrenzte Projekte.',
     alreadyExists: 'Projekt "{name}" existiert bereits',
     created: 'Projekt erstellt: "{name}"',
     deleted:
@@ -332,8 +317,6 @@ export const de: TranslationDictionary = {
     deleted: 'Wiederkehrende Transaktion gelöscht: "{description}"',
     nothingDue: 'Keine fälligen wiederkehrenden Transaktionen',
     processed: '{count} wiederkehrende Transaktion(en) verarbeitet',
-    limitReached:
-      'Recurring-Limit erreicht ({limit} im Free-Tier). Upgrade für unbegrenzte wiederkehrende Transaktionen: {url}',
   },
 
   profile: {
@@ -370,8 +353,6 @@ export const de: TranslationDictionary = {
     summaryCount: '{count} Benachrichtigungen',
     summaryCountImportant: '{count} Benachrichtigungen ({important} wichtig)',
   },
-
-  freemium: {},
 
   intervals: {
     weekly: 'wöchentlich',

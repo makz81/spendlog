@@ -10,7 +10,6 @@ import {
   teardownTestDb,
   getTestCategory,
   createTestBudget,
-  setTestUserTier,
 } from '../setup.js';
 import {
   budgetFactory,
@@ -23,7 +22,6 @@ describe('Budget Tools', () => {
     await setupTestDb();
     resetFactories();
     // Most budget tests need multiple budgets, set PRO tier
-    await setTestUserTier('pro');
   });
 
   afterAll(async () => {

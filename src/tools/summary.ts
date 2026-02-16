@@ -15,8 +15,6 @@ import { getPeriodRange } from '../utils/date.js';
 import { formatCurrency, formatPercentage } from '../utils/format.js';
 import { getCurrentUserId } from './index.js';
 import { Between } from 'typeorm';
-import { getUserTier } from '../services/freemium.js';
-import { UPGRADE_URL } from '../constants.js';
 import { t } from '../i18n/index.js';
 
 export function getSummaryToolDefinitions(): Tool[] {
@@ -396,15 +394,6 @@ function getQuarterRange(year: number, quarter: number): { start: Date; end: Dat
 export async function getTaxSummary(args: Record<string, unknown>): Promise<unknown> {
   const input = getTaxSummarySchema.parse(args) as GetTaxSummaryInput;
   const userId = getCurrentUserId();
-
-  // PRO-only feature
-  const tier = await getUserTier(userId);
-  if (tier !== 'pro') {
-    return {
-      success: false,
-      message: t('summary.taxProOnly', { url: UPGRADE_URL }),
-    };
-  }
 
   const transactionRepo = AppDataSource.getRepository(Transaction);
 

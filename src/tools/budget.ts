@@ -17,8 +17,6 @@ import { getPeriodRange } from '../utils/date.js';
 import { formatCurrency, formatPercentage } from '../utils/format.js';
 import { getCurrentUserId } from './index.js';
 import { Between } from 'typeorm';
-import { getUserTier } from '../services/freemium.js';
-import { FREE_BUDGET_LIMIT, UPGRADE_URL } from '../constants.js';
 import { t } from '../i18n/index.js';
 
 export function getBudgetToolDefinitions(): Tool[] {
@@ -228,18 +226,6 @@ export async function setBudget(args: Record<string, unknown>): Promise<unknown>
         category: category?.name || null,
       },
     };
-  }
-
-  // Check free tier budget limit before creating
-  const tier = await getUserTier(userId);
-  if (tier === 'free') {
-    const budgetCount = await budgetRepo.count({ where: { userId, active: true } });
-    if (budgetCount >= FREE_BUDGET_LIMIT) {
-      return {
-        success: false,
-        message: t('budget.limitReached', { limit: String(FREE_BUDGET_LIMIT), url: UPGRADE_URL }),
-      };
-    }
   }
 
   // Create new budget

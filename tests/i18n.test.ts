@@ -131,9 +131,8 @@ describe('i18n', () => {
     });
 
     it('handles numeric parameters', () => {
-      const result = t('recurring.limitReached', { limit: 3, url: 'test.com' });
+      const result = t('recurring.processed', { count: 3 });
       expect(result).toContain('3');
-      expect(result).toContain('test.com');
     });
   });
 

@@ -9,7 +9,6 @@ import { tools } from '../helpers/index.js';
 import {
   setupTestDb,
   teardownTestDb,
-  setTestUserTier,
 } from '../setup.js';
 import {
   profileFactory,
@@ -24,7 +23,6 @@ describe('Notification Tools', () => {
     await setupTestDb();
     resetFactories();
     // Invoices and recurring are PRO features
-    await setTestUserTier('pro');
   });
 
   afterAll(async () => {

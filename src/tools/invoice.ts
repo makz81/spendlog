@@ -14,7 +14,6 @@ import { parseDate, formatDate } from '../utils/date.js';
 import { formatCurrency } from '../utils/format.js';
 import { getCurrentUserId } from './index.js';
 import { generateInvoicePdf, prepareInvoiceData } from '../services/pdf.js';
-import { requirePro } from '../services/freemium.js';
 import { t } from '../i18n/index.js';
 
 export function getInvoiceToolDefinitions(): Tool[] {
@@ -176,12 +175,6 @@ async function generateInvoiceNumber(userId: string): Promise<string> {
 export async function createInvoice(args: Record<string, unknown>): Promise<unknown> {
   const input = createInvoiceSchema.parse(args) as CreateInvoiceInput;
   const userId = getCurrentUserId();
-
-  // PRO-only feature
-  const proCheck = await requirePro(userId, 'invoice');
-  if (!proCheck.allowed) {
-    return { success: false, message: proCheck.message };
-  }
 
   // Check for profile
   const profileRepo = AppDataSource.getRepository(Profile);
@@ -388,12 +381,6 @@ export async function duplicateInvoice(args: Record<string, unknown>): Promise<u
   }
 
   const userId = getCurrentUserId();
-
-  // PRO-only feature
-  const proCheck = await requirePro(userId, 'invoice');
-  if (!proCheck.allowed) {
-    return { success: false, message: proCheck.message };
-  }
 
   // Get profile for PDF generation
   const profileRepo = AppDataSource.getRepository(Profile);

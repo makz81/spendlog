@@ -8,7 +8,6 @@ import { tools } from '../helpers/index.js';
 import {
   setupTestDb,
   teardownTestDb,
-  setTestUserTier,
 } from '../setup.js';
 import {
   today,
@@ -203,7 +202,6 @@ describe('Summary Tools', () => {
   describe('get_tax_summary', () => {
     // PRO-only feature
     beforeEach(async () => {
-      await setTestUserTier('pro');
     });
 
     it('returns tax summary for a year', async () => {

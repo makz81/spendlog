@@ -10,8 +10,6 @@ import type { Profile } from './Profile.js';
 import type { Transaction } from './Transaction.js';
 import type { Invoice } from './Invoice.js';
 
-export type UserTier = 'free' | 'pro';
-
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -19,9 +17,6 @@ export class User {
 
   @Column({ type: 'varchar', unique: true, nullable: true })
   email?: string;
-
-  @Column({ type: 'varchar', default: 'free' })
-  tier!: UserTier;
 
   @CreateDateColumn({ type: 'datetime' })
   createdAt!: Date;
