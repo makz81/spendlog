@@ -1,0 +1,68 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build output
+dist/
+*.tsbuildinfo
+
+# Data
+data/
+*.db
+*.db-shm
+*.db-wal
+
+# Environment
+.env
+.env.local
+.env.*.local
+.dev.vars
+
+# Cloudflare
+.wrangler/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude Code
+.claude/
+
+# Internal docs
+BACKLOG.md
+ROADMAP.md
+docs/costs.md
+docs/decisions.md
+docs/mission.md
+docs/MANUAL_TEST_GUIDE.md
+
+# Legacy (not part of public repo)
+src/web/
+templates/views/
+src/services/supabase.ts
+scripts/
+supabase/
+cli/
+demo-script.sh
+demo.tape
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Testing
+coverage/
+.nyc_output/
+
+# PDF output (testing)
+test-invoices/

@@ -1,0 +1,101 @@
+{
+  "name": "spendlog",
+  "version": "1.0.1",
+  "description": "MCP server for expense tracking - Simple financial tracking for solo founders",
+  "type": "module",
+  "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./entities": "./dist/entities/index.js",
+    "./entities/*": "./dist/entities/*.js",
+    "./db": "./dist/db/index.js",
+    "./services/*": "./dist/services/*.js",
+    "./i18n": "./dist/i18n/index.js",
+    "./constants": "./dist/constants.js"
+  },
+  "bin": {
+    "spendlog-mcp": "dist/index.js",
+    "spendlog": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "templates/invoice.hbs",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/makz81/spendlog.git"
+  },
+  "homepage": "https://spendlog.dev",
+  "bugs": {
+    "url": "https://github.com/makz81/spendlog/issues"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "vitest",
+    "test:watch": "vitest watch",
+    "typecheck": "tsc --noEmit",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "db:seed": "tsx src/db/seed.ts",
+    "db:reset": "rm -f data/spendlog.db && npm run db:migrate && npm run db:seed",
+    "pdf:test": "tsx tests/pdf-test.ts",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "claude",
+    "anthropic",
+    "expense-tracking",
+    "expense-tracker",
+    "finance",
+    "invoicing",
+    "bookkeeping",
+    "budget",
+    "solo-founder",
+    "freelancer",
+    "german",
+    "datev"
+  ],
+  "author": "makz81",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "better-sqlite3": "^11.0.0",
+    "chalk": "^5.3.0",
+    "date-fns": "^3.6.0",
+    "handlebars": "^4.7.8",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.20",
+    "uuid": "^10.0.0",
+    "zod": "^3.23.8"
+  },
+  "optionalDependencies": {
+    "puppeteer": "^23.0.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
+    "@types/handlebars": "^4.1.0",
+    "@types/node": "^22.0.0",
+    "@types/uuid": "^10.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.55.0",
+    "@typescript-eslint/parser": "^8.55.0",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.1",
+    "puppeteer": "^23.0.0",
+    "tsx": "^4.16.0",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5"
+  }
+}
