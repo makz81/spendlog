@@ -21,7 +21,6 @@ describe('Budget Tools', () => {
   beforeEach(async () => {
     await setupTestDb();
     resetFactories();
-    // Most budget tests need multiple budgets, set PRO tier
   });
 
   afterAll(async () => {

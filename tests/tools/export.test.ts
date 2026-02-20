@@ -21,7 +21,6 @@ describe('Export Tools', () => {
   beforeEach(async () => {
     await setupTestDb();
     resetFactories();
-    // Export is a PRO feature
   });
 
   afterAll(async () => {
@@ -204,7 +203,6 @@ describe('Export Tools', () => {
   });
 
   describe('export_for_tax_advisor', () => {
-    // PRO-only feature - set tier before each test
     beforeEach(async () => {
     });
 
@@ -371,7 +369,6 @@ describe('Export Tools', () => {
   });
 
   describe('Export Workflow', () => {
-    // PRO-only features in workflow tests
     beforeEach(async () => {
     });
 

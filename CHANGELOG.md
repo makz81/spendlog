@@ -4,10 +4,8 @@
 
 ### Changed
 
-- **Freemium model: Feature-Gate statt Usage-Gate** — Transactions are now unlimited for all users. PRO features: PDF invoices, CSV/JSON export, cloud sync, unlimited recurring & budgets.
-- Removed monthly transaction limit (was 50/month)
-- Added PRO gate for `create_invoice`, `duplicate_invoice`, `export_transactions`, `export_invoices`, `connect`, `sync_now`
-- Added free tier limit for recurring transactions (max 3)
+- All features are now available without restrictions
+- Removed monthly transaction limit
 - CLI: Version now read from package.json instead of hardcoded
 - CLI: Fixed spinner ANSI escape for cleaner output
 
@@ -19,7 +17,6 @@ Initial release.
 
 - **42 MCP tools** for expense tracking, invoicing, budgets, projects, and more
 - **CLI onboarding** via `npx spendlog` — auto-detects Claude Code and Desktop
-- **Freemium model** — unlimited tracking free, PRO 5€/month for invoices, export & sync
 - **PDF invoices** with auto-numbering, customizable templates, and Puppeteer rendering
 - **DATEV/SKR03 tax export** — CSV export compatible with German tax advisors
 - **Recurring transactions** — subscriptions with automatic processing

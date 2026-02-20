@@ -177,7 +177,6 @@ function ensureDatabase(): string | null {
       CREATE TABLE IF NOT EXISTS users (
         id TEXT PRIMARY KEY,
         email TEXT UNIQUE,
-        tier TEXT DEFAULT 'free',
         createdAt DATETIME DEFAULT (datetime('now'))
       );
       CREATE TABLE IF NOT EXISTS categories (

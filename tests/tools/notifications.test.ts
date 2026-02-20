@@ -22,7 +22,6 @@ describe('Notification Tools', () => {
   beforeEach(async () => {
     await setupTestDb();
     resetFactories();
-    // Invoices and recurring are PRO features
   });
 
   afterAll(async () => {

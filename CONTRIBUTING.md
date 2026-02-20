@@ -103,7 +103,7 @@ spendlog/
       connection.ts       # connect, disconnect, sync_now, sync_status
       notifications.ts    # get_notifications
     entities/             # TypeORM entities
-    services/             # Business logic (pdf, sync, freemium, connection)
+    services/             # Business logic (pdf, sync, connection)
     db/                   # Database config, migrations, seeds
     i18n/                 # Internationalization (de, en)
     utils/                # Validation schemas, date/format helpers

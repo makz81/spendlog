@@ -200,7 +200,6 @@ describe('Summary Tools', () => {
   });
 
   describe('get_tax_summary', () => {
-    // PRO-only feature
     beforeEach(async () => {
     });
 

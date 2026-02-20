@@ -192,8 +192,6 @@ Claude: ✓ Export complete
 
 **42 MCP tools** — the most complete finance toolkit for Claude.
 
-**Free:** Unlimited tracking &nbsp;|&nbsp; **PRO:** 5€/month for invoices, export & sync
-
 ### Core
 - **Natural Language** — No syntax to learn. Talk like you talk.
 - **Local-First** — Your data stays on your machine. SQLite in `~/.spendlog/`
@@ -317,7 +315,7 @@ Yes, via the optional cloud sync. Run `connect` in Claude to link your account.
 Yes. Enter amounts in any currency. Spendlog stores the number and description as-is.
 
 **Is it free?**
-Yes! The free tier includes unlimited income & expense tracking, budgets, and recurring transactions. PRO (5€/month) unlocks PDF invoices, CSV/JSON export, cloud sync, and more.
+Yes! Spendlog is free and open source (MIT). All features — tracking, invoices, export, budgets, recurring, projects — are included.
 
 ---
 

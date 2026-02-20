@@ -20,7 +20,6 @@ describe('Connection Tools', () => {
   beforeEach(async () => {
     await setupTestDb();
     resetFactories();
-    // Cloud sync is a PRO feature
     // Clear any existing connection state to ensure clean test environment
     clearConnectionState();
   });

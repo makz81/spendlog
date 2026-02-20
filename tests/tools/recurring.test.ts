@@ -21,7 +21,6 @@ describe('Recurring Tools', () => {
   beforeEach(async () => {
     await setupTestDb();
     resetFactories();
-    // Set PRO to avoid free tier limit of 3
   });
 
   afterAll(async () => {
