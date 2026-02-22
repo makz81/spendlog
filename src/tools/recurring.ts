@@ -42,6 +42,11 @@ export function getRecurringToolDefinitions(): Tool[] {
   return [
     {
       name: 'create_recurring',
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        openWorldHint: false,
+      },
       description: t('recurring.createDesc'),
       inputSchema: {
         type: 'object',
@@ -111,6 +116,11 @@ export function getRecurringToolDefinitions(): Tool[] {
     },
     {
       name: 'process_recurring',
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        openWorldHint: false,
+      },
       description: t('recurring.processDesc'),
       inputSchema: {
         type: 'object',

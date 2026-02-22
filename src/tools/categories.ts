@@ -34,6 +34,11 @@ export function getCategoryToolDefinitions(): Tool[] {
     },
     {
       name: 'add_category',
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        openWorldHint: false,
+      },
       description: t('categories.addDesc'),
       inputSchema: {
         type: 'object',

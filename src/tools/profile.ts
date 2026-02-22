@@ -18,6 +18,12 @@ export function getProfileToolDefinitions(): Tool[] {
     },
     {
       name: 'set_profile',
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
+      },
       description: t('profile.setDesc'),
       inputSchema: {
         type: 'object',

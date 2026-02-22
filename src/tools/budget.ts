@@ -23,6 +23,12 @@ export function getBudgetToolDefinitions(): Tool[] {
   return [
     {
       name: 'set_budget',
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
+      },
       description: t('budget.setDesc'),
       inputSchema: {
         type: 'object',
@@ -92,6 +98,11 @@ export function getBudgetToolDefinitions(): Tool[] {
     },
     {
       name: 'update_budget',
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        openWorldHint: false,
+      },
       description: t('budget.updateDesc'),
       inputSchema: {
         type: 'object',

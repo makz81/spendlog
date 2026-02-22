@@ -30,6 +30,11 @@ export function getTransactionToolDefinitions(): Tool[] {
   return [
     {
       name: 'add_income',
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        openWorldHint: false,
+      },
       description: `${t('transactions.addIncomeDesc')}${projectHint}`,
       inputSchema: {
         type: 'object',
@@ -60,6 +65,11 @@ export function getTransactionToolDefinitions(): Tool[] {
     },
     {
       name: 'add_expense',
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        openWorldHint: false,
+      },
       description: `${t('transactions.addExpenseDesc')}${projectHint}`,
       inputSchema: {
         type: 'object',
@@ -140,6 +150,11 @@ export function getTransactionToolDefinitions(): Tool[] {
     },
     {
       name: 'update_transaction',
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        openWorldHint: false,
+      },
       description: t('transactions.updateDesc'),
       inputSchema: {
         type: 'object',

@@ -10,6 +10,7 @@ import {
   type ListInvoicesInput,
   type GetInvoiceInput,
 } from '../utils/validation.js';
+import { z } from 'zod';
 import { parseDate, formatDate } from '../utils/date.js';
 import { formatCurrency } from '../utils/format.js';
 import { getCurrentUserId } from './index.js';
@@ -20,6 +21,11 @@ export function getInvoiceToolDefinitions(): Tool[] {
   return [
     {
       name: 'create_invoice',
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        openWorldHint: false,
+      },
       description: t('invoice.createDesc'),
       inputSchema: {
         type: 'object',
@@ -106,6 +112,11 @@ export function getInvoiceToolDefinitions(): Tool[] {
     },
     {
       name: 'mark_invoice_sent',
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        openWorldHint: false,
+      },
       description: t('invoice.markSentDesc'),
       inputSchema: {
         type: 'object',
@@ -120,6 +131,11 @@ export function getInvoiceToolDefinitions(): Tool[] {
     },
     {
       name: 'mark_invoice_paid',
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        openWorldHint: false,
+      },
       description: t('invoice.markPaidDesc'),
       inputSchema: {
         type: 'object',
@@ -134,6 +150,11 @@ export function getInvoiceToolDefinitions(): Tool[] {
     },
     {
       name: 'duplicate_invoice',
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        openWorldHint: false,
+      },
       description: t('invoice.duplicateDesc'),
       inputSchema: {
         type: 'object',
@@ -371,14 +392,17 @@ export async function markInvoicePaid(args: Record<string, unknown>): Promise<un
   };
 }
 
-export async function duplicateInvoice(args: Record<string, unknown>): Promise<unknown> {
-  const id = args.id as string;
-  const newDate = args.date as string | undefined;
-  const newDueDate = args.due_date as string | undefined;
+const duplicateInvoiceSchema = z.object({
+  id: z.string().uuid(),
+  date: z.string().optional(),
+  due_date: z.string().optional(),
+});
 
-  if (!id) {
-    throw new Error(t('invoice.invoiceIdRequired'));
-  }
+export async function duplicateInvoice(args: Record<string, unknown>): Promise<unknown> {
+  const input = duplicateInvoiceSchema.parse(args);
+  const id = input.id;
+  const newDate = input.date;
+  const newDueDate = input.due_date;
 
   const userId = getCurrentUserId();
 

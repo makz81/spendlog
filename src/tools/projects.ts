@@ -5,6 +5,22 @@ import { getCurrentUserId } from './index.js';
 import { formatCurrency } from '../utils/format.js';
 import { queueForSync } from '../services/sync.js';
 import { t } from '../i18n/index.js';
+import { z } from 'zod';
+
+const renameProjectSchema = z.object({
+  project: z.string().min(1),
+  new_name: z.string().min(1),
+});
+
+const createProjectSchema = z.object({
+  name: z.string().min(1),
+  description: z.string().optional(),
+  budget: z.number().optional(),
+});
+
+const deleteProjectSchema = z.object({
+  project: z.string().min(1),
+});
 
 export function getProjectToolDefinitions(): Tool[] {
   return [
@@ -25,6 +41,11 @@ export function getProjectToolDefinitions(): Tool[] {
     },
     {
       name: 'rename_project',
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        openWorldHint: false,
+      },
       description: t('projects.renameDesc'),
       inputSchema: {
         type: 'object',
@@ -43,6 +64,11 @@ export function getProjectToolDefinitions(): Tool[] {
     },
     {
       name: 'create_project',
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        openWorldHint: false,
+      },
       description: t('projects.createDesc'),
       inputSchema: {
         type: 'object',
@@ -148,15 +174,12 @@ export async function listProjects(args: Record<string, unknown>): Promise<unkno
 }
 
 export async function renameProject(args: Record<string, unknown>): Promise<unknown> {
+  const input = renameProjectSchema.parse(args);
   const userId = getCurrentUserId();
   const projectRepo = AppDataSource.getRepository(Project);
 
-  const projectName = args.project as string;
-  const newName = args.new_name as string;
-
-  if (!projectName || !newName) {
-    throw new Error(t('projects.nameRequired'));
-  }
+  const projectName = input.project;
+  const newName = input.new_name;
 
   const project = await findProjectByName(projectName, userId);
 
@@ -184,16 +207,13 @@ export async function renameProject(args: Record<string, unknown>): Promise<unkn
 }
 
 export async function createProject(args: Record<string, unknown>): Promise<unknown> {
+  const input = createProjectSchema.parse(args);
   const userId = getCurrentUserId();
   const projectRepo = AppDataSource.getRepository(Project);
 
-  const name = args.name as string;
-  const description = args.description as string | undefined;
-  const budget = args.budget as number | undefined;
-
-  if (!name) {
-    throw new Error(t('projects.projectNameRequired'));
-  }
+  const name = input.name;
+  const description = input.description;
+  const budget = input.budget;
 
   // Check if project with same name exists
   const existing = await findProjectByName(name, userId);
@@ -228,15 +248,12 @@ export async function createProject(args: Record<string, unknown>): Promise<unkn
 }
 
 export async function deleteProject(args: Record<string, unknown>): Promise<unknown> {
+  const input = deleteProjectSchema.parse(args);
   const userId = getCurrentUserId();
   const projectRepo = AppDataSource.getRepository(Project);
   const transactionRepo = AppDataSource.getRepository('Transaction');
 
-  const projectName = args.project as string;
-
-  if (!projectName) {
-    throw new Error(t('projects.projectNameRequired'));
-  }
+  const projectName = input.project;
 
   const project = await findProjectByName(projectName, userId);
 

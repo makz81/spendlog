@@ -21,6 +21,11 @@ export function getConnectionToolDefinitions(): Tool[] {
   return [
     {
       name: 'connect',
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        openWorldHint: true,
+      },
       description: t('connection.connectDesc'),
       inputSchema: {
         type: 'object',
@@ -60,6 +65,11 @@ export function getConnectionToolDefinitions(): Tool[] {
     },
     {
       name: 'sync_now',
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        openWorldHint: true,
+      },
       description: t('connection.syncNowDesc'),
       inputSchema: {
         type: 'object',
