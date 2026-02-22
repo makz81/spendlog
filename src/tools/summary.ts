@@ -240,11 +240,11 @@ function formatChange(
       ? '→'
       : isExpense
         ? change.direction === 'up'
-          ? '↑ ⚠️'
-          : '↓ ✓'
+          ? '↑'
+          : '↓'
         : change.direction === 'up'
-          ? '↑ ✓'
-          : '↓ ⚠️';
+          ? '↑'
+          : '↓';
 
   return `${percentStr} ${indicator}`;
 }

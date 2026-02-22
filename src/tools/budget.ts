@@ -309,16 +309,16 @@ export async function getBudgetStatus(args: Record<string, unknown>): Promise<un
       const periodRange = getPeriodRange(getPeriodForBudget(budget.period));
 
       let status: 'ok' | 'warning' | 'over';
-      let statusEmoji: string;
+      let statusIndicator: string;
       if (percentage >= 100) {
         status = 'over';
-        statusEmoji = '🔴';
+        statusIndicator = 'OVER';
       } else if (percentage >= budget.alertThreshold) {
         status = 'warning';
-        statusEmoji = '🟡';
+        statusIndicator = 'WARNING';
       } else {
         status = 'ok';
-        statusEmoji = '🟢';
+        statusIndicator = 'OK';
       }
 
       return {
@@ -339,7 +339,7 @@ export async function getBudgetStatus(args: Record<string, unknown>): Promise<un
         percentage_formatted: formatPercentage(percentage),
         transaction_count: transactionCount,
         status,
-        status_display: `${statusEmoji} ${formatCurrency(spent)} / ${formatCurrency(Number(budget.amount))} (${Math.round(percentage)}%)`,
+        status_display: `[${statusIndicator}] ${formatCurrency(spent)} / ${formatCurrency(Number(budget.amount))} (${Math.round(percentage)}%)`,
         alert_threshold: budget.alertThreshold,
       };
     })

@@ -131,11 +131,11 @@ export const de: TranslationDictionary = {
     changeThreshold: 'Warnschwelle: {old}% → {new}%',
     changeStatus: 'Status: {old} → {new}',
     totalBudget: 'Gesamtbudget',
-    overBudget: '⚠️ {count} Budget(s) überschritten!',
-    warningBudget: '🟡 {count} Budget(s) nähern sich dem Limit.',
-    allGood: '✅ Alle Budgets im grünen Bereich.',
-    budgetExceeded: '🔴 Budget "{name}" überschritten! ({spent} / {budget})',
-    budgetWarning: '🟡 Budget "{name}" bei {percentage}% (noch {remaining} übrig)',
+    overBudget: '{count} Budget(s) überschritten!',
+    warningBudget: '{count} Budget(s) nähern sich dem Limit.',
+    allGood: 'Alle Budgets im grünen Bereich.',
+    budgetExceeded: 'Budget "{name}" überschritten! ({spent} / {budget})',
+    budgetWarning: 'Budget "{name}" bei {percentage}% (noch {remaining} übrig)',
   },
 
   invoice: {
