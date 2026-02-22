@@ -500,8 +500,8 @@ async function install(args: string[] = []): Promise<void> {
   // 1. Check Node version
   const nodeVersion = process.versions.node;
   const major = parseInt(nodeVersion.split('.')[0], 10);
-  if (major < 18) {
-    console.log(chalk.red(`  ✗ Node.js 18+ required (found ${nodeVersion})`));
+  if (major < 20) {
+    console.log(chalk.red(`  ✗ Node.js 20+ required (found ${nodeVersion})`));
     process.exit(1);
   }
   console.log(chalk.green('  ✓') + chalk.gray(` Node.js ${nodeVersion}`));

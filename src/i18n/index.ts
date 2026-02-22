@@ -43,11 +43,11 @@ export function getDateLocale(): Locale {
  *   t('transactions.incomeSaved', { amount: '100 €', description: 'Test' })
  *   t('common.noCategory')
  *
- * Fallback: requested locale -> de -> raw key
+ * Fallback: requested locale -> en -> raw key
  */
 export function t(key: string, params?: Record<string, string | number>): string {
   const value =
-    resolveKey(dictionaries[currentLocale], key) ?? resolveKey(dictionaries.de, key) ?? key;
+    resolveKey(dictionaries[currentLocale], key) ?? resolveKey(dictionaries.en, key) ?? key;
 
   if (!params) return value;
 

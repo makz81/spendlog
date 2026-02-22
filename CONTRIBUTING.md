@@ -143,7 +143,7 @@ export function getMyToolDefinitions(): Tool[] {
   return [
     {
       name: 'my_tool',
-      description: t('myTool.description'),  // German description
+      description: t('myTool.description'),
       inputSchema: {
         type: 'object',
         properties: {
@@ -281,7 +281,7 @@ npm run pdf:test     # Generate test invoice PDF
 
 - Use `snake_case` for tool names
 - Include proper annotations (`readOnlyHint`, `destructiveHint`)
-- German descriptions (target audience)
+- English descriptions (localized via i18n)
 - Return structured `{ success, data/message }` responses
 
 ### Naming Conventions

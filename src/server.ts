@@ -4,9 +4,13 @@ import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprot
 import { initializeDatabase, seedDefaultCategories, getOrCreateDefaultUser } from './db/index.js';
 import { registerTools, handleToolCall, getToolDefinitions } from './tools/index.js';
 import { initI18n } from './i18n/index.js';
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
+const pkg = require('../package.json') as { version: string };
 
 const SERVER_NAME = 'spendlog';
-const SERVER_VERSION = '1.0.0';
+const SERVER_VERSION = pkg.version;
 
 export async function createServer(): Promise<Server> {
   // Initialize i18n before anything else

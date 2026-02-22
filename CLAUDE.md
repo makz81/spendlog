@@ -12,7 +12,7 @@ MCP server for expense tracking. Track finances directly in Claude.
 | Validation | Zod |
 | Testing | Vitest (382 tests) |
 | PDF | Puppeteer (optional, lazy-loaded) |
-| i18n | EN (default), DE, ES, FR |
+| i18n | EN (default), DE |
 
 ## Commands
 
@@ -62,7 +62,7 @@ tests/
 ## Code Conventions
 
 - **TypeScript strict** -- no `any` without comment
-- **MCP Tools:** snake_case names, Zod schemas, German descriptions
+- **MCP Tools:** snake_case names, Zod schemas, English descriptions (localized via i18n)
 - **Services:** camelCase functions, throw errors (handled in tool layer)
 - **Entities:** PascalCase, TypeORM decorators, UUID primary keys
 - **Files:** kebab-case (`transaction-service.ts`)
@@ -72,7 +72,7 @@ tests/
 ## Adding a New MCP Tool
 
 1. Add tool function in `src/tools/` (follow existing patterns)
-2. Register in `src/server.ts` with Zod schema + German description
+2. Register in `src/server.ts` with Zod schema + i18n description
 3. Add proper annotations (`readOnlyHint` / `destructiveHint`)
 4. Write tests in `tests/tools/`
 5. Add i18n strings to all languages in `src/i18n/`

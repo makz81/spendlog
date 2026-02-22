@@ -73,7 +73,7 @@ After restarting, try saying this to Claude:
 
 If you see a confirmation like "Expense saved: 1.00 €", you're all set!
 
-> **Requirements:** Node.js 18+ — Check with `node --version`
+> **Requirements:** Node.js 20+ — Check with `node --version`
 >
 > **Detailed guide:** [spendlog.dev/docs](https://spendlog.dev/docs)
 
@@ -95,7 +95,7 @@ Just talk to Claude naturally:
 
 ### Language Support
 
-Spendlog understands English, German, Spanish, and French. Use your preferred language or currency.
+Spendlog understands English and German. Use your preferred language or currency.
 
 ---
 
@@ -196,7 +196,7 @@ Claude: ✓ Export complete
 - **Natural Language** — No syntax to learn. Talk like you talk.
 - **Local-First** — Your data stays on your machine. SQLite in `~/.spendlog/`
 - **PDF Invoices** — Professional invoices with auto-numbering
-- **i18n** — English (default), German, Spanish, French
+- **i18n** — English (default), German
 
 ### Organization
 - **Categories** — Built-in SKR03 + custom categories
