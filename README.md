@@ -21,6 +21,11 @@ Track expenses, send invoices, manage budgets — all in natural language. Your 
 npx spendlog-mcp
 ```
 
+Or one-click install:
+
+[![Install in VS Code](https://img.shields.io/badge/Install_in-VS_Code-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://vscode.dev/redirect/mcp/install?name=spendlog-mcp&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22spendlog-mcp%22%5D%7D)
+[![Install in Cursor](https://img.shields.io/badge/Install_in-Cursor-000000?style=flat-square&logoColor=white)](https://cursor.com/en/install-mcp?name=spendlog-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsInNwZW5kbG9nLW1jcCJdfQ==)
+
 The installer auto-configures Claude Desktop and Claude Code. Restart Claude, then try:
 
 > "Track 50€ for hosting"
