@@ -11,7 +11,7 @@ import { initI18n, t, getLocale, getIntlLocale } from './i18n/index.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const PACKAGE_NAME = 'spendlog-mcp';
+const PACKAGE_NAME = 'spendlog';
 const MCP_SERVER_BIN = 'spendlog-mcp';
 const VERSION = JSON.parse(readFileSync(join(__dirname, '../package.json'), 'utf-8')).version;
 

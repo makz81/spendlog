@@ -3,13 +3,13 @@
 ## PR Title
 
 ```
-Add makz81/spendlog-mcp server
+Add makz81/spendlog server
 ```
 
 ## Entry (goes into "Finance & Fintech" section, alphabetically)
 
 ```markdown
-- [makz81/spendlog-mcp](https://github.com/makz81/spendlog-mcp) 📇 🏠 🍎 🪟 🐧 - Expense tracking and invoicing for freelancers. 42 MCP tools: budgets, recurring transactions, tax export, PDF invoices. Local SQLite, EN/DE.
+- [makz81/spendlog](https://github.com/makz81/spendlog) 📇 🏠 🍎 🪟 🐧 - Expense tracking and invoicing for freelancers. 42 MCP tools: budgets, recurring transactions, tax export, PDF invoices. Local SQLite, EN/DE.
 ```
 
 ## Steps

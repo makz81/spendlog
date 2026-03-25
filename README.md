@@ -5,9 +5,9 @@
 Track expenses, send invoices, manage budgets — all in natural language. Your data stays local in SQLite.
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/spendlog-mcp"><img src="https://img.shields.io/npm/v/spendlog-mcp?color=6366f1&label=npm" alt="npm version" /></a>
-  <a href="https://www.npmjs.com/package/spendlog-mcp"><img src="https://img.shields.io/npm/dm/spendlog-mcp?color=6366f1&label=downloads" alt="npm downloads" /></a>
-  <a href="https://github.com/makz81/spendlog-mcp/actions/workflows/ci.yml"><img src="https://github.com/makz81/spendlog-mcp/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://www.npmjs.com/package/spendlog"><img src="https://img.shields.io/npm/v/spendlog?color=6366f1&label=npm" alt="npm version" /></a>
+  <a href="https://www.npmjs.com/package/spendlog"><img src="https://img.shields.io/npm/dm/spendlog?color=6366f1&label=downloads" alt="npm downloads" /></a>
+  <a href="https://github.com/makz81/spendlog/actions/workflows/ci.yml"><img src="https://github.com/makz81/spendlog/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <img src="https://img.shields.io/badge/tools-42-34d399" alt="42 MCP tools" />
   <img src="https://img.shields.io/badge/tests-382%20passing-brightgreen" alt="382 tests" />
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License" /></a>
@@ -18,13 +18,13 @@ Track expenses, send invoices, manage budgets — all in natural language. Your 
 ## Quick Start
 
 ```bash
-npx spendlog-mcp
+npx spendlog
 ```
 
 Or one-click install:
 
-[![Install in VS Code](https://img.shields.io/badge/Install_in-VS_Code-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://vscode.dev/redirect/mcp/install?name=spendlog-mcp&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22spendlog-mcp%22%5D%7D)
-[![Install in Cursor](https://img.shields.io/badge/Install_in-Cursor-000000?style=flat-square&logoColor=white)](https://cursor.com/en/install-mcp?name=spendlog-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsInNwZW5kbG9nLW1jcCJdfQ==)
+[![Install in VS Code](https://img.shields.io/badge/Install_in-VS_Code-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://vscode.dev/redirect/mcp/install?name=spendlog&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22--package%3Dspendlog%22%2C%22spendlog-mcp%22%5D%7D)
+[![Install in Cursor](https://img.shields.io/badge/Install_in-Cursor-000000?style=flat-square&logoColor=white)](https://cursor.com/en/install-mcp?name=spendlog&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIi0tcGFja2FnZT1zcGVuZGxvZyIsInNwZW5kbG9nLW1jcCJdfQ==)
 
 The installer auto-configures Claude Desktop and Claude Code. Restart Claude, then try:
 
@@ -96,7 +96,7 @@ Claude: Expenses up 15%. Biggest increase: Marketing (+120€)
   "mcpServers": {
     "spendlog": {
       "command": "npx",
-      "args": ["-y", "spendlog-mcp"]
+      "args": ["-y", "--package=spendlog", "spendlog-mcp"]
     }
   }
 }
@@ -105,7 +105,7 @@ Claude: Expenses up 15%. Biggest increase: Marketing (+120€)
 **Claude Code:**
 
 ```bash
-claude mcp add spendlog -- npx -y spendlog-mcp
+claude mcp add spendlog -- npx -y --package=spendlog spendlog-mcp
 ```
 
 </details>
@@ -127,8 +127,8 @@ All data stays on your machine. Cloud sync via [spendlog.dev](https://spendlog.d
 ## Development
 
 ```bash
-git clone https://github.com/makz81/spendlog-mcp.git
-cd spendlog-mcp
+git clone https://github.com/makz81/spendlog.git
+cd spendlog
 npm install
 npm run dev
 ```

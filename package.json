@@ -1,5 +1,5 @@
 {
-  "name": "spendlog-mcp",
+  "name": "spendlog",
   "version": "1.0.1",
   "description": "Track expenses, income & invoices in Claude — MCP server with budgets, PDF invoices, CSV/DATEV export",
   "type": "module",
@@ -36,11 +36,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/makz81/spendlog-mcp.git"
+    "url": "git+https://github.com/makz81/spendlog.git"
   },
   "homepage": "https://spendlog.dev",
   "bugs": {
-    "url": "https://github.com/makz81/spendlog-mcp/issues"
+    "url": "https://github.com/makz81/spendlog/issues"
   },
   "engines": {
     "node": ">=20.0.0"

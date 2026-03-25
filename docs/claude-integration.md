@@ -13,7 +13,7 @@ Add to your config file (`~/Library/Application Support/Claude/claude_desktop_co
   "mcpServers": {
     "spendlog": {
       "command": "npx",
-      "args": ["-y", "spendlog-mcp"]
+      "args": ["-y", "--package=spendlog", "spendlog-mcp"]
     }
   }
 }
@@ -22,7 +22,7 @@ Add to your config file (`~/Library/Application Support/Claude/claude_desktop_co
 ### Claude Code
 
 ```bash
-claude mcp add spendlog --scope user -- npx -y spendlog-mcp
+claude mcp add spendlog --scope user -- npx -y --package=spendlog spendlog-mcp
 ```
 
 Verify with `claude mcp list`.
@@ -166,7 +166,7 @@ Spendlog is registered at user scope, so all your projects share the same databa
 
 ```bash
 claude mcp remove spendlog
-claude mcp add spendlog --scope user -- npx -y spendlog-mcp
+claude mcp add spendlog --scope user -- npx -y --package=spendlog spendlog-mcp
 ```
 
 Then restart Claude.
@@ -174,7 +174,7 @@ Then restart Claude.
 **Database errors:**
 
 ```bash
-npx spendlog-mcp db:reset
+npx spendlog db:reset
 ```
 
 Warning: this deletes all data.

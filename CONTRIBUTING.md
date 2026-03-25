@@ -13,8 +13,8 @@ Thanks for your interest in contributing! Spendlog is an MCP server for expense 
 ### Clone & Install
 
 ```bash
-git clone https://github.com/makz81/spendlog-mcp.git
-cd spendlog-mcp
+git clone https://github.com/makz81/spendlog.git
+cd spendlog
 npm install
 ```
 
@@ -351,7 +351,7 @@ tests/
 
 ## Good First Issues
 
-Look for issues labeled [`good first issue`](https://github.com/makz81/spendlog-mcp/labels/good%20first%20issue). These are ideal starting points:
+Look for issues labeled [`good first issue`](https://github.com/makz81/spendlog/labels/good%20first%20issue). These are ideal starting points:
 
 - Adding new i18n translations (Italian, Portuguese, Japanese)
 - New MCP tools (e.g., `search_transactions`, `get_balance`)
@@ -362,5 +362,5 @@ Look for issues labeled [`good first issue`](https://github.com/makz81/spendlog-
 
 ## Questions?
 
-- Open an [issue](https://github.com/makz81/spendlog-mcp/issues)
+- Open an [issue](https://github.com/makz81/spendlog/issues)
 - Check [spendlog.dev](https://spendlog.dev) for docs

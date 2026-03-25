@@ -26,4 +26,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Profile management for invoice generation
 - SQLite database with TypeORM (local at `~/.spendlog/spendlog.db`)
 
-[1.0.0]: https://github.com/makz81/spendlog-mcp/releases/tag/v1.0.0
+[1.0.0]: https://github.com/makz81/spendlog/releases/tag/v1.0.0
