@@ -257,11 +257,15 @@ function readClaudeConfig(configPath: string): ClaudeConfig {
   if (!existsSync(configPath)) {
     return {};
   }
+  const content = readFileSync(configPath, 'utf-8');
   try {
-    const content = readFileSync(configPath, 'utf-8');
     return JSON.parse(content) as ClaudeConfig;
   } catch {
-    return {};
+    // Don't silently return {} — that would cause writeClaudeConfig to overwrite
+    // the existing (possibly broken) file and destroy other MCP server entries
+    console.log(chalk.yellow('  ⚠') + chalk.gray(` Could not parse ${configPath}`));
+    console.log(chalk.gray('    Fix the JSON manually, then re-run the installer.'));
+    return { _parseError: true } as unknown as ClaudeConfig;
   }
 }
 
@@ -497,7 +501,7 @@ async function install(args: string[] = []): Promise<void> {
       // Check if already installed
       const mcpList = execSync('claude mcp list 2>/dev/null || echo ""', { encoding: 'utf-8' });
       if (!mcpList.includes('spendlog')) {
-        process.stdout.write(chalk.gray('  ⏳ Claude Code MCP registrieren...'));
+        process.stdout.write(chalk.gray('  ⏳ Registering Claude Code MCP...'));
         const spinner = setInterval(() => process.stdout.write(chalk.gray('.')), 1000);
         try {
           execSync(
@@ -527,19 +531,22 @@ async function install(args: string[] = []): Promise<void> {
     const configPath = getClaudeDesktopConfigPath();
     const config = readClaudeConfig(configPath);
 
-    if (!config.mcpServers) {
-      config.mcpServers = {};
+    if ('_parseError' in config) {
+      // Config file has invalid JSON — don't overwrite it
+    } else {
+      if (!config.mcpServers) {
+        config.mcpServers = {};
+      }
+
+      config.mcpServers['spendlog'] = {
+        command: 'npx',
+        args: ['-y', `--package=${PACKAGE_NAME}`, MCP_SERVER_BIN],
+      };
+
+      writeClaudeConfig(configPath, config);
+      claudeDesktopInstalled = true;
+      console.log(chalk.green('  ✓') + chalk.gray(' Claude Desktop config updated'));
     }
-
-    // Non-invasive: only add/update spendlog, don't touch other servers
-    config.mcpServers['spendlog'] = {
-      command: 'npx',
-      args: ['-y', `--package=${PACKAGE_NAME}`, MCP_SERVER_BIN],
-    };
-
-    writeClaudeConfig(configPath, config);
-    claudeDesktopInstalled = true;
-    console.log(chalk.green('  ✓') + chalk.gray(' Claude Desktop config updated'));
   }
 
   // 6. Install Claude rules for smart tracking

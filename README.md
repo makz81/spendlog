@@ -1,6 +1,8 @@
-# spendlog-mcp
+# Spendlog
 
-An MCP server for tracking expenses, income, and invoices directly inside Claude.
+**Expense tracking for freelancers, inside Claude. No apps. No spreadsheets.**
+
+Track expenses, send invoices, manage budgets — all in natural language. Your data stays local in SQLite.
 
 <p align="center">
   <a href="https://www.npmjs.com/package/spendlog-mcp"><img src="https://img.shields.io/npm/v/spendlog-mcp?color=6366f1&label=npm" alt="npm version" /></a>
@@ -11,49 +13,54 @@ An MCP server for tracking expenses, income, and invoices directly inside Claude
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License" /></a>
 </p>
 
+<!-- TODO: Add demo GIF here showing "Track 50€ for hosting" conversation -->
+
 ## Quick Start
 
 ```bash
 npx spendlog-mcp
 ```
 
-The installer detects Claude Desktop or Claude Code, adds the MCP config, and creates a local SQLite database. Restart Claude afterward.
+The installer auto-configures Claude Desktop and Claude Code. Restart Claude, then try:
 
-To verify: tell Claude `"Track 1€ test expense"`. If it confirms, you're set.
+> "Track 50€ for hosting"
 
-> Requires Node.js 20+. See [spendlog.dev/docs](https://spendlog.dev/docs) for a detailed setup guide.
+That's it. Requires Node.js 20+.
 
-## What it does
+## Why Spendlog?
 
-- Track expenses and income in natural language
-- Generate PDF invoices with auto-numbering
-- Set budgets with spending limits per category
-- Manage recurring expenses (subscriptions, rent, etc.)
-- Tag transactions by project for per-project profit/loss
-- Export to CSV/JSON, including DATEV-compatible format for accountants
-- Compare spending across months, quarters, or years
-- Built-in SKR03 categories, plus custom ones
-- English and German (i18n)
-- All data stored locally in `~/.spendlog/spendlog.db` -- cloud sync is opt-in
+- **Zero context-switching** — track expenses while you work, right where you already are
+- **Local-first** — all data in `~/.spendlog/spendlog.db`, no account needed
+- **Natural language** — no forms, no menus, just tell Claude what you spent
+- **42 tools** — not a toy: invoicing, budgets, recurring expenses, tax export, multi-project tracking
 
 ## Examples
 
-**Tracking expenses:**
+**Tracking:**
 ```
 You: "29€ for ChatGPT subscription"
 Claude: Expense saved: 29.00 € — Category: IT & Software
 
 You: "Export 2025 for my accountant"
-Claude: Export complete — 247 transactions written to ~/spendlog-export-2025.csv
+Claude: 247 transactions written to ~/spendlog-export-2025.csv
 ```
 
 **Invoices:**
 ```
 You: "Create invoice for TechCorp, web development, 8h at 95€/h"
-Claude: Invoice #2026-004 created — 760.00 € — PDF saved to ~/invoices/2026-004.pdf
+Claude: Invoice #2026-004 created — 760.00 € — PDF saved
 
 You: "Mark it as paid"
 Claude: Invoice #2026-004 marked as paid, income recorded.
+```
+
+**Analysis:**
+```
+You: "How much did I spend on software this quarter?"
+Claude: IT & Software: 287.00 € (12 transactions) — 23% of total expenses
+
+You: "Compare January vs February"
+Claude: Expenses up 15%. Biggest increase: Marketing (+120€)
 ```
 
 ## Tools
@@ -70,16 +77,14 @@ Claude: Invoice #2026-004 marked as paid, income recorded.
 | **Projects** | `create_project` `list_projects` `rename_project` `delete_project` |
 | **Categories** | `list_categories` `add_category` `delete_category` |
 | **Export** | `export_transactions` `export_invoices` `export_for_tax_advisor` |
-| **Sync** | `connect` `disconnect` `connection_status` `sync_now` `sync_status` |
-| **Settings** | `get_profile` `set_profile` `get_notifications` |
-
-[Full API reference](https://spendlog.dev/docs)
+| **Sync & Settings** | `connect` `disconnect` `sync_now` `get_profile` `set_profile` and more |
 
 ## Configuration
 
-If the installer didn't work, add Spendlog manually.
+<details>
+<summary>Manual setup (if the installer didn't work)</summary>
 
-**Claude Desktop** — edit your config file ([location by OS](https://spendlog.dev/docs#troubleshooting)):
+**Claude Desktop** — edit your config file:
 
 ```json
 {
@@ -98,9 +103,9 @@ If the installer didn't work, add Spendlog manually.
 claude mcp add spendlog -- npx -y spendlog-mcp
 ```
 
-### Environment variables
+</details>
 
-Pass these via the `env` key in your MCP config:
+### Environment variables
 
 | Variable | Description | Default |
 |----------|-------------|---------|
@@ -110,9 +115,9 @@ Pass these via the `env` key in your MCP config:
 
 ## Privacy
 
-All data stays on your machine by default. Cloud sync (via [spendlog.dev](https://spendlog.dev)) is opt-in -- run `connect` to enable it.
+All data stays on your machine. Cloud sync via [spendlog.dev](https://spendlog.dev) is opt-in.
 
-**Note:** Spendlog is a tracker, not accounting software. It's not tax-compliant. Use it for personal insights, not official bookkeeping.
+**Note:** Spendlog is a tracker, not accounting software. Use it for personal insights, not official bookkeeping.
 
 ## Development
 
@@ -123,7 +128,7 @@ npm install
 npm run dev
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for architecture details and how to add new tools.
 
 ## License
 
