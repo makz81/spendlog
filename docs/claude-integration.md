@@ -80,9 +80,7 @@ After every paid API call:
 
 ## Free (don't track)
 
-- Nanobanana: 1,500/day free
-- Cloudflare: Workers 100k/day, Pages unlimited
-- Supabase: 500MB, 50k MAU free
+- Services with generous free tiers (check your provider's limits)
 ```
 
 ### CLAUDE.md snippet

@@ -29,19 +29,9 @@ Thumbs.db
 # Claude Code
 .claude/
 
-# Internal docs
-BACKLOG.md
-ROADMAP.md
-docs/costs.md
-docs/decisions.md
-docs/mission.md
-docs/MANUAL_TEST_GUIDE.md
-
-# SaaS directories (separate repo)
+# Not part of public repo
 api/
 web/
-
-# Legacy (not part of public repo)
 src/web/
 templates/views/
 src/services/supabase.ts
@@ -50,6 +40,12 @@ supabase/
 cli/
 demo-script.sh
 demo.tape
+docs/costs.md
+docs/decisions.md
+docs/mission.md
+docs/MANUAL_TEST_GUIDE.md
+BACKLOG.md
+ROADMAP.md
 
 # IDE
 .vscode/
@@ -66,6 +62,4 @@ npm-debug.log*
 # Testing
 coverage/
 .nyc_output/
-
-# PDF output (testing)
 test-invoices/

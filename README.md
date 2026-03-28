@@ -13,8 +13,6 @@ Track expenses, send invoices, manage budgets — all in natural language. Your 
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License" /></a>
 </p>
 
-<!-- TODO: Add demo GIF here showing "Track 50€ for hosting" conversation -->
-
 ## Quick Start
 
 ```bash
