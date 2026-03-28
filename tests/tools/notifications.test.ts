@@ -23,11 +23,14 @@ describe('Notification Tools', () => {
   });
 
   describe('get_notifications', () => {
-    it('returns empty when no notifications', async () => {
+    it('returns no user-created notifications on empty db', async () => {
       const result = await tools.getNotifications();
 
-      expect(result.notifications.length).toBe(0);
-      expect(result.summary).toContain('Keine');
+      // Tax quarter reminders are date-dependent and may appear regardless of DB state
+      const userNotifications = result.notifications.filter(
+        (n: any) => n.type !== 'tax_reminder'
+      );
+      expect(userNotifications.length).toBe(0);
     });
 
     it('shows recurring transactions due soon', async () => {
