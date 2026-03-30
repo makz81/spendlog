@@ -59,6 +59,9 @@ logs/
 *.log
 npm-debug.log*
 
+# Secrets
+connection.json
+
 # Testing
 coverage/
 .nyc_output/
