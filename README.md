@@ -13,6 +13,10 @@ Track expenses, send invoices, manage budgets — all in natural language. Your 
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License" /></a>
 </p>
 
+<p align="center">
+  <img src="docs/demo_1.png" alt="Spendlog monthly summary in Claude" width="600" />
+</p>
+
 ## Quick Start
 
 ```bash
