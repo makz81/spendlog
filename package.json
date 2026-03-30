@@ -1,6 +1,7 @@
 {
   "name": "spendlog",
-  "version": "1.0.3",
+  "version": "1.0.4",
+  "mcpName": "io.github.makz81/spendlog",
   "description": "Track expenses, income & invoices in Claude — MCP server with budgets, PDF invoices, CSV/DATEV export",
   "type": "module",
   "main": "dist/index.js",
