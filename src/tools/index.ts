@@ -21,6 +21,7 @@ import {
   getInvoice,
   markInvoiceSent,
   markInvoicePaid,
+  deleteInvoice,
   duplicateInvoice,
   getInvoiceToolDefinitions,
 } from './invoice.js';
@@ -134,6 +135,7 @@ const toolHandlers: Record<string, ToolHandler> = {
   get_invoice: getInvoice,
   mark_invoice_sent: markInvoiceSent,
   mark_invoice_paid: markInvoicePaid,
+  delete_invoice: deleteInvoice,
   duplicate_invoice: duplicateInvoice,
   // Export
   export_transactions: exportTransactions,

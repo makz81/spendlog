@@ -159,6 +159,8 @@ export const de: TranslationDictionary = {
     markSentIdDesc: 'UUID der Rechnung',
     markPaidDesc: 'Markiert eine Rechnung als bezahlt.',
     markPaidIdDesc: 'UUID der Rechnung',
+    deleteDesc: 'Löscht eine Rechnung und ihr PDF dauerhaft.',
+    deleted: 'Rechnung {number} gelöscht',
     duplicateDesc:
       'Erstellt eine Kopie einer bestehenden Rechnung als neuen Entwurf. Perfekt für wiederkehrende Kunden.',
     duplicateIdDesc: 'UUID der Rechnung die kopiert werden soll',

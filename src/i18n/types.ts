@@ -149,6 +149,8 @@ export interface TranslationDictionary {
     markSentIdDesc: string;
     markPaidDesc: string;
     markPaidIdDesc: string;
+    deleteDesc: string;
+    deleted: string;
     duplicateDesc: string;
     duplicateIdDesc: string;
     duplicateDateDesc: string;

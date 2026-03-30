@@ -1,9 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, Unique } from 'typeorm';
 import type { User } from './User.js';
 
 export type CategoryType = 'income' | 'expense';
 
 @Entity('categories')
+@Unique(['name', 'type', 'userId'])
 export class Category {
   @PrimaryGeneratedColumn('uuid')
   id!: string;

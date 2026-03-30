@@ -6,12 +6,14 @@ import {
   JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  Unique,
 } from 'typeorm';
 import type { User } from './User.js';
 
 export type ProjectStatus = 'active' | 'completed' | 'archived';
 
 @Entity('projects')
+@Unique(['name', 'userId'])
 export class Project {
   @PrimaryGeneratedColumn('uuid')
   id!: string;

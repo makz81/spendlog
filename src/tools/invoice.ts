@@ -137,6 +137,21 @@ export function getInvoiceToolDefinitions(): Tool[] {
       },
     },
     {
+      name: 'delete_invoice',
+      annotations: { destructiveHint: true },
+      description: t('invoice.deleteDesc'),
+      inputSchema: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'string',
+            description: t('invoice.getIdDesc'),
+          },
+        },
+        required: ['id'],
+      },
+    },
+    {
       name: 'duplicate_invoice',
       annotations: {},
       description: t('invoice.duplicateDesc'),
@@ -218,11 +233,16 @@ export async function createInvoice(args: Record<string, unknown>): Promise<unkn
 
   await invoiceRepo.save(invoice);
 
-  const pdfData = prepareInvoiceData(invoice, profile);
-  const pdfPath = await generateInvoicePdf(pdfData);
-
-  invoice.pdfPath = pdfPath;
-  await invoiceRepo.save(invoice);
+  let pdfGenerated = false;
+  try {
+    const pdfData = prepareInvoiceData(invoice, profile);
+    const pdfPath = await generateInvoicePdf(pdfData);
+    invoice.pdfPath = pdfPath;
+    await invoiceRepo.save(invoice);
+    pdfGenerated = true;
+  } catch {
+    // Invoice saved without PDF — Puppeteer likely not installed
+  }
 
   return {
     success: true,
@@ -234,8 +254,9 @@ export async function createInvoice(args: Record<string, unknown>): Promise<unkn
       total: formatCurrency(totalAmount),
       date: formatDate(invoice.date),
       status: invoice.status,
-      pdf_generated: true,
+      pdf_generated: pdfGenerated,
     },
+    ...(!pdfGenerated && { warning: 'PDF generation failed. Install puppeteer for PDF invoices: npm install puppeteer' }),
   };
 }
 
@@ -359,6 +380,42 @@ export async function markInvoiceSent(args: Record<string, unknown>): Promise<un
 
 export async function markInvoicePaid(args: Record<string, unknown>): Promise<unknown> {
   return markInvoiceStatus(args, 'paid');
+}
+
+const deleteInvoiceSchema = z.object({
+  id: z.string().uuid(),
+});
+
+export async function deleteInvoice(args: Record<string, unknown>): Promise<unknown> {
+  const input = deleteInvoiceSchema.parse(args);
+  const userId = getCurrentUserId();
+  const invoiceRepo = AppDataSource.getRepository(Invoice);
+
+  const invoice = await invoiceRepo.findOne({
+    where: { id: input.id, userId },
+  });
+
+  if (!invoice) {
+    throw new Error(t('invoice.notFound'));
+  }
+
+  // Clean up PDF file if it exists
+  if (invoice.pdfPath) {
+    const fs = await import('fs');
+    try {
+      fs.unlinkSync(invoice.pdfPath);
+    } catch {
+      // PDF file already gone, that's fine
+    }
+  }
+
+  const number = invoice.invoiceNumber;
+  await invoiceRepo.remove(invoice);
+
+  return {
+    success: true,
+    message: t('invoice.deleted', { number }),
+  };
 }
 
 const duplicateInvoiceSchema = z.object({

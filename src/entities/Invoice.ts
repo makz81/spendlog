@@ -5,6 +5,7 @@ import {
   ManyToOne,
   CreateDateColumn,
   JoinColumn,
+  Unique,
 } from 'typeorm';
 import type { User } from './User.js';
 
@@ -18,6 +19,7 @@ export interface InvoiceItem {
 }
 
 @Entity('invoices')
+@Unique(['userId', 'invoiceNumber'])
 export class Invoice {
   @PrimaryGeneratedColumn('uuid')
   id!: string;

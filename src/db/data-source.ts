@@ -31,6 +31,7 @@ const ProductionDataSource = new DataSource({
   entities: [User, Profile, Category, Transaction, Invoice, Recurring, Project, SyncQueue, Budget],
   synchronize: true,
   logging: process.env.SPENDLOG_DEBUG === '1',
+  enableWAL: true,
 });
 
 export const AppDataSource = new Proxy({} as DataSource, {
@@ -62,6 +63,8 @@ export async function initializeDatabase(): Promise<DataSource> {
   const source = activeDataSource || ProductionDataSource;
   if (!source.isInitialized) {
     await source.initialize();
+    // Enable FK constraints (off by default in SQLite)
+    await source.query('PRAGMA foreign_keys = ON');
   }
 
   initialized = true;

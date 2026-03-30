@@ -156,6 +156,8 @@ export const en: TranslationDictionary = {
     markSentIdDesc: 'Invoice UUID',
     markPaidDesc: 'Marks an invoice as paid.',
     markPaidIdDesc: 'Invoice UUID',
+    deleteDesc: 'Permanently deletes an invoice and its PDF.',
+    deleted: 'Invoice {number} deleted',
     duplicateDesc:
       'Creates a copy of an existing invoice as a new draft. Perfect for recurring clients.',
     duplicateIdDesc: 'UUID of the invoice to copy',
