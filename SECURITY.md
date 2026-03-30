@@ -10,7 +10,9 @@
 
 **Do NOT open a public issue for security vulnerabilities.**
 
-Email: security@spendlog.dev
+Preferred: use [GitHub Private Vulnerability Reporting](https://github.com/makz81/spendlog/security) (Security tab → "Report a vulnerability").
+
+Or email: security@spendlog.dev
 
 You will receive a response within 48 hours. We will work with you to understand
 the issue and coordinate a fix before any public disclosure.
