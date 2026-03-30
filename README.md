@@ -14,7 +14,7 @@ Track expenses, send invoices, manage budgets — all in natural language. Your 
 </p>
 
 <p align="center">
-  <img src="docs/demo_1.png" alt="Spendlog monthly summary in Claude" width="600" />
+  <img src="https://raw.githubusercontent.com/makz81/spendlog/main/docs/demo_1.png" alt="Spendlog monthly summary in Claude" width="600" />
 </p>
 
 ## Quick Start

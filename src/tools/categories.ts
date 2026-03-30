@@ -95,15 +95,15 @@ export async function listCategories(args: Record<string, unknown>): Promise<unk
 
   return {
     total: categories.length,
-    einnahmen: incomeCategories.map((c) => ({
+    income: incomeCategories.map((c) => ({
       id: c.id,
       name: c.name,
-      standard: c.isDefault,
+      is_default: c.isDefault,
     })),
-    ausgaben: expenseCategories.map((c) => ({
+    expense: expenseCategories.map((c) => ({
       id: c.id,
       name: c.name,
-      standard: c.isDefault,
+      is_default: c.isDefault,
     })),
   };
 }

@@ -29,96 +29,35 @@ interface KontoMapping {
 }
 
 // Expense categories -> SKR03/SKR04 accounts + EÜR lines
-const EXPENSE_KONTO_MAP: Record<string, KontoMapping> = {
-  'IT & Software': {
-    skr03: '4964',
-    skr04: '6830',
-    euerZeile: '46',
-    beschreibung: 'EDV-Kosten, Software, Cloud-Services',
-  },
-  'Marketing & Werbung': {
-    skr03: '4600',
-    skr04: '6600',
-    euerZeile: '47',
-    beschreibung: 'Werbekosten',
-  },
-  'Büro & Material': {
-    skr03: '4930',
-    skr04: '6815',
-    euerZeile: '48',
-    beschreibung: 'Bürobedarf, Verbrauchsmaterial',
-  },
-  'Reisen & Transport': {
-    skr03: '4670',
-    skr04: '6650',
-    euerZeile: '51',
-    beschreibung: 'Reisekosten Unternehmer',
-  },
-  Weiterbildung: {
-    skr03: '4945',
-    skr04: '6821',
-    euerZeile: '46',
-    beschreibung: 'Fortbildungskosten',
-  },
-  'Telefon & Internet': {
-    skr03: '4920',
-    skr04: '6805',
-    euerZeile: '46',
-    beschreibung: 'Telefon, Internet, Porto',
-  },
-  Versicherungen: {
-    skr03: '4360',
-    skr04: '6400',
-    euerZeile: '45',
-    beschreibung: 'Versicherungen (betrieblich)',
-  },
-  Sonstiges: {
-    skr03: '4900',
-    skr04: '6800',
-    euerZeile: '60',
-    beschreibung: 'Sonstige betriebliche Aufwendungen',
-  },
-  'Rechts- & Beratungskosten': {
-    skr03: '4950',
-    skr04: '6825',
-    euerZeile: '46',
-    beschreibung: 'Rechts- und Beratungskosten',
-  },
-  'Miete & Nebenkosten': {
-    skr03: '4210',
-    skr04: '6310',
-    euerZeile: '39',
-    beschreibung: 'Miete für Geschäftsräume',
-  },
-};
+// Both DE and EN category names map to the same accounts
+const EXPENSE_KONTO_ENTRIES: Array<{ names: string[]; mapping: KontoMapping }> = [
+  { names: ['IT & Software'], mapping: { skr03: '4964', skr04: '6830', euerZeile: '46', beschreibung: 'EDV-Kosten, Software, Cloud-Services' } },
+  { names: ['Marketing & Werbung', 'Marketing & Advertising'], mapping: { skr03: '4600', skr04: '6600', euerZeile: '47', beschreibung: 'Werbekosten' } },
+  { names: ['Büro & Material', 'Office & Supplies'], mapping: { skr03: '4930', skr04: '6815', euerZeile: '48', beschreibung: 'Bürobedarf, Verbrauchsmaterial' } },
+  { names: ['Reisen & Transport', 'Travel & Transport'], mapping: { skr03: '4670', skr04: '6650', euerZeile: '51', beschreibung: 'Reisekosten Unternehmer' } },
+  { names: ['Weiterbildung', 'Education'], mapping: { skr03: '4945', skr04: '6821', euerZeile: '46', beschreibung: 'Fortbildungskosten' } },
+  { names: ['Telefon & Internet', 'Phone & Internet'], mapping: { skr03: '4920', skr04: '6805', euerZeile: '46', beschreibung: 'Telefon, Internet, Porto' } },
+  { names: ['Versicherungen', 'Insurance'], mapping: { skr03: '4360', skr04: '6400', euerZeile: '45', beschreibung: 'Versicherungen (betrieblich)' } },
+  { names: ['Sonstiges', 'Other'], mapping: { skr03: '4900', skr04: '6800', euerZeile: '60', beschreibung: 'Sonstige betriebliche Aufwendungen' } },
+  { names: ['Rechts- & Beratungskosten'], mapping: { skr03: '4950', skr04: '6825', euerZeile: '46', beschreibung: 'Rechts- und Beratungskosten' } },
+  { names: ['Miete & Nebenkosten'], mapping: { skr03: '4210', skr04: '6310', euerZeile: '39', beschreibung: 'Miete für Geschäftsräume' } },
+];
+
+const EXPENSE_KONTO_MAP: Record<string, KontoMapping> = Object.fromEntries(
+  EXPENSE_KONTO_ENTRIES.flatMap(({ names, mapping }) => names.map((n) => [n, mapping])),
+);
 
 // Income categories -> SKR03/SKR04 accounts + EÜR lines
-const INCOME_KONTO_MAP: Record<string, KontoMapping> = {
-  Dienstleistung: {
-    skr03: '8400',
-    skr04: '4400',
-    euerZeile: '14',
-    beschreibung: 'Erlöse aus Dienstleistungen',
-  },
-  Produktverkauf: {
-    skr03: '8200',
-    skr04: '4200',
-    euerZeile: '14',
-    beschreibung: 'Erlöse aus Warenverkauf',
-  },
-  'Affiliate/Provision': {
-    skr03: '8519',
-    skr04: '4519',
-    euerZeile: '14',
-    beschreibung: 'Provisionserlöse',
-  },
-  Sonstiges: {
-    skr03: '8300',
-    skr04: '4300',
-    euerZeile: '20',
-    beschreibung: 'Sonstige betriebliche Erträge',
-  },
-};
+const INCOME_KONTO_ENTRIES: Array<{ names: string[]; mapping: KontoMapping }> = [
+  { names: ['Dienstleistung', 'Service'], mapping: { skr03: '8400', skr04: '4400', euerZeile: '14', beschreibung: 'Erlöse aus Dienstleistungen' } },
+  { names: ['Produktverkauf', 'Product Sales'], mapping: { skr03: '8200', skr04: '4200', euerZeile: '14', beschreibung: 'Erlöse aus Warenverkauf' } },
+  { names: ['Affiliate/Provision', 'Affiliate/Commission'], mapping: { skr03: '8519', skr04: '4519', euerZeile: '14', beschreibung: 'Provisionserlöse' } },
+  { names: ['Sonstiges', 'Other'], mapping: { skr03: '8300', skr04: '4300', euerZeile: '20', beschreibung: 'Sonstige betriebliche Erträge' } },
+];
+
+const INCOME_KONTO_MAP: Record<string, KontoMapping> = Object.fromEntries(
+  INCOME_KONTO_ENTRIES.flatMap(({ names, mapping }) => names.map((n) => [n, mapping])),
+);
 
 const DEFAULT_EXPENSE_KONTO: KontoMapping = {
   skr03: '4900',
@@ -266,7 +205,7 @@ function transactionsToCSV(transactions: TransactionExport[]): string {
     t.typ === 'income' ? 'Einnahme' : 'Ausgabe',
     formatGermanNumber(t.betrag),
     escapeCSV(t.beschreibung),
-    t.kategorie,
+    escapeCSV(t.kategorie),
   ]);
 
   return [headers.join(';'), ...rows.map((r) => r.join(';'))].join('\n');

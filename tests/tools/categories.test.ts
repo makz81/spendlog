@@ -24,28 +24,28 @@ describe('Category Tools', () => {
       const result = await tools.listCategories();
 
       expect(result.total).toBeGreaterThan(0);
-      expect(result.einnahmen.length).toBeGreaterThan(0);
-      expect(result.ausgaben.length).toBeGreaterThan(0);
+      expect(result.income.length).toBeGreaterThan(0);
+      expect(result.expense.length).toBeGreaterThan(0);
     });
 
     it('lists income categories', async () => {
       const result = await tools.listCategories({ type: 'income' });
 
-      expect(result.einnahmen.some((c) => c.name === 'Dienstleistung')).toBe(true);
-      expect(result.einnahmen.some((c) => c.name === 'Produktverkauf')).toBe(true);
+      expect(result.income.some((c) => c.name === 'Dienstleistung')).toBe(true);
+      expect(result.income.some((c) => c.name === 'Produktverkauf')).toBe(true);
     });
 
     it('lists expense categories', async () => {
       const result = await tools.listCategories({ type: 'expense' });
 
-      expect(result.ausgaben.some((c) => c.name === 'IT & Software')).toBe(true);
-      expect(result.ausgaben.some((c) => c.name === 'Marketing & Werbung')).toBe(true);
+      expect(result.expense.some((c) => c.name === 'IT & Software')).toBe(true);
+      expect(result.expense.some((c) => c.name === 'Marketing & Werbung')).toBe(true);
     });
 
     it('includes default income categories', async () => {
       const result = await tools.listCategories({ type: 'income' });
 
-      const names = result.einnahmen.map((c) => c.name);
+      const names = result.income.map((c) => c.name);
       expect(names).toContain('Dienstleistung');
       expect(names).toContain('Produktverkauf');
       expect(names).toContain('Affiliate/Provision');
@@ -55,7 +55,7 @@ describe('Category Tools', () => {
     it('includes default expense categories', async () => {
       const result = await tools.listCategories({ type: 'expense' });
 
-      const names = result.ausgaben.map((c) => c.name);
+      const names = result.expense.map((c) => c.name);
       expect(names).toContain('IT & Software');
       expect(names).toContain('Marketing & Werbung');
       expect(names).toContain('Büro & Material');
@@ -65,8 +65,8 @@ describe('Category Tools', () => {
     it('marks default categories as standard', async () => {
       const result = await tools.listCategories();
 
-      const allCategories = [...result.einnahmen, ...result.ausgaben];
-      expect(allCategories.some((c) => c.standard === true)).toBe(true);
+      const allCategories = [...result.income, ...result.expense];
+      expect(allCategories.some((c) => c.is_default === true)).toBe(true);
     });
   });
 
@@ -94,16 +94,16 @@ describe('Category Tools', () => {
 
       const result = await tools.listCategories({ type: 'income' });
 
-      expect(result.einnahmen.some((c) => c.name === 'NewCategory')).toBe(true);
+      expect(result.income.some((c) => c.name === 'NewCategory')).toBe(true);
     });
 
     it('custom category is not marked as standard', async () => {
       await tools.addCategory({ name: 'Custom', type: 'expense' });
 
       const result = await tools.listCategories({ type: 'expense' });
-      const customCategory = result.ausgaben.find((c) => c.name === 'Custom');
+      const customCategory = result.expense.find((c) => c.name === 'Custom');
 
-      expect(customCategory?.standard).toBe(false);
+      expect(customCategory?.is_default).toBe(false);
     });
 
     it('rejects duplicate category names', async () => {
@@ -124,7 +124,7 @@ describe('Category Tools', () => {
       expect(result.message).toContain('gelöscht');
 
       const list = await tools.listCategories({ type: 'income' });
-      expect(list.einnahmen.every((c) => c.name !== 'ToDelete')).toBe(true);
+      expect(list.income.every((c) => c.name !== 'ToDelete')).toBe(true);
     });
 
     it('throws error for non-existent category', async () => {
@@ -141,7 +141,7 @@ describe('Category Tools', () => {
 
     it('cannot delete default categories', async () => {
       const list = await tools.listCategories({ type: 'income' });
-      const defaultCategory = list.einnahmen.find((c) => c.standard === true);
+      const defaultCategory = list.income.find((c) => c.is_default === true);
 
       expect(defaultCategory).toBeDefined();
 
@@ -177,7 +177,7 @@ describe('Category Tools', () => {
 
       // List and verify
       const list = await tools.listCategories({ type: 'income' });
-      expect(list.einnahmen.some((c) => c.name === 'Freelance Work')).toBe(true);
+      expect(list.income.some((c) => c.name === 'Freelance Work')).toBe(true);
     });
   });
 });
