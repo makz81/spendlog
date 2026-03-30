@@ -100,9 +100,6 @@
     "uuid": "^10.0.0",
     "zod": "^3.23.8"
   },
-  "optionalDependencies": {
-    "puppeteer": "^23.0.0"
-  },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.11",
     "@types/node": "^22.0.0",
