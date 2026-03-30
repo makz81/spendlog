@@ -348,7 +348,6 @@ export async function exportInvoices(args: Record<string, unknown>): Promise<unk
       zahlungsziel: inv.dueDate ? formatDate(inv.dueDate) : null,
       status: inv.status,
       notizen: inv.notes || null,
-      pdf_pfad: inv.pdfPath || null,
     })),
   };
 

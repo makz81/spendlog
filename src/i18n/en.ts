@@ -137,7 +137,7 @@ export const en: TranslationDictionary = {
 
   invoice: {
     createDesc:
-      'Creates an invoice as PDF. You need: client name, line items (description + amount). Your profile must be set up first with set_profile.',
+      'Creates an invoice. You need: client name, line items (description + amount). Your profile must be set up first with set_profile.',
     clientNameDesc: 'Client/recipient name',
     clientAddressDesc: 'Client address (optional)',
     itemsDesc: 'Invoice line items',

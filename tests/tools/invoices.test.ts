@@ -129,16 +129,6 @@ describe('Invoice Tools', () => {
       expect(result.invoice?.status).toBe('draft');
     });
 
-    it('generates PDF', async () => {
-      await tools.setProfile(profileFactory.minimal());
-
-      const result = await tools.createInvoice({
-        client_name: 'PDF Client',
-        items: [{ description: 'Service', amount: 100 }],
-      });
-
-      expect(result.invoice?.pdf_generated).toBe(true);
-    });
   });
 
   describe('list_invoices', () => {
@@ -403,17 +393,6 @@ describe('Invoice Tools', () => {
       ).rejects.toThrow('nicht gefunden');
     });
 
-    it('generates PDF for duplicate', async () => {
-      await tools.setProfile(profileFactory.minimal());
-      const original = await tools.createInvoice({
-        client_name: 'PDF Client',
-        items: [{ description: 'Work', amount: 100 }],
-      });
-
-      const result = await tools.duplicateInvoice({ id: original.invoice!.id });
-
-      expect(result.invoice?.pdf_generated).toBe(true);
-    });
   });
 
   describe('Invoice Workflow', () => {

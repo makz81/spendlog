@@ -518,7 +518,6 @@ interface InvoiceResponse {
     status: string;
     total: string;
     date: string;
-    pdf_generated?: boolean;
   };
   original?: {
     number: string;
@@ -544,7 +543,6 @@ interface InvoiceDetailResponse {
   notes: string | null;
   status: string;
   status_de: string;
-  has_pdf: boolean;
 }
 
 interface ListInvoicesResponse {

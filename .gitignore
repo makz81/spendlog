@@ -63,3 +63,4 @@ npm-debug.log*
 coverage/
 .nyc_output/
 test-invoices/
+.mcpregistry_*

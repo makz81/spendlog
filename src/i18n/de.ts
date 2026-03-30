@@ -140,7 +140,7 @@ export const de: TranslationDictionary = {
 
   invoice: {
     createDesc:
-      'Erstellt eine Rechnung als PDF. Du brauchst: Kundenname, Positionen (Beschreibung + Betrag). Dein Profil muss vorher mit set_profile eingerichtet sein.',
+      'Erstellt eine Rechnung. Du brauchst: Kundenname, Positionen (Beschreibung + Betrag). Dein Profil muss vorher mit set_profile eingerichtet sein.',
     clientNameDesc: 'Name des Kunden/Empfängers',
     clientAddressDesc: 'Adresse des Kunden (optional)',
     itemsDesc: 'Rechnungspositionen',

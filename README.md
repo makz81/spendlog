@@ -121,16 +121,6 @@ claude mcp add spendlog -- npx -y --package=spendlog spendlog-mcp
 | `DATABASE_PATH` | Full path to SQLite database | `$SPENDLOG_DATA_DIR/spendlog.db` |
 | `SPENDLOG_PROJECT` | Default project for all transactions | none |
 
-### PDF Invoices (optional)
-
-For PDF invoice generation, install Puppeteer separately:
-
-```bash
-npm install -g puppeteer
-```
-
-Invoices work without Puppeteer — they just won't have a PDF file.
-
 ## Privacy
 
 All data stays on your machine. Cloud sync via [spendlog.dev](https://spendlog.dev) is opt-in.

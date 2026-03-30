@@ -14,7 +14,6 @@ import { z } from 'zod';
 import { parseDate, formatDate } from '../utils/date.js';
 import { formatCurrency } from '../utils/format.js';
 import { getCurrentUserId } from './index.js';
-import { generateInvoicePdf, prepareInvoiceData } from '../services/pdf.js';
 import { t } from '../i18n/index.js';
 
 export function getInvoiceToolDefinitions(): Tool[] {
@@ -233,17 +232,6 @@ export async function createInvoice(args: Record<string, unknown>): Promise<unkn
 
   await invoiceRepo.save(invoice);
 
-  let pdfGenerated = false;
-  try {
-    const pdfData = prepareInvoiceData(invoice, profile);
-    const pdfPath = await generateInvoicePdf(pdfData);
-    invoice.pdfPath = pdfPath;
-    await invoiceRepo.save(invoice);
-    pdfGenerated = true;
-  } catch {
-    // Invoice saved without PDF — Puppeteer likely not installed
-  }
-
   return {
     success: true,
     message: t('invoice.created', { number: invoiceNumber, client: input.client_name }),
@@ -254,9 +242,7 @@ export async function createInvoice(args: Record<string, unknown>): Promise<unkn
       total: formatCurrency(totalAmount),
       date: formatDate(invoice.date),
       status: invoice.status,
-      pdf_generated: pdfGenerated,
     },
-    ...(!pdfGenerated && { warning: 'PDF generation failed. Install puppeteer for PDF invoices: npm install puppeteer' }),
   };
 }
 
@@ -342,7 +328,6 @@ export async function getInvoice(args: Record<string, unknown>): Promise<unknown
         : invoice.status === 'sent'
           ? t('invoice.statusSent')
           : t('invoice.statusPaid'),
-    has_pdf: !!invoice.pdfPath,
   };
 }
 
@@ -399,16 +384,6 @@ export async function deleteInvoice(args: Record<string, unknown>): Promise<unkn
     throw new Error(t('invoice.notFound'));
   }
 
-  // Clean up PDF file if it exists
-  if (invoice.pdfPath) {
-    const fs = await import('fs');
-    try {
-      fs.unlinkSync(invoice.pdfPath);
-    } catch {
-      // PDF file already gone, that's fine
-    }
-  }
-
   const number = invoice.invoiceNumber;
   await invoiceRepo.remove(invoice);
 
@@ -431,18 +406,6 @@ export async function duplicateInvoice(args: Record<string, unknown>): Promise<u
   const newDueDate = input.due_date;
 
   const userId = getCurrentUserId();
-
-  // Get profile for PDF generation
-  const profileRepo = AppDataSource.getRepository(Profile);
-  const profile = await profileRepo.findOne({ where: { userId } });
-
-  if (!profile) {
-    return {
-      success: false,
-      error: t('invoice.noProfile'),
-    };
-  }
-
   const invoiceRepo = AppDataSource.getRepository(Invoice);
 
   // Find original invoice
@@ -473,13 +436,6 @@ export async function duplicateInvoice(args: Record<string, unknown>): Promise<u
 
   await invoiceRepo.save(duplicate);
 
-  // Generate PDF
-  const pdfData = prepareInvoiceData(duplicate, profile);
-  const pdfPath = await generateInvoicePdf(pdfData);
-
-  duplicate.pdfPath = pdfPath;
-  await invoiceRepo.save(duplicate);
-
   return {
     success: true,
     message: t('invoice.duplicated', { original: original.invoiceNumber, new: invoiceNumber }),
@@ -490,7 +446,6 @@ export async function duplicateInvoice(args: Record<string, unknown>): Promise<u
       total: formatCurrency(Number(duplicate.totalAmount)),
       date: formatDate(duplicate.date),
       status: duplicate.status,
-      pdf_generated: true,
     },
     original: {
       number: original.invoiceNumber,
