@@ -118,6 +118,7 @@ claude mcp add spendlog -- npx -y --package=spendlog spendlog-mcp
 |----------|-------------|---------|
 | `SPENDLOG_LANGUAGE` | `en` or `de` | `en` |
 | `SPENDLOG_DATA_DIR` | Data directory path | `~/.spendlog` |
+| `DATABASE_PATH` | Full path to SQLite database | `$SPENDLOG_DATA_DIR/spendlog.db` |
 | `SPENDLOG_PROJECT` | Default project for all transactions | none |
 
 ## Privacy

@@ -28,7 +28,7 @@ export const de: TranslationDictionary = {
   },
 
   transactions: {
-    addIncomeDesc: 'Füge eine Einnahme hinzu. Beispiel: "1200€ Beratung" oder "500€ von Affiliate"',
+    addIncomeDesc: 'Füge eine Einnahme hinzu. Alle Beträge in EUR. Beispiel: "1200€ Beratung" oder "500€ von Affiliate"',
     addIncomeProjectHint: ' Transaktionen werden automatisch Projekt "{project}" zugeordnet.',
     amountDesc: 'Betrag in Euro (positiv)',
     descriptionDesc: 'Beschreibung',
@@ -41,7 +41,7 @@ export const de: TranslationDictionary = {
     dateDesc: 'Datum im Format YYYY-MM-DD (optional, Standard: heute)',
     projectDesc:
       'Projekt-Name (z.B. Mein SaaS, Kundenauftrag, Nebenprojekt). Ordnet die Transaktion einem Projekt zu.',
-    addExpenseDesc: 'Füge eine Ausgabe hinzu. Beispiel: "50€ Hosting" oder "29€ Software-Abo"',
+    addExpenseDesc: 'Füge eine Ausgabe hinzu. Alle Beträge in EUR. Beispiel: "50€ Hosting" oder "29€ Software-Abo"',
     listDesc:
       'Liste alle Transaktionen auf. Kann nach Typ, Datum, Kategorie und Projekt gefiltert werden.',
     typeDesc: 'Typ der Transaktionen (Standard: all)',
