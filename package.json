@@ -1,0 +1,113 @@
+{
+  "name": "spendlog",
+  "version": "1.0.0",
+  "mcpName": "io.github.makz81/spendlog",
+  "description": "Track expenses, income & invoices in Claude — MCP server with budgets, PDF invoices, CSV/DATEV export",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./entities": {
+      "types": "./dist/entities/index.d.ts",
+      "default": "./dist/entities/index.js"
+    },
+    "./entities/*": "./dist/entities/*.js",
+    "./db": {
+      "types": "./dist/db/index.d.ts",
+      "default": "./dist/db/index.js"
+    },
+    "./services/*": "./dist/services/*.js",
+    "./i18n": {
+      "types": "./dist/i18n/index.d.ts",
+      "default": "./dist/i18n/index.js"
+    }
+  },
+  "bin": {
+    "spendlog-mcp": "dist/index.js",
+    "spendlog": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/makz81/spendlog.git"
+  },
+  "homepage": "https://spendlog.dev",
+  "bugs": {
+    "url": "https://github.com/makz81/spendlog/issues"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "vitest",
+    "test:watch": "vitest watch",
+    "typecheck": "tsc --noEmit",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "db:seed": "tsx src/db/seed.ts",
+    "db:reset": "rm -f data/spendlog.db && npm run db:migrate && npm run db:seed",
+"lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "prepublishOnly": "npm run build && chmod +x dist/index.js dist/cli.js"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "claude",
+    "claude-desktop",
+    "claude-code",
+    "anthropic",
+    "expense-tracking",
+    "expense-tracker",
+    "personal-finance",
+    "finance",
+    "spending",
+    "accounting",
+    "invoicing",
+    "pdf-invoice",
+    "bookkeeping",
+    "budget",
+    "csv-export",
+    "datev",
+    "sqlite",
+    "freelancer",
+    "solo-founder"
+  ],
+  "author": "makz81",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.0",
+    "better-sqlite3": "^11.0.0",
+    "chalk": "^5.3.0",
+    "date-fns": "^3.6.0",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.20",
+    "uuid": "^10.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
+    "@types/node": "^22.0.0",
+    "@types/uuid": "^10.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.55.0",
+    "@typescript-eslint/parser": "^8.55.0",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.1",
+    "tsx": "^4.16.0",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5"
+  }
+}

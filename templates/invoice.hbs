@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rechnung {{invoiceNumber}}</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 11pt;
+      line-height: 1.5;
+      color: #1a1a1a;
+      padding: 40px 50px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    .sender {
+      font-size: 10pt;
+      color: #666;
+    }
+
+    .sender .company-name {
+      font-size: 14pt;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 5px;
+    }
+
+    .invoice-info {
+      text-align: right;
+    }
+
+    .invoice-number {
+      font-size: 18pt;
+      font-weight: 600;
+      color: #2563eb;
+      margin-bottom: 10px;
+    }
+
+    .invoice-date {
+      font-size: 10pt;
+      color: #666;
+    }
+
+    .addresses {
+      display: flex;
+      gap: 60px;
+      margin-bottom: 40px;
+    }
+
+    .address-block h3 {
+      font-size: 9pt;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .address-block p {
+      white-space: pre-line;
+    }
+
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+
+    .items-table th {
+      background: #f8fafc;
+      padding: 12px 15px;
+      text-align: left;
+      font-size: 9pt;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #64748b;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .items-table th:nth-child(2),
+    .items-table th:nth-child(3),
+    .items-table th:nth-child(4) {
+      text-align: right;
+    }
+
+    .items-table td {
+      padding: 15px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .items-table td:nth-child(2),
+    .items-table td:nth-child(3),
+    .items-table td:nth-child(4) {
+      text-align: right;
+    }
+
+    .totals {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 40px;
+    }
+
+    .totals-table {
+      width: 280px;
+    }
+
+    .totals-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .totals-row.total {
+      font-size: 14pt;
+      font-weight: 600;
+      border-bottom: 2px solid #1a1a1a;
+      padding: 12px 0;
+    }
+
+    .notes {
+      background: #f8fafc;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    .notes h3 {
+      font-size: 10pt;
+      color: #64748b;
+      margin-bottom: 8px;
+    }
+
+    .notes p {
+      font-size: 10pt;
+      color: #475569;
+    }
+
+    .footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .payment-info {
+      margin-bottom: 20px;
+    }
+
+    .payment-info h3 {
+      font-size: 10pt;
+      color: #64748b;
+      margin-bottom: 8px;
+    }
+
+    .payment-info p {
+      font-size: 10pt;
+      white-space: pre-line;
+    }
+
+    .kleinunternehmer-note {
+      font-size: 9pt;
+      color: #64748b;
+      font-style: italic;
+      margin-top: 20px;
+    }
+
+    .contact {
+      font-size: 9pt;
+      color: #64748b;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="sender">
+      <div class="company-name">{{profile.companyName}}</div>
+      <p>{{profile.address}}</p>
+      {{#if profile.taxId}}
+      <p>Steuernummer: {{profile.taxId}}</p>
+      {{/if}}
+    </div>
+    <div class="invoice-info">
+      <div class="invoice-number">Rechnung {{invoiceNumber}}</div>
+      <div class="invoice-date">
+        <p><strong>Datum:</strong> {{date}}</p>
+        {{#if dueDate}}
+        <p><strong>Zahlungsziel:</strong> {{dueDate}}</p>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  <div class="addresses">
+    <div class="address-block">
+      <h3>Rechnungsempfänger</h3>
+      <p><strong>{{clientName}}</strong></p>
+      {{#if clientAddress}}
+      <p>{{clientAddress}}</p>
+      {{/if}}
+    </div>
+  </div>
+
+  <table class="items-table">
+    <thead>
+      <tr>
+        <th>Beschreibung</th>
+        <th>Menge</th>
+        <th>Einzelpreis</th>
+        <th>Gesamt</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each items}}
+      <tr>
+        <td>{{description}}</td>
+        <td>{{quantity}}</td>
+        <td>{{formatCurrency unitPrice}}</td>
+        <td>{{formatCurrency total}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  <div class="totals">
+    <div class="totals-table">
+      <div class="totals-row">
+        <span>Zwischensumme</span>
+        <span>{{formatCurrency subtotal}}</span>
+      </div>
+      {{#unless profile.isKleinunternehmer}}
+      <div class="totals-row">
+        <span>USt. (19%)</span>
+        <span>{{formatCurrency tax}}</span>
+      </div>
+      {{/unless}}
+      <div class="totals-row total">
+        <span>Gesamtbetrag</span>
+        <span>{{formatCurrency totalAmount}}</span>
+      </div>
+    </div>
+  </div>
+
+  {{#if notes}}
+  <div class="notes">
+    <h3>Hinweise</h3>
+    <p>{{notes}}</p>
+  </div>
+  {{/if}}
+
+  <div class="footer">
+    {{#if profile.bankDetails}}
+    <div class="payment-info">
+      <h3>Bankverbindung</h3>
+      <p>{{profile.bankDetails}}</p>
+    </div>
+    {{/if}}
+
+    {{#if profile.isKleinunternehmer}}
+    <p class="kleinunternehmer-note">
+      Gemäß § 19 UStG wird keine Umsatzsteuer berechnet (Kleinunternehmerregelung).
+    </p>
+    {{/if}}
+
+    {{#if profile.email}}
+    <div class="contact">
+      {{#if profile.phone}}Telefon: {{profile.phone}} | {{/if}}
+      E-Mail: {{profile.email}}
+    </div>
+    {{/if}}
+  </div>
+</body>
+</html>
