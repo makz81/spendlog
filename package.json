@@ -1,6 +1,6 @@
 {
   "name": "spendlog",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "mcpName": "io.github.makz81/spendlog",
   "description": "Track expenses, income & invoices in Claude — MCP server with budgets, PDF invoices, CSV/DATEV export",
   "type": "module",
@@ -55,7 +55,7 @@
     "db:migrate": "tsx src/db/migrate.ts",
     "db:seed": "tsx src/db/seed.ts",
     "db:reset": "rm -f data/spendlog.db && npm run db:migrate && npm run db:seed",
-"lint": "eslint src/",
+    "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\"",
