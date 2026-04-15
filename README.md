@@ -8,7 +8,7 @@ Track expenses, send invoices, manage budgets — all in natural language. Your 
   <a href="https://www.npmjs.com/package/spendlog"><img src="https://img.shields.io/npm/v/spendlog?color=6366f1&label=npm" alt="npm version" /></a>
   <a href="https://www.npmjs.com/package/spendlog"><img src="https://img.shields.io/npm/dm/spendlog?color=6366f1&label=downloads" alt="npm downloads" /></a>
   <a href="https://github.com/makz81/spendlog/actions/workflows/ci.yml"><img src="https://github.com/makz81/spendlog/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-  <img src="https://img.shields.io/badge/tools-42-34d399" alt="42 MCP tools" />
+  <img src="https://img.shields.io/badge/tools-43-34d399" alt="43 MCP tools" />
   <img src="https://img.shields.io/badge/tests-382%20passing-brightgreen" alt="382 tests" />
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License" /></a>
 </p>
@@ -17,7 +17,11 @@ Track expenses, send invoices, manage budgets — all in natural language. Your 
   <img src="https://raw.githubusercontent.com/makz81/spendlog/main/docs/demo_1.png" alt="Spendlog monthly summary in Claude" width="600" />
 </p>
 
-## Quick Start
+### Works with
+
+Claude Desktop | Claude Code | VS Code | Cursor
+
+### Quick Start
 
 ```bash
 npx spendlog
@@ -39,7 +43,8 @@ That's it. Requires Node.js 20+.
 - **Zero context-switching** — track expenses while you work, right where you already are
 - **Local-first** — all data in `~/.spendlog/spendlog.db`, no account needed
 - **Natural language** — no forms, no menus, just tell Claude what you spent
-- **42 tools** — not a toy: invoicing, budgets, recurring expenses, tax export, multi-project tracking
+- **43 tools** — invoicing, budgets, recurring expenses, tax export, multi-project tracking
+- **Multilingual** — English and German (EN/DE), with i18n ready for more
 
 ## Examples
 
@@ -72,19 +77,21 @@ Claude: Expenses up 15%. Biggest increase: Marketing (+120€)
 
 ## Tools
 
-42 tools across 9 categories:
+43 tools across 11 categories:
 
 | Category | Tools |
 |----------|-------|
 | **Transactions** | `add_expense` `add_income` `list_transactions` `update_transaction` `delete_transaction` |
 | **Analysis** | `get_summary` `get_category_breakdown` `compare_periods` `get_tax_summary` |
-| **Invoices** | `create_invoice` `list_invoices` `get_invoice` `mark_invoice_sent` `mark_invoice_paid` `duplicate_invoice` |
+| **Invoices** | `create_invoice` `list_invoices` `get_invoice` `mark_invoice_sent` `mark_invoice_paid` `delete_invoice` `duplicate_invoice` |
 | **Budgets** | `set_budget` `get_budget_status` `list_budgets` `update_budget` `delete_budget` |
 | **Recurring** | `create_recurring` `list_recurring` `delete_recurring` `process_recurring` |
 | **Projects** | `create_project` `list_projects` `rename_project` `delete_project` |
 | **Categories** | `list_categories` `add_category` `delete_category` |
 | **Export** | `export_transactions` `export_invoices` `export_for_tax_advisor` |
-| **Sync & Settings** | `connect` `disconnect` `sync_now` `get_profile` `set_profile` and more |
+| **Connection** | `connect` `connection_status` `disconnect` |
+| **Sync** | `sync_status` `sync_now` |
+| **Settings** | `get_profile` `set_profile` `get_notifications` |
 
 ## Configuration
 
@@ -129,11 +136,15 @@ All data stays on your machine. Cloud sync via [spendlog.dev](https://spendlog.d
 
 ## Development
 
+TypeScript (strict), Vitest for tests, TypeORM + SQLite for storage.
+
 ```bash
 git clone https://github.com/makz81/spendlog.git
 cd spendlog
 npm install
-npm run dev
+npm run dev       # MCP server with watch mode
+npm run test      # 382 tests
+npm run typecheck # type check (no emit)
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for architecture details and how to add new tools.

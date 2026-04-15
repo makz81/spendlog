@@ -10,8 +10,8 @@
 
 | ID | Task | Priority | Effort | Status |
 |----|------|----------|--------|--------|
-| SL-001a | GSC access — waiting for API propagation | P0 | - | blocked |
-| SL-001b | Prerender/SSR for spendlog.dev SPA | P0 | L | open |
+| SL-001a | ~~GSC access — API connected~~ | P0 | - | done |
+| SL-001b | ~~Prerender/SSR for spendlog.dev SPA~~ | P0 | L | done |
 | SL-002 | ~~Review dashboard business case~~ | P1 | S | done |
 | SL-007 | MVP Konnektor (lexoffice oder sevDesk) | P1 | XL | open |
 | SL-003 | Add npm keywords / package.json SEO | P2 | S | open |
