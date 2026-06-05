@@ -1,14 +1,14 @@
 # Spendlog
 
-**Expense tracking for freelancers, inside Claude. No apps. No spreadsheets.**
+**Cost & expense tracking for solo entrepreneurs, right inside Claude Code. No apps. No spreadsheets. No account.**
 
-Track expenses, send invoices, manage budgets — all in natural language. Your data stays local in SQLite.
+Track what your business spends, manage budgets, write invoices — all in natural language. Your data stays 100% local in SQLite. Nothing leaves your machine.
 
 <p align="center">
   <a href="https://www.npmjs.com/package/spendlog"><img src="https://img.shields.io/npm/v/spendlog?color=6366f1&label=npm" alt="npm version" /></a>
   <a href="https://www.npmjs.com/package/spendlog"><img src="https://img.shields.io/npm/dm/spendlog?color=6366f1&label=downloads" alt="npm downloads" /></a>
   <a href="https://github.com/makz81/spendlog/actions/workflows/ci.yml"><img src="https://github.com/makz81/spendlog/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-  <img src="https://img.shields.io/badge/tools-43-34d399" alt="43 MCP tools" />
+  <img src="https://img.shields.io/badge/tools-38-34d399" alt="38 MCP tools" />
   <img src="https://img.shields.io/badge/tests-382%20passing-brightgreen" alt="382 tests" />
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License" /></a>
 </p>
@@ -19,7 +19,7 @@ Track expenses, send invoices, manage budgets — all in natural language. Your 
 
 ### Works with
 
-Claude Desktop | Claude Code | VS Code | Cursor
+Claude Code | Claude Desktop | VS Code | Cursor
 
 ### Quick Start
 
@@ -40,10 +40,10 @@ That's it. Requires Node.js 20+.
 
 ## Why Spendlog?
 
-- **Zero context-switching** — track expenses while you work, right where you already are
-- **Local-first** — all data in `~/.spendlog/spendlog.db`, no account needed
+- **Zero context-switching** — log costs while you build, right where you already work
+- **Local-first** — all data in `~/.spendlog/spendlog.db`, no account, no cloud
 - **Natural language** — no forms, no menus, just tell Claude what you spent
-- **43 tools** — invoicing, budgets, recurring expenses, tax export, multi-project tracking
+- **38 tools** — invoicing, budgets, recurring expenses, CSV export, multi-project tracking
 - **Multilingual** — English and German (EN/DE), with i18n ready for more
 
 ## Examples
@@ -60,7 +60,7 @@ Claude: 247 transactions written to ~/spendlog-export-2025.csv
 **Invoices:**
 ```
 You: "Create invoice for TechCorp, web development, 8h at 95€/h"
-Claude: Invoice #2026-004 created — 760.00 € — PDF saved
+Claude: Invoice #2026-004 created — 760.00 €
 
 You: "Mark it as paid"
 Claude: Invoice #2026-004 marked as paid, income recorded.
@@ -77,7 +77,7 @@ Claude: Expenses up 15%. Biggest increase: Marketing (+120€)
 
 ## Tools
 
-43 tools across 11 categories:
+38 tools across 9 categories:
 
 | Category | Tools |
 |----------|-------|
@@ -89,8 +89,6 @@ Claude: Expenses up 15%. Biggest increase: Marketing (+120€)
 | **Projects** | `create_project` `list_projects` `rename_project` `delete_project` |
 | **Categories** | `list_categories` `add_category` `delete_category` |
 | **Export** | `export_transactions` `export_invoices` `export_for_tax_advisor` |
-| **Connection** | `connect` `connection_status` `disconnect` |
-| **Sync** | `sync_status` `sync_now` |
 | **Settings** | `get_profile` `set_profile` `get_notifications` |
 
 ## Configuration
@@ -130,9 +128,9 @@ claude mcp add spendlog -- npx -y --package=spendlog spendlog-mcp
 
 ## Privacy
 
-All data stays on your machine. Cloud sync via [spendlog.dev](https://spendlog.dev) is opt-in.
+All data stays on your machine, in a local SQLite file. No account, no cloud, no telemetry — nothing is ever sent anywhere.
 
-**Note:** Spendlog is a tracker, not accounting software. Use it for personal insights, not official bookkeeping.
+**Note:** Spendlog is a cost tracker, not accounting software. Use it for your own insights, not official bookkeeping or tax filing.
 
 ## Development
 

@@ -2,7 +2,7 @@
   "name": "spendlog",
   "version": "1.0.5",
   "mcpName": "io.github.makz81/spendlog",
-  "description": "Track expenses, income & invoices in Claude — MCP server with budgets, PDF invoices, CSV/DATEV export",
+  "description": "Local-first cost & expense tracking for solo entrepreneurs — MCP server for Claude Code & Claude Desktop with budgets, invoices, recurring expenses & CSV export. No account, no cloud.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -80,7 +80,6 @@
     "money-management",
     "accounting",
     "invoicing",
-    "pdf-invoice",
     "bookkeeping",
     "budget",
     "tax",
@@ -92,7 +91,10 @@
     "freelancer",
     "self-employed",
     "small-business",
-    "solo-founder"
+    "solo-founder",
+    "solo-entrepreneur",
+    "indie-hacker",
+    "cost-tracking"
   ],
   "author": "makz81",
   "license": "MIT",
