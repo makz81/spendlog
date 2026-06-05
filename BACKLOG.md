@@ -42,8 +42,8 @@
 **Website pivot (spendlog-dashboard repo)**
 | ID | Task | Priority | Effort | Status | Notes |
 |----|------|----------|--------|--------|-------|
-| SL-026 | Reduce spendlog-dashboard to static marketing site (no login/Supabase) | P1 | L | open | Core of the pivot — kill auth/dashboard UI |
-| SL-027 | Remove orphaned sync endpoints + tables (`/auth/link`, `/auth/link/status`, `/sync/transactions`) | P1 | S | open | Now dead — no client calls them after SL-021 |
+| SL-026 | ~~Ship spendlog.dev as marketing site; archive SaaS app~~ | P1 | M | done | App/auth/Supabase gated behind `VITE_APP_ENABLED` (default off) instead of deleted — revivable. Branch `pivot/marketing-only` |
+| SL-027 | Undeploy the dormant sync API worker | P2 | XS | open | Superseded delete→archive: code stays, but the live Cloudflare Worker (`/auth/link`, `/sync/transactions`) should be undeployed so no endpoint stays publicly reachable |
 | SL-016 | Update softwareVersion in JSON-LD to current version | P3 | XS | open | Says 1.0.0 in spendlog-dashboard |
 | SL-009 | Verify pre-render deployment on spendlog.dev | P2 | XS | open | Check crawlable HTML in browser source |
 
