@@ -26,15 +26,16 @@
 | SL-019 | ~~Deep product/tech/security/strategy audit~~ | P0 | L | done |
 | SL-020 | ~~Reposition CLI (README + package.json) to solo-entrepreneur cost tracking~~ | P0 | S | done |
 | SL-021 | ~~Remove sync/connect code + i18n (no web login)~~ | P1 | M | done |
+| SL-022 | ~~Fix CSV/DATEV formula injection in exports~~ | P0 | S | done |
+| SL-023 | ~~Money fields read as numbers (decimal transformer)~~ | P0 | M | done |
 
 ### Open
 
 **Code hygiene (from audit — independent of strategy)**
 | ID | Task | Priority | Effort | Status | Notes |
 |----|------|----------|--------|--------|-------|
-| SL-022 | Fix CSV/DATEV formula injection in exports | P0 | S | open | `export.ts:~185` + `cli.ts:~972` — prefix cells leading with `= + - @ \t \r`, add unit test |
-| SL-023 | Money as integer cents end-to-end | P0 | M | open | ~65 scattered `Number()` casts → rounding/NaN risk in tax exports |
-| SL-024 | Replace `synchronize:true` with versioned migrations + backup-before-migrate | P1 | M | open | `data-source.ts:32` — data-loss risk on npm updates; also fix `db:reset` path |
+| SL-024 | Replace `synchronize:true` with versioned migrations + backup-before-migrate | P1 | M | open | `data-source.ts:32` — data-loss risk on npm updates; also fix `db:reset` path. Prereq for true integer-cents storage |
+| SL-028 | Integer-cents storage (after SL-024) | P2 | M | open | Transformer (SL-023) already guarantees numbers; this is the arithmetic gold standard, needs migration of existing DBs |
 | SL-025 | Remove dead PDF artifacts (`templates/invoice.hbs`, `Invoice.pdfPath`, "deletes PDF" strings) | P3 | XS | open | PDF generation never implemented |
 | SL-008 | Fix & merge Dependabot PRs (#18 dev-deps, #19 prod-deps) | P1 | S | open | Both failing CI — needs investigation |
 
