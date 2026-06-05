@@ -54,7 +54,7 @@
     "typecheck": "tsc --noEmit",
     "db:migrate": "tsx src/db/migrate.ts",
     "db:seed": "tsx src/db/seed.ts",
-    "db:reset": "rm -f data/spendlog.db && npm run db:migrate && npm run db:seed",
+    "db:reset": "rm -f \"${SPENDLOG_DATA_DIR:-$HOME/.spendlog}\"/spendlog.db \"${SPENDLOG_DATA_DIR:-$HOME/.spendlog}\"/spendlog.db-wal \"${SPENDLOG_DATA_DIR:-$HOME/.spendlog}\"/spendlog.db-shm && npm run db:migrate && npm run db:seed",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
     "format": "prettier --write \"src/**/*.ts\"",

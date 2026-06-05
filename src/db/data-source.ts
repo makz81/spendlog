@@ -7,6 +7,7 @@ import { Invoice } from '../entities/Invoice.js';
 import { Recurring } from '../entities/Recurring.js';
 import { Project } from '../entities/Project.js';
 import { Budget } from '../entities/Budget.js';
+import { InitialSchema1780617600000 } from './migrations/1780617600000-InitialSchema.js';
 import path from 'path';
 import { homedir } from 'os';
 import fs from 'fs';
@@ -28,7 +29,8 @@ const ProductionDataSource = new DataSource({
   type: 'better-sqlite3',
   database: databasePath,
   entities: [User, Profile, Category, Transaction, Invoice, Recurring, Project, Budget],
-  synchronize: true,
+  migrations: [InitialSchema1780617600000],
+  synchronize: false,
   logging: process.env.SPENDLOG_DEBUG === '1',
   enableWAL: true,
 });
@@ -64,10 +66,38 @@ export async function initializeDatabase(): Promise<DataSource> {
     await source.initialize();
     // Enable FK constraints (off by default in SQLite)
     await source.query('PRAGMA foreign_keys = ON');
+
+    // Tests inject an in-memory source that uses synchronize; the real file-based
+    // source runs migrations instead, with a one-shot backup before any schema change.
+    if (source === ProductionDataSource) {
+      const pending = await source.showMigrations();
+      if (pending && (await hasExistingSchema(source))) {
+        backupDatabase();
+      }
+      await source.runMigrations({ transaction: 'all' });
+    }
   }
 
   initialized = true;
   return AppDataSource;
+}
+
+async function hasExistingSchema(source: DataSource): Promise<boolean> {
+  const rows = await source.query(
+    "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'transactions'"
+  );
+  return rows.length > 0;
+}
+
+function backupDatabase(): void {
+  if (databasePath === ':memory:' || !fs.existsSync(databasePath)) return;
+
+  const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const backupPath = `${databasePath}.bak-${stamp}`;
+  fs.copyFileSync(databasePath, backupPath);
+  if (process.env.SPENDLOG_DEBUG === '1') {
+    console.error(`[db] backed up to ${backupPath} before migrating`);
+  }
 }
 
 export async function closeDatabase(): Promise<void> {
