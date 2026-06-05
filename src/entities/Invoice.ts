@@ -56,9 +56,6 @@ export class Invoice {
   @Column({ type: 'varchar', default: 'draft' })
   status!: InvoiceStatus;
 
-  @Column({ type: 'varchar', nullable: true })
-  pdfPath?: string;
-
   @Column({ type: 'text', nullable: true })
   notes?: string;
 

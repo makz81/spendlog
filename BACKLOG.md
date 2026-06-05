@@ -29,6 +29,7 @@
 | SL-022 | ~~Fix CSV/DATEV formula injection in exports~~ | P0 | S | done |
 | SL-023 | ~~Money fields read as numbers (decimal transformer)~~ | P0 | M | done |
 | SL-024 | ~~Versioned migrations + backup-before-migrate (drop synchronize:true)~~ | P1 | M | done |
+| SL-025 | ~~Remove dead PDF artifacts (template, pdfPath field, "deletes PDF" strings)~~ | P3 | XS | done |
 
 ### Open
 
@@ -36,7 +37,6 @@
 | ID | Task | Priority | Effort | Status | Notes |
 |----|------|----------|--------|--------|-------|
 | SL-028 | Integer-cents storage | P2 | M | open | Now unblocked (SL-024 done). Transformer (SL-023) already guarantees numbers; this is the arithmetic gold standard, needs a migration of existing DBs |
-| SL-025 | Remove dead PDF artifacts (`templates/invoice.hbs`, `Invoice.pdfPath`, "deletes PDF" strings) | P3 | XS | open | PDF generation never implemented |
 | SL-008 | Fix & merge Dependabot PRs (#18 dev-deps, #19 prod-deps) | P1 | S | open | Both failing CI — needs investigation |
 
 **Website pivot (spendlog-dashboard repo)**
