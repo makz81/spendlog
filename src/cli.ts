@@ -700,9 +700,7 @@ async function status(): Promise<void> {
           .get(monthStart, monthEnd) as { count: number };
         db.close();
 
-        console.log(
-          chalk.green('  ✓') + chalk.gray(` Transactions: ${countRow.count}`)
-        );
+        console.log(chalk.green('  ✓') + chalk.gray(` Transactions: ${countRow.count}`));
       } catch {
         // DB query failed, skip tx count
       }
@@ -2389,7 +2387,20 @@ async function setProject(projectName: string): Promise<void> {
     try {
       execFileSync(
         'claude',
-        ['mcp', 'add', 'spendlog', '--scope', 'project', '--env', `SPENDLOG_PROJECT=${projectName}`, '--', 'npx', '-y', `--package=${PACKAGE_NAME}`, MCP_SERVER_BIN],
+        [
+          'mcp',
+          'add',
+          'spendlog',
+          '--scope',
+          'project',
+          '--env',
+          `SPENDLOG_PROJECT=${projectName}`,
+          '--',
+          'npx',
+          '-y',
+          `--package=${PACKAGE_NAME}`,
+          MCP_SERVER_BIN,
+        ],
         { stdio: 'pipe' }
       );
       console.log(chalk.green('  ✓') + chalk.gray(' Claude Code: Projekt-Scope gesetzt'));

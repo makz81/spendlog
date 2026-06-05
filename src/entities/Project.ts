@@ -38,7 +38,13 @@ export class Project {
   @Column({ type: 'varchar', nullable: true })
   color?: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true, transformer: moneyTransformer })
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    nullable: true,
+    transformer: moneyTransformer,
+  })
   budget?: number;
 
   @CreateDateColumn({ type: 'datetime' })

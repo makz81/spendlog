@@ -206,7 +206,10 @@ async function findOrCreateProjectByName(
   return { entity: project, created: true };
 }
 
-async function addTransaction(args: Record<string, unknown>, type: 'income' | 'expense'): Promise<unknown> {
+async function addTransaction(
+  args: Record<string, unknown>,
+  type: 'income' | 'expense'
+): Promise<unknown> {
   const schema = type === 'income' ? addIncomeSchema : addExpenseSchema;
   const input = schema.parse(args) as AddIncomeInput;
   const userId = getCurrentUserId();

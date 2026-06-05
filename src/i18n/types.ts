@@ -286,7 +286,6 @@ export interface TranslationDictionary {
     summaryCountImportant: string;
   };
 
-
   // Intervals
   intervals: {
     weekly: string;

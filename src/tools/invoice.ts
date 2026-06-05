@@ -331,7 +331,10 @@ export async function getInvoice(args: Record<string, unknown>): Promise<unknown
   };
 }
 
-async function markInvoiceStatus(args: Record<string, unknown>, status: 'sent' | 'paid'): Promise<unknown> {
+async function markInvoiceStatus(
+  args: Record<string, unknown>,
+  status: 'sent' | 'paid'
+): Promise<unknown> {
   const input = getInvoiceSchema.parse(args) as GetInvoiceInput;
   const userId = getCurrentUserId();
   const invoiceRepo = AppDataSource.getRepository(Invoice);
@@ -395,8 +398,14 @@ export async function deleteInvoice(args: Record<string, unknown>): Promise<unkn
 
 const duplicateInvoiceSchema = z.object({
   id: z.string().uuid(),
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be in YYYY-MM-DD format').optional(),
-  due_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be in YYYY-MM-DD format').optional(),
+  date: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be in YYYY-MM-DD format')
+    .optional(),
+  due_date: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be in YYYY-MM-DD format')
+    .optional(),
 });
 
 export async function duplicateInvoice(args: Record<string, unknown>): Promise<unknown> {

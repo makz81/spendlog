@@ -306,7 +306,10 @@ export async function processRecurring(_args: Record<string, unknown>): Promise<
     const maxCatchUp = 100;
     let catchUpCount = 0;
 
-    while ((isBefore(nextDue, today) || nextDue.getTime() === today.getTime()) && catchUpCount < maxCatchUp) {
+    while (
+      (isBefore(nextDue, today) || nextDue.getTime() === today.getTime()) &&
+      catchUpCount < maxCatchUp
+    ) {
       catchUpCount++;
       // Create transaction
       const transaction = transactionRepo.create({

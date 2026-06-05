@@ -31,32 +31,129 @@ interface KontoMapping {
 // Expense categories -> SKR03/SKR04 accounts + EÜR lines
 // Both DE and EN category names map to the same accounts
 const EXPENSE_KONTO_ENTRIES: Array<{ names: string[]; mapping: KontoMapping }> = [
-  { names: ['IT & Software'], mapping: { skr03: '4964', skr04: '6830', euerZeile: '46', beschreibung: 'EDV-Kosten, Software, Cloud-Services' } },
-  { names: ['Marketing & Werbung', 'Marketing & Advertising'], mapping: { skr03: '4600', skr04: '6600', euerZeile: '47', beschreibung: 'Werbekosten' } },
-  { names: ['Büro & Material', 'Office & Supplies'], mapping: { skr03: '4930', skr04: '6815', euerZeile: '48', beschreibung: 'Bürobedarf, Verbrauchsmaterial' } },
-  { names: ['Reisen & Transport', 'Travel & Transport'], mapping: { skr03: '4670', skr04: '6650', euerZeile: '51', beschreibung: 'Reisekosten Unternehmer' } },
-  { names: ['Weiterbildung', 'Education'], mapping: { skr03: '4945', skr04: '6821', euerZeile: '46', beschreibung: 'Fortbildungskosten' } },
-  { names: ['Telefon & Internet', 'Phone & Internet'], mapping: { skr03: '4920', skr04: '6805', euerZeile: '46', beschreibung: 'Telefon, Internet, Porto' } },
-  { names: ['Versicherungen', 'Insurance'], mapping: { skr03: '4360', skr04: '6400', euerZeile: '45', beschreibung: 'Versicherungen (betrieblich)' } },
-  { names: ['Sonstiges', 'Other'], mapping: { skr03: '4900', skr04: '6800', euerZeile: '60', beschreibung: 'Sonstige betriebliche Aufwendungen' } },
-  { names: ['Rechts- & Beratungskosten'], mapping: { skr03: '4950', skr04: '6825', euerZeile: '46', beschreibung: 'Rechts- und Beratungskosten' } },
-  { names: ['Miete & Nebenkosten'], mapping: { skr03: '4210', skr04: '6310', euerZeile: '39', beschreibung: 'Miete für Geschäftsräume' } },
+  {
+    names: ['IT & Software'],
+    mapping: {
+      skr03: '4964',
+      skr04: '6830',
+      euerZeile: '46',
+      beschreibung: 'EDV-Kosten, Software, Cloud-Services',
+    },
+  },
+  {
+    names: ['Marketing & Werbung', 'Marketing & Advertising'],
+    mapping: { skr03: '4600', skr04: '6600', euerZeile: '47', beschreibung: 'Werbekosten' },
+  },
+  {
+    names: ['Büro & Material', 'Office & Supplies'],
+    mapping: {
+      skr03: '4930',
+      skr04: '6815',
+      euerZeile: '48',
+      beschreibung: 'Bürobedarf, Verbrauchsmaterial',
+    },
+  },
+  {
+    names: ['Reisen & Transport', 'Travel & Transport'],
+    mapping: {
+      skr03: '4670',
+      skr04: '6650',
+      euerZeile: '51',
+      beschreibung: 'Reisekosten Unternehmer',
+    },
+  },
+  {
+    names: ['Weiterbildung', 'Education'],
+    mapping: { skr03: '4945', skr04: '6821', euerZeile: '46', beschreibung: 'Fortbildungskosten' },
+  },
+  {
+    names: ['Telefon & Internet', 'Phone & Internet'],
+    mapping: {
+      skr03: '4920',
+      skr04: '6805',
+      euerZeile: '46',
+      beschreibung: 'Telefon, Internet, Porto',
+    },
+  },
+  {
+    names: ['Versicherungen', 'Insurance'],
+    mapping: {
+      skr03: '4360',
+      skr04: '6400',
+      euerZeile: '45',
+      beschreibung: 'Versicherungen (betrieblich)',
+    },
+  },
+  {
+    names: ['Sonstiges', 'Other'],
+    mapping: {
+      skr03: '4900',
+      skr04: '6800',
+      euerZeile: '60',
+      beschreibung: 'Sonstige betriebliche Aufwendungen',
+    },
+  },
+  {
+    names: ['Rechts- & Beratungskosten'],
+    mapping: {
+      skr03: '4950',
+      skr04: '6825',
+      euerZeile: '46',
+      beschreibung: 'Rechts- und Beratungskosten',
+    },
+  },
+  {
+    names: ['Miete & Nebenkosten'],
+    mapping: {
+      skr03: '4210',
+      skr04: '6310',
+      euerZeile: '39',
+      beschreibung: 'Miete für Geschäftsräume',
+    },
+  },
 ];
 
 const EXPENSE_KONTO_MAP: Record<string, KontoMapping> = Object.fromEntries(
-  EXPENSE_KONTO_ENTRIES.flatMap(({ names, mapping }) => names.map((n) => [n, mapping])),
+  EXPENSE_KONTO_ENTRIES.flatMap(({ names, mapping }) => names.map((n) => [n, mapping]))
 );
 
 // Income categories -> SKR03/SKR04 accounts + EÜR lines
 const INCOME_KONTO_ENTRIES: Array<{ names: string[]; mapping: KontoMapping }> = [
-  { names: ['Dienstleistung', 'Service'], mapping: { skr03: '8400', skr04: '4400', euerZeile: '14', beschreibung: 'Erlöse aus Dienstleistungen' } },
-  { names: ['Produktverkauf', 'Product Sales'], mapping: { skr03: '8200', skr04: '4200', euerZeile: '14', beschreibung: 'Erlöse aus Warenverkauf' } },
-  { names: ['Affiliate/Provision', 'Affiliate/Commission'], mapping: { skr03: '8519', skr04: '4519', euerZeile: '14', beschreibung: 'Provisionserlöse' } },
-  { names: ['Sonstiges', 'Other'], mapping: { skr03: '8300', skr04: '4300', euerZeile: '20', beschreibung: 'Sonstige betriebliche Erträge' } },
+  {
+    names: ['Dienstleistung', 'Service'],
+    mapping: {
+      skr03: '8400',
+      skr04: '4400',
+      euerZeile: '14',
+      beschreibung: 'Erlöse aus Dienstleistungen',
+    },
+  },
+  {
+    names: ['Produktverkauf', 'Product Sales'],
+    mapping: {
+      skr03: '8200',
+      skr04: '4200',
+      euerZeile: '14',
+      beschreibung: 'Erlöse aus Warenverkauf',
+    },
+  },
+  {
+    names: ['Affiliate/Provision', 'Affiliate/Commission'],
+    mapping: { skr03: '8519', skr04: '4519', euerZeile: '14', beschreibung: 'Provisionserlöse' },
+  },
+  {
+    names: ['Sonstiges', 'Other'],
+    mapping: {
+      skr03: '8300',
+      skr04: '4300',
+      euerZeile: '20',
+      beschreibung: 'Sonstige betriebliche Erträge',
+    },
+  },
 ];
 
 const INCOME_KONTO_MAP: Record<string, KontoMapping> = Object.fromEntries(
-  INCOME_KONTO_ENTRIES.flatMap(({ names, mapping }) => names.map((n) => [n, mapping])),
+  INCOME_KONTO_ENTRIES.flatMap(({ names, mapping }) => names.map((n) => [n, mapping]))
 );
 
 const DEFAULT_EXPENSE_KONTO: KontoMapping = {
@@ -484,7 +581,9 @@ function taxExportToEnhancedCSV(
   lines.push('Konto;Kategorie;Anzahl;Summe (EUR)');
   for (const cat of einnahmen) {
     const konto = kontenrahmen === 'SKR03' ? cat.konto.skr03 : cat.konto.skr04;
-    lines.push(`${konto};${escapeCSV(cat.kategorie)};${cat.anzahl};${formatGermanNumber(cat.summe)}`);
+    lines.push(
+      `${konto};${escapeCSV(cat.kategorie)};${cat.anzahl};${formatGermanNumber(cat.summe)}`
+    );
   }
   lines.push('');
 
@@ -493,7 +592,9 @@ function taxExportToEnhancedCSV(
   lines.push('Konto;Kategorie;Anzahl;Summe (EUR)');
   for (const cat of ausgaben) {
     const konto = kontenrahmen === 'SKR03' ? cat.konto.skr03 : cat.konto.skr04;
-    lines.push(`${konto};${escapeCSV(cat.kategorie)};${cat.anzahl};${formatGermanNumber(cat.summe)}`);
+    lines.push(
+      `${konto};${escapeCSV(cat.kategorie)};${cat.anzahl};${formatGermanNumber(cat.summe)}`
+    );
   }
   lines.push('');
 
