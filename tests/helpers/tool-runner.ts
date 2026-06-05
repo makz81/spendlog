@@ -36,13 +36,6 @@ import {
   deleteRecurring,
   processRecurring,
 } from '../../src/tools/recurring.js';
-import {
-  connect,
-  connectionStatus,
-  disconnect,
-  syncStatus,
-  syncNow,
-} from '../../src/tools/connection.js';
 import { getNotifications } from '../../src/tools/notifications.js';
 import {
   setBudget,
@@ -95,13 +88,6 @@ const toolHandlers: Record<string, ToolHandler> = {
   list_recurring: listRecurring,
   delete_recurring: deleteRecurring,
   process_recurring: processRecurring,
-  // Connection
-  connect: connect,
-  connection_status: connectionStatus,
-  disconnect: disconnect,
-  // Sync
-  sync_status: syncStatus,
-  sync_now: syncNow,
   // Notifications
   get_notifications: getNotifications,
   // Budgets
@@ -273,20 +259,6 @@ export const tools = {
 
   processRecurring: () =>
     runTool<ProcessRecurringResponse>('process_recurring', {}),
-
-  // Connection
-  connect: (args: { email: string; password: string }) =>
-    runTool<ConnectionResponse>('connect', args),
-
-  connectionStatus: () =>
-    runTool<ConnectionStatusResponse>('connection_status', {}),
-
-  disconnect: () => runTool<SuccessResponse>('disconnect', {}),
-
-  // Sync
-  syncStatus: () => runTool<SyncStatusResponse>('sync_status', {}),
-
-  syncNow: () => runTool<SyncResponse>('sync_now', {}),
 
   // Notifications
   getNotifications: () =>
@@ -672,48 +644,6 @@ interface ProcessRecurringResponse {
   message: string;
   processed: number;
   transactions?: Array<{ description: string; amount: string; type: string }>;
-}
-
-interface ConnectionResponse {
-  success: boolean;
-  message: string;
-  connect_url?: string;
-  instructions?: string[];
-  hint?: string;
-  error?: string;
-}
-
-interface ConnectionStatusResponse {
-  connected: boolean;
-  message?: string;
-  local_only?: boolean;
-  hint?: string;
-  features_available_after_connect?: string[];
-  user_id?: string;
-  dashboard_url?: string;
-}
-
-interface SyncStatusResponse {
-  connected: boolean;
-  message?: string;
-  hint?: string;
-  last_sync?: string;
-  stats?: {
-    pending: number;
-    synced?: number;
-    errors?: number;
-  };
-}
-
-interface SyncResponse {
-  success: boolean;
-  message: string;
-  hint?: string;
-  stats?: {
-    processed: number;
-    succeeded: number;
-    failed: number;
-  };
 }
 
 interface NotificationsResponse {

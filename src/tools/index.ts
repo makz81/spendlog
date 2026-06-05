@@ -44,14 +44,6 @@ import {
   processRecurring,
   getRecurringToolDefinitions,
 } from './recurring.js';
-import {
-  connect,
-  connectionStatus,
-  disconnect,
-  syncStatus,
-  syncNow,
-  getConnectionToolDefinitions,
-} from './connection.js';
 import { getNotifications, getNotificationToolDefinitions } from './notifications.js';
 import {
   setBudget,
@@ -68,13 +60,6 @@ import {
   deleteProject,
   getProjectToolDefinitions,
 } from './projects.js';
-import {
-  isConnected,
-  getConnectionHint,
-  getConnectionHintForSummary,
-  getDeeplink,
-  getTokenExpiryWarning,
-} from '../services/connection.js';
 
 // Global user context
 let currentUserId: string;
@@ -105,7 +90,6 @@ export function getToolDefinitions(): Tool[] {
     ...getExportToolDefinitions(),
     ...getCategoryToolDefinitions(),
     ...getRecurringToolDefinitions(),
-    ...getConnectionToolDefinitions(),
     ...getNotificationToolDefinitions(),
     ...getBudgetToolDefinitions(),
     ...getProjectToolDefinitions(),
@@ -150,13 +134,6 @@ const toolHandlers: Record<string, ToolHandler> = {
   list_recurring: listRecurring,
   delete_recurring: deleteRecurring,
   process_recurring: processRecurring,
-  // Connection
-  connect: connect,
-  connection_status: connectionStatus,
-  disconnect: disconnect,
-  // Sync
-  sync_status: syncStatus,
-  sync_now: syncNow,
   // Notifications
   get_notifications: getNotifications,
   // Budgets
@@ -172,30 +149,6 @@ const toolHandlers: Record<string, ToolHandler> = {
   delete_project: deleteProject,
 };
 
-// Tools that should always show connection hint when not connected
-const SUMMARY_TOOLS = [
-  'get_summary',
-  'get_category_breakdown',
-  'compare_periods',
-  'get_tax_summary',
-  'list_transactions',
-  'list_invoices',
-];
-
-// Tools that benefit from deeplinks when connected
-const DEEPLINK_TOOLS: Record<
-  string,
-  'dashboard' | 'transaction' | 'invoices' | 'settings' | 'analytics'
-> = {
-  get_summary: 'dashboard',
-  get_category_breakdown: 'dashboard',
-  compare_periods: 'analytics',
-  list_transactions: 'transaction',
-  list_invoices: 'invoices',
-  create_invoice: 'invoices',
-  get_invoice: 'invoices',
-};
-
 export async function handleToolCall(
   name: string,
   args: Record<string, unknown>
@@ -206,55 +159,5 @@ export async function handleToolCall(
     throw new Error(`Unknown tool: ${name}`);
   }
 
-  const result = await handler(args);
-
-  // Skip connection wrapper for connection/sync tools themselves
-  if (['connect', 'connection_status', 'disconnect', 'sync_status', 'sync_now'].includes(name)) {
-    return result;
-  }
-
-  // Wrap response with connection info
-  return wrapWithConnectionInfo(name, result);
-}
-
-function wrapWithConnectionInfo(toolName: string, result: unknown): Record<string, unknown> {
-  // If result is not an object, wrap it
-  const response: Record<string, unknown> =
-    typeof result === 'object' && result !== null
-      ? { ...(result as Record<string, unknown>) }
-      : { data: result };
-
-  if (isConnected()) {
-    // Add deeplink for connected users
-    const deeplinkType = DEEPLINK_TOOLS[toolName];
-    if (deeplinkType) {
-      const deeplink = getDeeplink(deeplinkType);
-      if (deeplink) {
-        response.web_dashboard = deeplink;
-      }
-    }
-
-    // Warn if token is expiring soon
-    const tokenWarning = getTokenExpiryWarning();
-    if (tokenWarning) {
-      response.token_warning = tokenWarning;
-    }
-  } else {
-    // Add hint for non-connected users
-    let hint: string | null = null;
-
-    if (SUMMARY_TOOLS.includes(toolName)) {
-      // Always show hint for summary/list tools
-      hint = getConnectionHintForSummary();
-    } else {
-      // Random hint for other tools (~30% chance)
-      hint = getConnectionHint();
-    }
-
-    if (hint) {
-      response.hint = hint;
-    }
-  }
-
-  return response;
+  return handler(args);
 }

@@ -6,7 +6,6 @@ import { Transaction } from '../entities/Transaction.js';
 import { Invoice } from '../entities/Invoice.js';
 import { Recurring } from '../entities/Recurring.js';
 import { Project } from '../entities/Project.js';
-import { SyncQueue } from '../entities/SyncQueue.js';
 import { Budget } from '../entities/Budget.js';
 import path from 'path';
 import { homedir } from 'os';
@@ -28,7 +27,7 @@ let activeDataSource: DataSource | null = null;
 const ProductionDataSource = new DataSource({
   type: 'better-sqlite3',
   database: databasePath,
-  entities: [User, Profile, Category, Transaction, Invoice, Recurring, Project, SyncQueue, Budget],
+  entities: [User, Profile, Category, Transaction, Invoice, Recurring, Project, Budget],
   synchronize: true,
   logging: process.env.SPENDLOG_DEBUG === '1',
   enableWAL: true,

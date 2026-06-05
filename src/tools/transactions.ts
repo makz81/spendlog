@@ -17,16 +17,9 @@ import { parseDate, formatDate } from '../utils/date.js';
 import { formatCurrency } from '../utils/format.js';
 import { getCurrentUserId, getDefaultProjectName } from './index.js';
 import { Between, FindOptionsWhere, In } from 'typeorm';
-import { queueForSync } from '../services/sync.js';
 import { findProjectByName } from '../services/project.js';
 import { findOrCreateCategory } from '../services/category.js';
 import { t } from '../i18n/index.js';
-
-function logSyncError(error: unknown): void {
-  if (process.env.SPENDLOG_DEBUG === '1') {
-    console.error('[sync]', error instanceof Error ? error.message : error);
-  }
-}
 
 export function getTransactionToolDefinitions(): Tool[] {
   const defaultProject = getDefaultProjectName();
@@ -244,8 +237,6 @@ async function addTransaction(args: Record<string, unknown>, type: 'income' | 'e
 
   await transactionRepo.save(transaction);
 
-  queueForSync('transaction', transaction.id, 'create').catch(logSyncError);
-
   const hints: string[] = [];
   if (categoryResult.created && input.category) {
     hints.push(t('transactions.newCategoryCreated', { category: input.category }));
@@ -384,12 +375,8 @@ export async function deleteTransaction(args: Record<string, unknown>): Promise<
     throw new Error(t('transactions.notFound'));
   }
 
-  const transactionId = transaction.id;
   const amount = Number(transaction.amount);
   const description = transaction.description;
-
-  // Queue for cloud sync BEFORE removing locally
-  await queueForSync('transaction', transactionId, 'delete');
 
   await transactionRepo.remove(transaction);
 
@@ -484,8 +471,6 @@ export async function updateTransaction(args: Record<string, unknown>): Promise<
   }
 
   await transactionRepo.save(transaction);
-
-  queueForSync('transaction', transaction.id, 'update').catch(logSyncError);
 
   // Reload with relations
   const updated = await transactionRepo.findOne({

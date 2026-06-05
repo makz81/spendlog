@@ -3,7 +3,6 @@ import { AppDataSource } from '../db/index.js';
 import { Project } from '../entities/Project.js';
 import { getCurrentUserId } from './index.js';
 import { formatCurrency } from '../utils/format.js';
-import { queueForSync } from '../services/sync.js';
 import { t } from '../i18n/index.js';
 import { z } from 'zod';
 
@@ -172,9 +171,6 @@ export async function renameProject(args: Record<string, unknown>): Promise<unkn
 
   await projectRepo.save(project);
 
-  // Queue for cloud sync
-  queueForSync('project', project.id, 'update').catch(() => { /* fire-and-forget */ });
-
   return {
     success: true,
     message: t('projects.renamed', { old: oldName, new: newName }),
@@ -210,9 +206,6 @@ export async function createProject(args: Record<string, unknown>): Promise<unkn
   });
 
   await projectRepo.save(project);
-
-  // Queue for cloud sync
-  queueForSync('project', project.id, 'create').catch(() => { /* fire-and-forget */ });
 
   return {
     success: true,
@@ -250,11 +243,7 @@ export async function deleteProject(args: Record<string, unknown>): Promise<unkn
     .where('projectId = :projectId', { projectId: project.id })
     .execute();
 
-  const projectId = project.id;
   const deletedName = project.name;
-
-  // Queue for cloud sync BEFORE removing locally
-  await queueForSync('project', projectId, 'delete');
 
   await projectRepo.remove(project);
 

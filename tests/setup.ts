@@ -10,7 +10,6 @@ import { Transaction } from '../src/entities/Transaction.js';
 import { Invoice } from '../src/entities/Invoice.js';
 import { Recurring } from '../src/entities/Recurring.js';
 import { Project } from '../src/entities/Project.js';
-import { SyncQueue } from '../src/entities/SyncQueue.js';
 import { Budget } from '../src/entities/Budget.js';
 import { registerTools } from '../src/tools/index.js';
 import { setDataSource, resetDataSource } from '../src/db/index.js';
@@ -19,7 +18,7 @@ import { setDataSource, resetDataSource } from '../src/db/index.js';
 export const TestDataSource = new DataSource({
   type: 'better-sqlite3',
   database: ':memory:',
-  entities: [User, Profile, Category, Transaction, Invoice, Recurring, Project, SyncQueue, Budget],
+  entities: [User, Profile, Category, Transaction, Invoice, Recurring, Project, Budget],
   synchronize: true,
   logging: false,
 });
@@ -42,7 +41,6 @@ export async function setupTestDb(): Promise<DataSource> {
 
   // Clear all tables (order matters due to foreign keys)
   // First clear entities that reference other entities
-  await TestDataSource.getRepository(SyncQueue).clear();
   await TestDataSource.getRepository(Transaction).clear();
   await TestDataSource.getRepository(Invoice).clear();
   await TestDataSource.getRepository(Recurring).clear();
@@ -286,12 +284,4 @@ export async function getAllTransactions(): Promise<Transaction[]> {
     relations: ['category', 'project'],
     order: { date: 'DESC' },
   });
-}
-
-/**
- * Helper to get sync queue entries
- */
-export async function getSyncQueue(): Promise<SyncQueue[]> {
-  const syncQueueRepo = TestDataSource.getRepository(SyncQueue);
-  return syncQueueRepo.find({ order: { createdAt: 'ASC' } });
 }
