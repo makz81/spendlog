@@ -335,21 +335,21 @@ export async function listTransactions(args: Record<string, unknown>): Promise<u
   const formattedTransactions = transactions.map((tx) => ({
     id: tx.id,
     type: tx.type,
-    amount: Number(tx.amount),
+    amount: tx.amount,
     description: tx.description,
     category: tx.category?.name || t('common.noCategory'),
     project: tx.project?.name || null,
     date: formatDate(tx.date),
-    formatted_amount: formatCurrency(Number(tx.amount)),
+    formatted_amount: formatCurrency(tx.amount),
   }));
 
   const totalIncome = transactions
     .filter((tx) => tx.type === 'income')
-    .reduce((sum, tx) => sum + Number(tx.amount), 0);
+    .reduce((sum, tx) => sum + tx.amount, 0);
 
   const totalExpense = transactions
     .filter((tx) => tx.type === 'expense')
-    .reduce((sum, tx) => sum + Number(tx.amount), 0);
+    .reduce((sum, tx) => sum + tx.amount, 0);
 
   return {
     transactions: formattedTransactions,
@@ -375,7 +375,7 @@ export async function deleteTransaction(args: Record<string, unknown>): Promise<
     throw new Error(t('transactions.notFound'));
   }
 
-  const amount = Number(transaction.amount);
+  const amount = transaction.amount;
   const description = transaction.description;
 
   await transactionRepo.remove(transaction);
@@ -405,7 +405,7 @@ export async function updateTransaction(args: Record<string, unknown>): Promise<
   if (input.amount !== undefined) {
     changes.push(
       t('transactions.changeAmount', {
-        old: formatCurrency(Number(transaction.amount)),
+        old: formatCurrency(transaction.amount),
         new: formatCurrency(input.amount),
       })
     );
@@ -485,7 +485,7 @@ export async function updateTransaction(args: Record<string, unknown>): Promise<
     transaction: {
       id: transaction.id,
       type: transaction.type,
-      amount: Number(transaction.amount),
+      amount: transaction.amount,
       description: transaction.description,
       project: updated?.project?.name || null,
       date: formatDate(transaction.date),

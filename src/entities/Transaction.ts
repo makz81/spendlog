@@ -9,6 +9,7 @@ import {
 import type { User } from './User.js';
 import type { Category } from './Category.js';
 import type { Project } from './Project.js';
+import { moneyTransformer } from './money-transformer.js';
 
 export type TransactionType = 'income' | 'expense';
 
@@ -27,7 +28,7 @@ export class Transaction {
   @Column({ type: 'varchar' })
   type!: TransactionType;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column({ type: 'decimal', precision: 10, scale: 2, transformer: moneyTransformer })
   amount!: number;
 
   @Column({ type: 'varchar', default: 'EUR' })

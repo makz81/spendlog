@@ -266,7 +266,7 @@ export async function listInvoices(args: Record<string, unknown>): Promise<unkno
     id: inv.id,
     number: inv.invoiceNumber,
     client: inv.clientName,
-    total: formatCurrency(Number(inv.totalAmount)),
+    total: formatCurrency(inv.totalAmount),
     date: formatDate(inv.date),
     status: inv.status,
     status_de:
@@ -277,7 +277,7 @@ export async function listInvoices(args: Record<string, unknown>): Promise<unkno
           : t('invoice.statusPaid'),
   }));
 
-  const totalValue = invoices.reduce((sum, inv) => sum + Number(inv.totalAmount), 0);
+  const totalValue = invoices.reduce((sum, inv) => sum + inv.totalAmount, 0);
 
   return {
     invoices: formattedInvoices,
@@ -317,7 +317,7 @@ export async function getInvoice(args: Record<string, unknown>): Promise<unknown
       unit_price: formatCurrency(item.unitPrice),
       total: formatCurrency(item.total),
     })),
-    total: formatCurrency(Number(invoice.totalAmount)),
+    total: formatCurrency(invoice.totalAmount),
     date: formatDate(invoice.date),
     due_date: invoice.dueDate ? formatDate(invoice.dueDate) : null,
     notes: invoice.notes || null,
@@ -350,7 +350,7 @@ async function markInvoiceStatus(args: Record<string, unknown>, status: 'sent' |
   const i18nKey = status === 'sent' ? 'invoice.markedSent' : 'invoice.markedPaid';
   const i18nParams: Record<string, string> = { number: invoice.invoiceNumber };
   if (status === 'paid') {
-    i18nParams.amount = formatCurrency(Number(invoice.totalAmount));
+    i18nParams.amount = formatCurrency(invoice.totalAmount);
   }
 
   return {
@@ -443,7 +443,7 @@ export async function duplicateInvoice(args: Record<string, unknown>): Promise<u
       id: duplicate.id,
       number: duplicate.invoiceNumber,
       client: duplicate.clientName,
-      total: formatCurrency(Number(duplicate.totalAmount)),
+      total: formatCurrency(duplicate.totalAmount),
       date: formatDate(duplicate.date),
       status: duplicate.status,
     },

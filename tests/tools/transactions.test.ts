@@ -207,6 +207,16 @@ describe('Transaction Tools', () => {
       expect(result.transactions).toHaveLength(4);
     });
 
+    it('returns amount as a number, not a decimal string', async () => {
+      await tools.addExpense({ amount: 12.99, description: 'Cents' });
+      const result = await tools.listTransactions();
+
+      // Guards the decimal money transformer: better-sqlite3 hands decimals back
+      // as strings, so without it this would be "12.99" and sums would concat.
+      expect(typeof result.transactions[0].amount).toBe('number');
+      expect(result.transactions[0].amount).toBe(12.99);
+    });
+
     it('filters by income type', async () => {
       await seedTransactions();
       const result = await tools.listTransactions({ type: 'income' });

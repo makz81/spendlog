@@ -244,7 +244,7 @@ export async function exportTransactions(args: Record<string, unknown>): Promise
     id: tx.id,
     datum: formatDate(tx.date),
     typ: tx.type,
-    betrag: Number(tx.amount),
+    betrag: tx.amount,
     beschreibung: tx.description,
     kategorie: tx.category?.name || t('common.noCategory'),
   }));
@@ -340,14 +340,14 @@ export async function exportInvoices(args: Record<string, unknown>): Promise<unk
     exportiert_am: new Date().toISOString(),
     filter: status,
     anzahl: invoices.length,
-    gesamtwert: invoices.reduce((sum, inv) => sum + Number(inv.totalAmount), 0),
+    gesamtwert: invoices.reduce((sum, inv) => sum + inv.totalAmount, 0),
     rechnungen: invoices.map((inv) => ({
       id: inv.id,
       nummer: inv.invoiceNumber,
       kunde: inv.clientName,
       kunde_adresse: inv.clientAddress || null,
       positionen: inv.items,
-      betrag: Number(inv.totalAmount),
+      betrag: inv.totalAmount,
       datum: formatDate(inv.date),
       zahlungsziel: inv.dueDate ? formatDate(inv.dueDate) : null,
       status: inv.status,
@@ -359,7 +359,7 @@ export async function exportInvoices(args: Record<string, unknown>): Promise<unk
   const filepath = join(EXPORTS_DIR, filename);
   writeFileSync(filepath, JSON.stringify(exportData, null, 2), 'utf-8');
 
-  const totalValue = invoices.reduce((sum, inv) => sum + Number(inv.totalAmount), 0);
+  const totalValue = invoices.reduce((sum, inv) => sum + inv.totalAmount, 0);
 
   return {
     success: true,
@@ -707,7 +707,7 @@ export async function exportForTaxAdvisor(args: Record<string, unknown>): Promis
       datum: txDate,
       datumFormatted: formatDateDDMMYYYY(txDate),
       typ: tx.type,
-      betrag: Number(tx.amount),
+      betrag: tx.amount,
       beschreibung: tx.description,
       kategorie: categoryName,
       projekt: tx.project?.name || null,

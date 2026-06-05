@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import type { User } from './User.js';
 import type { Category } from './Category.js';
+import { moneyTransformer } from './money-transformer.js';
 
 export type RecurringInterval = 'weekly' | 'monthly' | 'quarterly' | 'yearly';
 export type RecurringType = 'income' | 'expense';
@@ -27,7 +28,7 @@ export class Recurring {
   @Column({ type: 'varchar' })
   type!: RecurringType;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column({ type: 'decimal', precision: 10, scale: 2, transformer: moneyTransformer })
   amount!: number;
 
   @Column({ type: 'varchar' })
