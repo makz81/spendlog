@@ -9,7 +9,9 @@ export async function findProjectByName(name: string, userId: string): Promise<P
   const project = await projectRepo
     .createQueryBuilder('project')
     .where('project.userId = :userId', { userId })
-    .andWhere('LOWER(project.name) LIKE LOWER(:name)', { name: `%${name.replace(/[%_]/g, '\\$&')}%` })
+    .andWhere('LOWER(project.name) LIKE LOWER(:name)', {
+      name: `%${name.replace(/[%_]/g, '\\$&')}%`,
+    })
     .getOne();
 
   return project;

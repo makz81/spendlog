@@ -9,6 +9,7 @@ import {
   Unique,
 } from 'typeorm';
 import type { User } from './User.js';
+import { moneyTransformer } from './money-transformer.js';
 
 export type ProjectStatus = 'active' | 'completed' | 'archived';
 
@@ -37,7 +38,13 @@ export class Project {
   @Column({ type: 'varchar', nullable: true })
   color?: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    nullable: true,
+    transformer: moneyTransformer,
+  })
   budget?: number;
 
   @CreateDateColumn({ type: 'datetime' })

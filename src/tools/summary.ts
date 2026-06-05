@@ -127,22 +127,22 @@ export async function getSummary(args: Record<string, unknown>): Promise<unknown
   const incomeTransactions = transactions.filter((tx) => tx.type === 'income');
   const expenseTransactions = transactions.filter((tx) => tx.type === 'expense');
 
-  const totalIncome = incomeTransactions.reduce((sum, tx) => sum + Number(tx.amount), 0);
-  const totalExpense = expenseTransactions.reduce((sum, tx) => sum + Number(tx.amount), 0);
+  const totalIncome = incomeTransactions.reduce((sum, tx) => sum + tx.amount, 0);
+  const totalExpense = expenseTransactions.reduce((sum, tx) => sum + tx.amount, 0);
   const net = totalIncome - totalExpense;
 
   // Category breakdown for income
   const incomeByCategory: Record<string, number> = {};
   for (const tx of incomeTransactions) {
     const catName = tx.category?.name || t('common.noCategory');
-    incomeByCategory[catName] = (incomeByCategory[catName] || 0) + Number(tx.amount);
+    incomeByCategory[catName] = (incomeByCategory[catName] || 0) + tx.amount;
   }
 
   // Category breakdown for expenses
   const expenseByCategory: Record<string, number> = {};
   for (const tx of expenseTransactions) {
     const catName = tx.category?.name || t('common.noCategory');
-    expenseByCategory[catName] = (expenseByCategory[catName] || 0) + Number(tx.amount);
+    expenseByCategory[catName] = (expenseByCategory[catName] || 0) + tx.amount;
   }
 
   return {
@@ -188,13 +188,13 @@ export async function getCategoryBreakdown(args: Record<string, unknown>): Promi
     relations: ['category'],
   });
 
-  const total = transactions.reduce((sum, tx) => sum + Number(tx.amount), 0);
+  const total = transactions.reduce((sum, tx) => sum + tx.amount, 0);
 
   // Group by category
   const byCategory: Record<string, number> = {};
   for (const tx of transactions) {
     const catName = tx.category?.name || t('common.noCategory');
-    byCategory[catName] = (byCategory[catName] || 0) + Number(tx.amount);
+    byCategory[catName] = (byCategory[catName] || 0) + tx.amount;
   }
 
   // Sort by amount descending
@@ -292,10 +292,10 @@ export async function comparePeriods(args: Record<string, unknown>): Promise<unk
   // Calculate metrics for current period
   const currentIncome = currentTx
     .filter((tx) => tx.type === 'income')
-    .reduce((sum, tx) => sum + Number(tx.amount), 0);
+    .reduce((sum, tx) => sum + tx.amount, 0);
   const currentExpenses = currentTx
     .filter((tx) => tx.type === 'expense')
-    .reduce((sum, tx) => sum + Number(tx.amount), 0);
+    .reduce((sum, tx) => sum + tx.amount, 0);
   const currentNet = currentIncome - currentExpenses;
   const currentRatio =
     currentExpenses > 0 ? currentIncome / currentExpenses : currentIncome > 0 ? Infinity : 0;
@@ -303,10 +303,10 @@ export async function comparePeriods(args: Record<string, unknown>): Promise<unk
   // Calculate metrics for compare period
   const compareIncome = compareTx
     .filter((tx) => tx.type === 'income')
-    .reduce((sum, tx) => sum + Number(tx.amount), 0);
+    .reduce((sum, tx) => sum + tx.amount, 0);
   const compareExpenses = compareTx
     .filter((tx) => tx.type === 'expense')
-    .reduce((sum, tx) => sum + Number(tx.amount), 0);
+    .reduce((sum, tx) => sum + tx.amount, 0);
   const compareNet = compareIncome - compareExpenses;
   const compareRatio =
     compareExpenses > 0 ? compareIncome / compareExpenses : compareIncome > 0 ? Infinity : 0;
@@ -319,11 +319,11 @@ export async function comparePeriods(args: Record<string, unknown>): Promise<unk
   // Top expenses comparison
   const currentTopExpenses = currentTx
     .filter((tx) => tx.type === 'expense')
-    .sort((a, b) => Number(b.amount) - Number(a.amount))
+    .sort((a, b) => b.amount - a.amount)
     .slice(0, 5)
     .map((tx) => ({
       description: tx.description,
-      amount: Number(tx.amount),
+      amount: tx.amount,
       category: tx.category?.name || t('common.noCategory'),
     }));
 
@@ -430,20 +430,20 @@ export async function getTaxSummary(args: Record<string, unknown>): Promise<unkn
     const incomeTx = quarterTx.filter((tx) => tx.type === 'income');
     const expenseTx = quarterTx.filter((tx) => tx.type === 'expense');
 
-    const income = incomeTx.reduce((sum, tx) => sum + Number(tx.amount), 0);
-    const expenses = expenseTx.reduce((sum, tx) => sum + Number(tx.amount), 0);
+    const income = incomeTx.reduce((sum, tx) => sum + tx.amount, 0);
+    const expenses = expenseTx.reduce((sum, tx) => sum + tx.amount, 0);
 
     // Group by category
     const incomeByCategory: Record<string, number> = {};
     for (const tx of incomeTx) {
       const cat = tx.category?.name || t('common.noCategory');
-      incomeByCategory[cat] = (incomeByCategory[cat] || 0) + Number(tx.amount);
+      incomeByCategory[cat] = (incomeByCategory[cat] || 0) + tx.amount;
     }
 
     const expensesByCategory: Record<string, number> = {};
     for (const tx of expenseTx) {
       const cat = tx.category?.name || t('common.noCategory');
-      expensesByCategory[cat] = (expensesByCategory[cat] || 0) + Number(tx.amount);
+      expensesByCategory[cat] = (expensesByCategory[cat] || 0) + tx.amount;
     }
 
     quarters.push({

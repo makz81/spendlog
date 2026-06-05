@@ -28,7 +28,8 @@ export const de: TranslationDictionary = {
   },
 
   transactions: {
-    addIncomeDesc: 'Füge eine Einnahme hinzu. Alle Beträge in EUR. Beispiel: "1200€ Beratung" oder "500€ von Affiliate"',
+    addIncomeDesc:
+      'Füge eine Einnahme hinzu. Alle Beträge in EUR. Beispiel: "1200€ Beratung" oder "500€ von Affiliate"',
     addIncomeProjectHint: ' Transaktionen werden automatisch Projekt "{project}" zugeordnet.',
     amountDesc: 'Betrag in Euro (positiv)',
     descriptionDesc: 'Beschreibung',
@@ -41,7 +42,8 @@ export const de: TranslationDictionary = {
     dateDesc: 'Datum im Format YYYY-MM-DD (optional, Standard: heute)',
     projectDesc:
       'Projekt-Name (z.B. Mein SaaS, Kundenauftrag, Nebenprojekt). Ordnet die Transaktion einem Projekt zu.',
-    addExpenseDesc: 'Füge eine Ausgabe hinzu. Alle Beträge in EUR. Beispiel: "50€ Hosting" oder "29€ Software-Abo"',
+    addExpenseDesc:
+      'Füge eine Ausgabe hinzu. Alle Beträge in EUR. Beispiel: "50€ Hosting" oder "29€ Software-Abo"',
     listDesc:
       'Liste alle Transaktionen auf. Kann nach Typ, Datum, Kategorie und Projekt gefiltert werden.',
     typeDesc: 'Typ der Transaktionen (Standard: all)',
@@ -159,7 +161,7 @@ export const de: TranslationDictionary = {
     markSentIdDesc: 'UUID der Rechnung',
     markPaidDesc: 'Markiert eine Rechnung als bezahlt.',
     markPaidIdDesc: 'UUID der Rechnung',
-    deleteDesc: 'Löscht eine Rechnung und ihr PDF dauerhaft.',
+    deleteDesc: 'Löscht eine Rechnung dauerhaft.',
     deleted: 'Rechnung {number} gelöscht',
     duplicateDesc:
       'Erstellt eine Kopie einer bestehenden Rechnung als neuen Entwurf. Perfekt für wiederkehrende Kunden.',
@@ -200,64 +202,6 @@ export const de: TranslationDictionary = {
     invoicesExported: '{count} Rechnungen exportiert',
     noTransactionsForPeriod: 'Keine Transaktionen für {period} gefunden.',
     taxExportCreated: 'Steuerberater-Export für {period} erstellt',
-  },
-
-  connection: {
-    connectDesc:
-      'Verbinde Spendlog mit dem Web-Dashboard für Charts, Export und mehr. Generiert einen einmaligen Link.',
-    statusDesc: 'Zeigt den Verbindungsstatus zum Web-Dashboard.',
-    disconnectDesc: 'Trennt die Verbindung zum Web-Dashboard. Lokale Daten bleiben erhalten.',
-    syncStatusDesc: 'Zeigt den Sync-Status: Wie viele Transaktionen warten auf Synchronisierung?',
-    syncNowDesc: 'Synchronisiert alle ausstehenden Transaktionen sofort mit der Cloud.',
-    syncFullDesc: 'Wenn true, werden ALLE lokalen Daten synchronisiert (nicht nur ausstehende)',
-    alreadyConnected: 'Spendlog ist bereits verbunden.',
-    linkError: 'Fehler beim Erstellen des Verbindungs-Links.',
-    linkCreated: 'Verbindungs-Link erstellt',
-    instruction1: '1. Öffne den Link in deinem Browser',
-    instruction2: '2. Melde dich an oder erstelle einen Account',
-    instruction3: '3. Deine Daten werden automatisch synchronisiert',
-    linkHint:
-      'Nach der Verbindung siehst du deine Finanzen im Web-Dashboard mit Charts und Export-Funktionen.',
-    apiError: 'Verbindung zur API fehlgeschlagen.',
-    apiErrorHint: 'Prüfe deine Internetverbindung und versuche es erneut.',
-    connected: 'Spendlog ist mit dem Web-Dashboard verbunden.',
-    connectionSuccess: 'Verbindung erfolgreich hergestellt!',
-    syncHint: 'Deine Daten werden jetzt synchronisiert.',
-    linkExpired: 'Verbindungs-Link ist abgelaufen.',
-    linkExpiredHint: 'Sag "Verbinde Spendlog" für einen neuen Link.',
-    pendingLink: 'Verbindung ausstehend - Link wurde erstellt aber noch nicht geöffnet.',
-    pendingLinkHint: 'Öffne den Verbindungs-Link im Browser um fortzufahren.',
-    notConnected: 'Spendlog ist nicht mit dem Web-Dashboard verbunden.',
-    notConnectedHint: 'Sag "Verbinde Spendlog" um Dashboard, Charts und Export freizuschalten.',
-    featureRealtime: 'Real-time Sync aktiv',
-    featureDashboard: 'Web-Dashboard verfügbar',
-    featureExport: 'Export-Funktionen freigeschaltet',
-    featureCharts: 'Charts & Analysen verfügbar',
-    featurePdfCsv: 'PDF/CSV Export',
-    featureMultiDevice: 'Multi-Device Sync',
-    featureBackup: 'Backup in der Cloud',
-    notConnectedShort: 'Spendlog ist nicht verbunden.',
-    disconnected: 'Verbindung getrennt.',
-    disconnectedNote: 'Deine lokalen Daten in ~/.spendlog wurden nicht gelöscht.',
-    disconnectedHint: 'Du kannst dich jederzeit wieder verbinden mit "Verbinde Spendlog".',
-    syncNotConnected: 'Nicht verbunden - keine Synchronisierung aktiv.',
-    syncNotConnectedHint: 'Sag "Verbinde Spendlog" um die Cloud-Synchronisierung zu aktivieren.',
-    allSynced: 'Alles synchronisiert!',
-    pendingEntries: '{count} Einträge warten auf Synchronisierung.',
-    syncErrors: 'Sync-Fehler vorhanden.',
-    syncErrorHint: 'Bei Fehlern: "Sync jetzt" um erneut zu versuchen.',
-    syncNotConnectedShort: 'Nicht verbunden.',
-    syncNotConnectedShortHint: 'Sag "Verbinde Spendlog" zuerst.',
-    fullSyncErrors: 'Vollständiger Sync mit Fehlern abgeschlossen.',
-    fullSyncDone: 'Vollständiger Sync abgeschlossen!',
-    nothingToSync: 'Nichts zu synchronisieren - alles aktuell!',
-    syncedEntries: '{count} Einträge synchronisiert!',
-    syncedWithErrors: '{succeeded} synchronisiert, {failed} fehlgeschlagen.',
-    connectionHint:
-      'Tipp: Dashboard & Charts auf spendlog.dev\n   Sag: "Verbinde Spendlog mit Web"',
-    connectionHintSummary: 'Mehr Details im Web-Dashboard: Sag "Verbinde Spendlog"',
-    tokenExpiringSoon:
-      'Dein Verbindungs-Token läuft bald ab. Bitte verbinde dich erneut mit "Verbinde Spendlog".',
   },
 
   categories: {
@@ -343,7 +287,7 @@ export const de: TranslationDictionary = {
     getDesc:
       'Zeigt anstehende Benachrichtigungen: Fällige wiederkehrende Transaktionen, überfällige Rechnungen, Budget-Warnungen. Beispiel: "Was steht an?" oder "Zeig Benachrichtigungen"',
     daysAheadDesc: 'Wie viele Tage im Voraus schauen (Standard: 7)',
-    noConnection: 'Keine Verbindung zum Cloud-Konto. Nutze "connect" um dich zu verbinden.',
+    noConnection: 'Spendlog ist noch nicht initialisiert.',
     recurringDue: 'Wiederkehrend fällig',
     recurringDueToday: '{description} ({amount}) heute fällig',
     recurringDueDays: '{description} ({amount}) in {days} Tagen fällig',

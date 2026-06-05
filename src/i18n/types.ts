@@ -189,61 +189,6 @@ export interface TranslationDictionary {
     taxExportCreated: string;
   };
 
-  // Connection tool descriptions + messages
-  connection: {
-    connectDesc: string;
-    statusDesc: string;
-    disconnectDesc: string;
-    syncStatusDesc: string;
-    syncNowDesc: string;
-    syncFullDesc: string;
-    alreadyConnected: string;
-    linkError: string;
-    linkCreated: string;
-    instruction1: string;
-    instruction2: string;
-    instruction3: string;
-    linkHint: string;
-    apiError: string;
-    apiErrorHint: string;
-    connected: string;
-    connectionSuccess: string;
-    syncHint: string;
-    linkExpired: string;
-    linkExpiredHint: string;
-    pendingLink: string;
-    pendingLinkHint: string;
-    notConnected: string;
-    notConnectedHint: string;
-    featureRealtime: string;
-    featureDashboard: string;
-    featureExport: string;
-    featureCharts: string;
-    featurePdfCsv: string;
-    featureMultiDevice: string;
-    featureBackup: string;
-    notConnectedShort: string;
-    disconnected: string;
-    disconnectedNote: string;
-    disconnectedHint: string;
-    syncNotConnected: string;
-    syncNotConnectedHint: string;
-    allSynced: string;
-    pendingEntries: string;
-    syncErrors: string;
-    syncErrorHint: string;
-    syncNotConnectedShort: string;
-    syncNotConnectedShortHint: string;
-    fullSyncErrors: string;
-    fullSyncDone: string;
-    nothingToSync: string;
-    syncedEntries: string;
-    syncedWithErrors: string;
-    connectionHint: string;
-    connectionHintSummary: string;
-    tokenExpiringSoon: string;
-  };
-
   // Category tool descriptions + messages
   categories: {
     listDesc: string;
@@ -340,7 +285,6 @@ export interface TranslationDictionary {
     summaryCount: string;
     summaryCountImportant: string;
   };
-
 
   // Intervals
   intervals: {

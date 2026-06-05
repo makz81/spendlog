@@ -8,6 +8,7 @@ import {
   Unique,
 } from 'typeorm';
 import type { User } from './User.js';
+import { moneyTransformer } from './money-transformer.js';
 
 export type InvoiceStatus = 'draft' | 'sent' | 'paid';
 
@@ -43,7 +44,7 @@ export class Invoice {
   @Column({ type: 'simple-json' })
   items!: InvoiceItem[];
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column({ type: 'decimal', precision: 10, scale: 2, transformer: moneyTransformer })
   totalAmount!: number;
 
   @Column({ type: 'date' })
@@ -54,9 +55,6 @@ export class Invoice {
 
   @Column({ type: 'varchar', default: 'draft' })
   status!: InvoiceStatus;
-
-  @Column({ type: 'varchar', nullable: true })
-  pdfPath?: string;
 
   @Column({ type: 'text', nullable: true })
   notes?: string;

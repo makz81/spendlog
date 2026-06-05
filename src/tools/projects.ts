@@ -3,7 +3,6 @@ import { AppDataSource } from '../db/index.js';
 import { Project } from '../entities/Project.js';
 import { getCurrentUserId } from './index.js';
 import { formatCurrency } from '../utils/format.js';
-import { queueForSync } from '../services/sync.js';
 import { t } from '../i18n/index.js';
 import { z } from 'zod';
 
@@ -137,11 +136,11 @@ export async function listProjects(args: Record<string, unknown>): Promise<unkno
         name: p.name,
         description: p.description || null,
         status: p.status,
-        budget: p.budget ? Number(p.budget) : null,
+        budget: p.budget ? p.budget : null,
         spent: Number(stats?.spent || 0),
         earned: Number(stats?.earned || 0),
         transactions: Number(stats?.count || 0),
-        formatted_budget: p.budget ? formatCurrency(Number(p.budget)) : null,
+        formatted_budget: p.budget ? formatCurrency(p.budget) : null,
         formatted_spent: formatCurrency(Number(stats?.spent || 0)),
       };
     })
@@ -171,9 +170,6 @@ export async function renameProject(args: Record<string, unknown>): Promise<unkn
   project.name = newName;
 
   await projectRepo.save(project);
-
-  // Queue for cloud sync
-  queueForSync('project', project.id, 'update').catch(() => { /* fire-and-forget */ });
 
   return {
     success: true,
@@ -211,9 +207,6 @@ export async function createProject(args: Record<string, unknown>): Promise<unkn
 
   await projectRepo.save(project);
 
-  // Queue for cloud sync
-  queueForSync('project', project.id, 'create').catch(() => { /* fire-and-forget */ });
-
   return {
     success: true,
     message: t('projects.created', { name }),
@@ -221,7 +214,7 @@ export async function createProject(args: Record<string, unknown>): Promise<unkn
       id: project.id,
       name: project.name,
       description: project.description || null,
-      budget: project.budget ? Number(project.budget) : null,
+      budget: project.budget ? project.budget : null,
       status: project.status,
     },
   };
@@ -250,11 +243,7 @@ export async function deleteProject(args: Record<string, unknown>): Promise<unkn
     .where('projectId = :projectId', { projectId: project.id })
     .execute();
 
-  const projectId = project.id;
   const deletedName = project.name;
-
-  // Queue for cloud sync BEFORE removing locally
-  await queueForSync('project', projectId, 'delete');
 
   await projectRepo.remove(project);
 

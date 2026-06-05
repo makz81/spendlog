@@ -75,11 +75,11 @@ export async function getNotifications(args: { days_ahead?: number }) {
             daysUntilDue === 0
               ? t('notifications.recurringDueToday', {
                   description: r.description,
-                  amount: formatCurrency(Number(r.amount)),
+                  amount: formatCurrency(r.amount),
                 })
               : t('notifications.recurringDueDays', {
                   description: r.description,
-                  amount: formatCurrency(Number(r.amount)),
+                  amount: formatCurrency(r.amount),
                   days: String(daysUntilDue),
                 }),
           priority,
@@ -112,7 +112,7 @@ export async function getNotifications(args: { days_ahead?: number }) {
             number: inv.invoiceNumber || inv.id.slice(0, 8),
             client: inv.clientName,
             days: String(daysOverdue),
-            amount: formatCurrency(Number(inv.totalAmount)),
+            amount: formatCurrency(inv.totalAmount),
           }),
           priority,
           data: {

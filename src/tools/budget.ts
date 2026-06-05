@@ -174,7 +174,7 @@ async function calculateSpentForBudget(
   }
 
   const transactions = await transactionRepo.find({ where: where as FindOptionsWhere<Budget> });
-  const spent = transactions.reduce((sum, t) => sum + Number(t.amount), 0);
+  const spent = transactions.reduce((sum, t) => sum + t.amount, 0);
 
   return { spent, transactionCount: transactions.length };
 }
@@ -295,8 +295,8 @@ export async function getBudgetStatus(args: Record<string, unknown>): Promise<un
   const budgetStatuses = await Promise.all(
     budgets.map(async (budget) => {
       const { spent, transactionCount } = await calculateSpentForBudget(budget, userId);
-      const remaining = Number(budget.amount) - spent;
-      const percentage = (spent / Number(budget.amount)) * 100;
+      const remaining = budget.amount - spent;
+      const percentage = (spent / budget.amount) * 100;
       const periodRange = getPeriodRange(getPeriodForBudget(budget.period));
 
       let status: 'ok' | 'warning' | 'over';
@@ -320,8 +320,8 @@ export async function getBudgetStatus(args: Record<string, unknown>): Promise<un
         category: budget.category?.name || null,
         period: budget.period,
         period_label: periodRange.label,
-        budget_amount: Number(budget.amount),
-        budget_formatted: formatCurrency(Number(budget.amount)),
+        budget_amount: budget.amount,
+        budget_formatted: formatCurrency(budget.amount),
         spent: spent,
         spent_formatted: formatCurrency(spent),
         remaining: remaining,
@@ -330,7 +330,7 @@ export async function getBudgetStatus(args: Record<string, unknown>): Promise<un
         percentage_formatted: formatPercentage(percentage),
         transaction_count: transactionCount,
         status,
-        status_display: `[${statusIndicator}] ${formatCurrency(spent)} / ${formatCurrency(Number(budget.amount))} (${Math.round(percentage)}%)`,
+        status_display: `[${statusIndicator}] ${formatCurrency(spent)} / ${formatCurrency(budget.amount)} (${Math.round(percentage)}%)`,
         alert_threshold: budget.alertThreshold,
       };
     })
@@ -379,8 +379,8 @@ export async function listBudgets(_args: Record<string, unknown>): Promise<unkno
     name:
       budget.name ||
       (budget.category?.name ? `Budget ${budget.category.name}` : t('budget.totalBudget')),
-    amount: Number(budget.amount),
-    amount_formatted: formatCurrency(Number(budget.amount)),
+    amount: budget.amount,
+    amount_formatted: formatCurrency(budget.amount),
     period: budget.period,
     period_label: getPeriodLabel(budget.period),
     category: budget.category?.name || null,
@@ -444,7 +444,7 @@ export async function updateBudget(args: Record<string, unknown>): Promise<unkno
   if (input.amount !== undefined) {
     changes.push(
       t('budget.changeAmount', {
-        old: formatCurrency(Number(budget.amount)),
+        old: formatCurrency(budget.amount),
         new: formatCurrency(input.amount),
       })
     );
@@ -487,7 +487,7 @@ export async function updateBudget(args: Record<string, unknown>): Promise<unkno
     budget: {
       id: budget.id,
       name: budget.name || budget.category?.name || t('budget.totalBudget'),
-      amount: Number(budget.amount),
+      amount: budget.amount,
       active: budget.active,
     },
   };
@@ -521,8 +521,8 @@ export async function checkBudgetAfterExpense(
 
   for (const budget of budgets) {
     const { spent } = await calculateSpentForBudget(budget, userId);
-    const percentage = (spent / Number(budget.amount)) * 100;
-    const remaining = Number(budget.amount) - spent;
+    const percentage = (spent / budget.amount) * 100;
+    const remaining = budget.amount - spent;
 
     const budgetName = budget.category?.name || t('budget.totalBudget');
 
@@ -531,7 +531,7 @@ export async function checkBudgetAfterExpense(
         t('budget.budgetExceeded', {
           name: budgetName,
           spent: formatCurrency(spent),
-          budget: formatCurrency(Number(budget.amount)),
+          budget: formatCurrency(budget.amount),
         })
       );
     } else if (percentage >= budget.alertThreshold) {
@@ -547,7 +547,7 @@ export async function checkBudgetAfterExpense(
     statuses.push({
       name: budgetName,
       spent: formatCurrency(spent),
-      budget: formatCurrency(Number(budget.amount)),
+      budget: formatCurrency(budget.amount),
       percentage: `${Math.round(percentage)}%`,
       remaining: formatCurrency(remaining),
     });

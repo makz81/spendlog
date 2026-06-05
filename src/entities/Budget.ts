@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import type { User } from './User.js';
 import type { Category } from './Category.js';
+import { moneyTransformer } from './money-transformer.js';
 
 export type BudgetPeriod = 'monthly' | 'quarterly' | 'yearly';
 
@@ -26,7 +27,7 @@ export class Budget {
   @Column({ type: 'varchar', nullable: true })
   name?: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column({ type: 'decimal', precision: 10, scale: 2, transformer: moneyTransformer })
   amount!: number;
 
   @Column({ type: 'varchar', default: 'monthly' })
@@ -42,7 +43,7 @@ export class Budget {
   @Column({ type: 'boolean', default: true })
   active!: boolean;
 
-  @Column({ type: 'decimal', precision: 5, scale: 2, default: 80 })
+  @Column({ type: 'decimal', precision: 5, scale: 2, default: 80, transformer: moneyTransformer })
   alertThreshold!: number;
 
   @CreateDateColumn({ type: 'datetime' })

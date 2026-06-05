@@ -17,16 +17,9 @@ import { parseDate, formatDate } from '../utils/date.js';
 import { formatCurrency } from '../utils/format.js';
 import { getCurrentUserId, getDefaultProjectName } from './index.js';
 import { Between, FindOptionsWhere, In } from 'typeorm';
-import { queueForSync } from '../services/sync.js';
 import { findProjectByName } from '../services/project.js';
 import { findOrCreateCategory } from '../services/category.js';
 import { t } from '../i18n/index.js';
-
-function logSyncError(error: unknown): void {
-  if (process.env.SPENDLOG_DEBUG === '1') {
-    console.error('[sync]', error instanceof Error ? error.message : error);
-  }
-}
 
 export function getTransactionToolDefinitions(): Tool[] {
   const defaultProject = getDefaultProjectName();
@@ -213,7 +206,10 @@ async function findOrCreateProjectByName(
   return { entity: project, created: true };
 }
 
-async function addTransaction(args: Record<string, unknown>, type: 'income' | 'expense'): Promise<unknown> {
+async function addTransaction(
+  args: Record<string, unknown>,
+  type: 'income' | 'expense'
+): Promise<unknown> {
   const schema = type === 'income' ? addIncomeSchema : addExpenseSchema;
   const input = schema.parse(args) as AddIncomeInput;
   const userId = getCurrentUserId();
@@ -243,8 +239,6 @@ async function addTransaction(args: Record<string, unknown>, type: 'income' | 'e
   });
 
   await transactionRepo.save(transaction);
-
-  queueForSync('transaction', transaction.id, 'create').catch(logSyncError);
 
   const hints: string[] = [];
   if (categoryResult.created && input.category) {
@@ -344,21 +338,21 @@ export async function listTransactions(args: Record<string, unknown>): Promise<u
   const formattedTransactions = transactions.map((tx) => ({
     id: tx.id,
     type: tx.type,
-    amount: Number(tx.amount),
+    amount: tx.amount,
     description: tx.description,
     category: tx.category?.name || t('common.noCategory'),
     project: tx.project?.name || null,
     date: formatDate(tx.date),
-    formatted_amount: formatCurrency(Number(tx.amount)),
+    formatted_amount: formatCurrency(tx.amount),
   }));
 
   const totalIncome = transactions
     .filter((tx) => tx.type === 'income')
-    .reduce((sum, tx) => sum + Number(tx.amount), 0);
+    .reduce((sum, tx) => sum + tx.amount, 0);
 
   const totalExpense = transactions
     .filter((tx) => tx.type === 'expense')
-    .reduce((sum, tx) => sum + Number(tx.amount), 0);
+    .reduce((sum, tx) => sum + tx.amount, 0);
 
   return {
     transactions: formattedTransactions,
@@ -384,12 +378,8 @@ export async function deleteTransaction(args: Record<string, unknown>): Promise<
     throw new Error(t('transactions.notFound'));
   }
 
-  const transactionId = transaction.id;
-  const amount = Number(transaction.amount);
+  const amount = transaction.amount;
   const description = transaction.description;
-
-  // Queue for cloud sync BEFORE removing locally
-  await queueForSync('transaction', transactionId, 'delete');
 
   await transactionRepo.remove(transaction);
 
@@ -418,7 +408,7 @@ export async function updateTransaction(args: Record<string, unknown>): Promise<
   if (input.amount !== undefined) {
     changes.push(
       t('transactions.changeAmount', {
-        old: formatCurrency(Number(transaction.amount)),
+        old: formatCurrency(transaction.amount),
         new: formatCurrency(input.amount),
       })
     );
@@ -485,8 +475,6 @@ export async function updateTransaction(args: Record<string, unknown>): Promise<
 
   await transactionRepo.save(transaction);
 
-  queueForSync('transaction', transaction.id, 'update').catch(logSyncError);
-
   // Reload with relations
   const updated = await transactionRepo.findOne({
     where: { id: transaction.id },
@@ -500,7 +488,7 @@ export async function updateTransaction(args: Record<string, unknown>): Promise<
     transaction: {
       id: transaction.id,
       type: transaction.type,
-      amount: Number(transaction.amount),
+      amount: transaction.amount,
       description: transaction.description,
       project: updated?.project?.name || null,
       date: formatDate(transaction.date),

@@ -1,5 +1,10 @@
 # Spendlog Backlog
 
+> **Pivot (2026-06-05):** Nach dem Produkt-Audit (`docs/PRODUCT_AUDIT_2026-06.md`) ist Spendlog
+> ein fokussiertes **Claude-Code-Tool für Solo-Entrepreneurs zum Kosten-Tracking** — kein Web-Login,
+> kein Cloud-Sync, nur eine Marketing-Website. Bezahl-Dashboard/Sync-Strategie aufgegeben.
+> Monetarisierung vorerst zurückgestellt (Option B "B2B via Steuerberater" nur nach Discovery).
+
 ## Daily Tasks
 
 | Task | Frequency | Last Done | Notes |
@@ -8,16 +13,60 @@
 
 ## Backlog
 
+### Done
 | ID | Task | Priority | Effort | Status |
 |----|------|----------|--------|--------|
 | SL-001a | ~~GSC access — API connected~~ | P0 | - | done |
 | SL-001b | ~~Prerender/SSR for spendlog.dev SPA~~ | P0 | L | done |
-| SL-002 | ~~Review dashboard business case~~ | P1 | S | done |
-| SL-007 | MVP Konnektor (lexoffice oder sevDesk) | P1 | XL | open |
-| SL-003 | Add npm keywords / package.json SEO | P2 | S | open |
-| SL-004 | Write proper README for npm | P2 | M | open |
-| SL-005 | Set up CI (GitHub Actions) | P2 | M | open |
-| SL-006 | Commit untracked docs/MANUAL_TEST_GUIDE.md | P3 | XS | open |
+| SL-002 | ~~Review dashboard business case~~ (superseded by SL-019) | P1 | S | done |
+| SL-003 | ~~Add npm keywords / package.json SEO~~ | P2 | S | done |
+| SL-004 | ~~Improve README for npm~~ | P2 | M | done |
+| SL-005 | ~~Set up CI (GitHub Actions)~~ | P2 | M | done |
+| SL-006 | ~~Commit docs/MANUAL_TEST_GUIDE.md~~ | P3 | XS | done |
+| SL-019 | ~~Deep product/tech/security/strategy audit~~ | P0 | L | done |
+| SL-020 | ~~Reposition CLI (README + package.json) to solo-entrepreneur cost tracking~~ | P0 | S | done |
+| SL-021 | ~~Remove sync/connect code + i18n (no web login)~~ | P1 | M | done |
+| SL-022 | ~~Fix CSV/DATEV formula injection in exports~~ | P0 | S | done |
+| SL-023 | ~~Money fields read as numbers (decimal transformer)~~ | P0 | M | done |
+| SL-024 | ~~Versioned migrations + backup-before-migrate (drop synchronize:true)~~ | P1 | M | done |
+| SL-025 | ~~Remove dead PDF artifacts (template, pdfPath field, "deletes PDF" strings)~~ | P3 | XS | done |
+
+### Open
+
+**Code hygiene (from audit — independent of strategy)**
+| ID | Task | Priority | Effort | Status | Notes |
+|----|------|----------|--------|--------|-------|
+| SL-028 | Integer-cents storage | P2 | M | open | Now unblocked (SL-024 done). Transformer (SL-023) already guarantees numbers; this is the arithmetic gold standard, needs a migration of existing DBs |
+| SL-008 | Fix & merge Dependabot PRs (#18 dev-deps, #19 prod-deps) | P1 | S | open | Both failing CI — needs investigation |
+
+**Website pivot (spendlog-dashboard repo)**
+| ID | Task | Priority | Effort | Status | Notes |
+|----|------|----------|--------|--------|-------|
+| SL-026 | ~~Ship spendlog.dev as marketing site; archive SaaS app~~ | P1 | M | done | App/auth/Supabase gated behind `VITE_APP_ENABLED` (default off) instead of deleted — revivable. Branch `pivot/marketing-only` |
+| SL-027 | Undeploy the dormant sync API worker | P2 | XS | open | Superseded delete→archive: code stays, but the live Cloudflare Worker (`/auth/link`, `/sync/transactions`) should be undeployed so no endpoint stays publicly reachable |
+| SL-016 | Update softwareVersion in JSON-LD to current version | P3 | XS | open | Says 1.0.0 in spendlog-dashboard |
+| SL-009 | Verify pre-render deployment on spendlog.dev | P2 | XS | open | Check crawlable HTML in browser source |
+
+**SEO / Discovery**
+| ID | Task | Priority | Effort | Status | Notes |
+|----|------|----------|--------|--------|-------|
+| SL-010 | Submit sitemap to GSC | P1 | XS | open | No sitemap registered yet |
+| SL-011 | List on MCP directories (mcp.so, glama.ai) | P1 | S | open | Reaches devs, not the ICP — modest leverage |
+| SL-012 | Monitor indexing & identify quick wins via GSC | P2 | S | open | After sitemap + crawl, check coverage |
+| SL-013 | Test npm search discoverability | P2 | XS | open | Search "expense tracker mcp" etc., verify ranking |
+
+**Community / Awareness**
+| ID | Task | Priority | Effort | Status | Notes |
+|----|------|----------|--------|--------|-------|
+| SL-017 | Launch post (r/ClaudeAI, r/selbststaendig, Show HN) | P1 | M | open | New positioning (solo entrepreneurs); also the demand-signal / go-no-go instrument |
+| SL-018 | Check GitHub issues for community activity | P2 | XS | open | Open good-first-issues, 0 contributions so far |
+| SL-014 | Add `search_transactions` tool | P2 | M | open | GitHub #6, good first issue |
+| SL-015 | Add `get_balance` tool | P2 | M | open | GitHub #7, good first issue |
+
+### Parked (revisit only if monetization is reopened)
+| ID | Task | Priority | Effort | Status | Notes |
+|----|------|----------|--------|--------|-------|
+| SL-007 | MVP Konnektor (lexoffice/sevDesk) | — | XL | parked | Was the paid-dashboard wedge; only relevant if Option B (B2B via Steuerberater) is validated |
 
 ## Priority Legend
 

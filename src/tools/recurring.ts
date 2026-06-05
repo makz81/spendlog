@@ -205,7 +205,7 @@ export async function listRecurring(args: Record<string, unknown>): Promise<unkn
   const formatted = recurrings.map((r) => ({
     id: r.id,
     type: r.type === 'income' ? t('common.income') : t('common.expense'),
-    amount: formatCurrency(Number(r.amount)),
+    amount: formatCurrency(r.amount),
     description: r.description,
     category: r.category?.name || t('common.noCategory'),
     interval: getIntervalLabel(r.interval),
@@ -216,7 +216,7 @@ export async function listRecurring(args: Record<string, unknown>): Promise<unkn
   const monthlyIncome = recurrings
     .filter((r) => r.type === 'income' && r.active)
     .reduce((sum, r) => {
-      const amount = Number(r.amount);
+      const amount = r.amount;
       switch (r.interval) {
         case 'weekly':
           return sum + amount * WEEKS_PER_MONTH;
@@ -232,7 +232,7 @@ export async function listRecurring(args: Record<string, unknown>): Promise<unkn
   const monthlyExpense = recurrings
     .filter((r) => r.type === 'expense' && r.active)
     .reduce((sum, r) => {
-      const amount = Number(r.amount);
+      const amount = r.amount;
       switch (r.interval) {
         case 'weekly':
           return sum + amount * WEEKS_PER_MONTH;
@@ -306,7 +306,10 @@ export async function processRecurring(_args: Record<string, unknown>): Promise<
     const maxCatchUp = 100;
     let catchUpCount = 0;
 
-    while ((isBefore(nextDue, today) || nextDue.getTime() === today.getTime()) && catchUpCount < maxCatchUp) {
+    while (
+      (isBefore(nextDue, today) || nextDue.getTime() === today.getTime()) &&
+      catchUpCount < maxCatchUp
+    ) {
       catchUpCount++;
       // Create transaction
       const transaction = transactionRepo.create({
@@ -321,7 +324,7 @@ export async function processRecurring(_args: Record<string, unknown>): Promise<
 
       processed.push({
         description: recurring.description,
-        amount: formatCurrency(Number(recurring.amount)),
+        amount: formatCurrency(recurring.amount),
         type: recurring.type === 'income' ? t('common.income') : t('common.expense'),
       });
 
