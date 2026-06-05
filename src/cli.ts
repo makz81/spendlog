@@ -945,14 +945,20 @@ async function exportData(periodArg?: string, allArgs: string[] = []): Promise<v
       return;
     }
 
-    // Generate CSV content
+    // A cell starting with = + - @ or a control char is run as a formula by the
+    // spreadsheet that opens this export — prefix it with an apostrophe first.
+    const csvCell = (val: string) => {
+      const safe = /^[=+\-@\t\r]/.test(val) ? `'${val}` : val;
+      return /[",\n]/.test(safe) ? `"${safe.replace(/"/g, '""')}"` : safe;
+    };
+
     const csvHeader = 'Datum,Typ,Betrag,Beschreibung,Kategorie';
     const csvRows = transactions.map((t) => {
       const date = t.date.split('T')[0]; // YYYY-MM-DD
       const type = t.type === 'income' ? 'Einnahme' : 'Ausgabe';
       const amount = Number(t.amount).toFixed(2).replace('.', ',');
-      const description = `"${t.description.replace(/"/g, '""')}"`;
-      const category = t.category_name || 'Keine Kategorie';
+      const description = csvCell(t.description);
+      const category = csvCell(t.category_name || 'Keine Kategorie');
       return `${date},${type},${amount},${description},${category}`;
     });
 

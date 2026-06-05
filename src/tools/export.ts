@@ -183,10 +183,14 @@ function formatDateDDMM(date: Date): string {
 }
 
 function escapeCSV(str: string): string {
-  if (str.includes(';') || str.includes('"') || str.includes('\n')) {
-    return `"${str.replace(/"/g, '""')}"`;
+  // A cell starting with = + - @ or a control char is executed as a formula by
+  // Excel/LibreOffice/DATEV. Prefix with an apostrophe to neutralize it before
+  // this lands in a file we hand to someone's accountant.
+  let value = /^[=+\-@\t\r]/.test(str) ? `'${str}` : str;
+  if (value.includes(';') || value.includes('"') || value.includes('\n')) {
+    value = `"${value.replace(/"/g, '""')}"`;
   }
-  return str;
+  return value;
 }
 
 interface TransactionExport {
@@ -453,7 +457,7 @@ function taxExportToEnhancedCSV(
   lines.push('EÜR-Zeile;Bezeichnung;Betrag (EUR);Kategorien');
   for (const zeile of euerEinnahmen) {
     lines.push(
-      `${zeile.zeile};${zeile.bezeichnung};${formatGermanNumber(zeile.summe)};${zeile.kategorien.join(', ')}`
+      `${zeile.zeile};${zeile.bezeichnung};${formatGermanNumber(zeile.summe)};${escapeCSV(zeile.kategorien.join(', '))}`
     );
   }
   lines.push(`SUMME Einnahmen;;${formatGermanNumber(totals.einnahmen)};`);
@@ -464,7 +468,7 @@ function taxExportToEnhancedCSV(
   lines.push('EÜR-Zeile;Bezeichnung;Betrag (EUR);Kategorien');
   for (const zeile of euerAusgaben) {
     lines.push(
-      `${zeile.zeile};${zeile.bezeichnung};${formatGermanNumber(zeile.summe)};${zeile.kategorien.join(', ')}`
+      `${zeile.zeile};${zeile.bezeichnung};${formatGermanNumber(zeile.summe)};${escapeCSV(zeile.kategorien.join(', '))}`
     );
   }
   lines.push(`SUMME Ausgaben;;${formatGermanNumber(totals.ausgaben)};`);
@@ -480,7 +484,7 @@ function taxExportToEnhancedCSV(
   lines.push('Konto;Kategorie;Anzahl;Summe (EUR)');
   for (const cat of einnahmen) {
     const konto = kontenrahmen === 'SKR03' ? cat.konto.skr03 : cat.konto.skr04;
-    lines.push(`${konto};${cat.kategorie};${cat.anzahl};${formatGermanNumber(cat.summe)}`);
+    lines.push(`${konto};${escapeCSV(cat.kategorie)};${cat.anzahl};${formatGermanNumber(cat.summe)}`);
   }
   lines.push('');
 
@@ -489,7 +493,7 @@ function taxExportToEnhancedCSV(
   lines.push('Konto;Kategorie;Anzahl;Summe (EUR)');
   for (const cat of ausgaben) {
     const konto = kontenrahmen === 'SKR03' ? cat.konto.skr03 : cat.konto.skr04;
-    lines.push(`${konto};${cat.kategorie};${cat.anzahl};${formatGermanNumber(cat.summe)}`);
+    lines.push(`${konto};${escapeCSV(cat.kategorie)};${cat.anzahl};${formatGermanNumber(cat.summe)}`);
   }
   lines.push('');
 
@@ -503,7 +507,7 @@ function taxExportToEnhancedCSV(
     const konto = kontenrahmen === 'SKR03' ? tx.konto.skr03 : tx.konto.skr04;
     const typ = tx.typ === 'income' ? 'Einnahme' : 'Ausgabe';
     lines.push(
-      `${tx.lfdNr};${tx.datumFormatted};${typ};${konto};${tx.kategorie};${escapeCSV(tx.beschreibung)};${formatGermanNumber(tx.betrag)};${tx.projekt || '-'}`
+      `${tx.lfdNr};${tx.datumFormatted};${typ};${konto};${escapeCSV(tx.kategorie)};${escapeCSV(tx.beschreibung)};${formatGermanNumber(tx.betrag)};${escapeCSV(tx.projekt || '-')}`
     );
   }
 

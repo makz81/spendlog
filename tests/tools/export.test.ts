@@ -123,6 +123,19 @@ describe('Export Tools', () => {
       // Cleanup
       unlinkSync(result.export!.path!);
     });
+
+    it('neutralizes spreadsheet formula injection in CSV cells', async () => {
+      await tools.addExpense({ amount: 50, description: '=SUM(A1:A2)' });
+
+      const result = await tools.exportTransactions({ format: 'csv' });
+      const content = readFileSync(result.export!.path!, 'utf-8');
+
+      // No cell may start a formula: it's prefixed with an apostrophe
+      expect(content).not.toMatch(/(^|[;\n])=SUM/);
+      expect(content).toContain("'=SUM(A1:A2)");
+
+      unlinkSync(result.export!.path!);
+    });
   });
 
   describe('export_invoices', () => {
@@ -254,6 +267,18 @@ describe('Export Tools', () => {
       expect(result.export?.kontenrahmen).toBe('SKR04');
 
       // Cleanup
+      unlinkSync(result.export!.path!);
+    });
+
+    it('neutralizes formula injection in a malicious category name', async () => {
+      await tools.addExpense({ amount: 100, description: 'Test', category: '=cmd|calc' });
+
+      const result = await tools.exportForTaxAdvisor({ year: 2026 });
+      const content = readFileSync(result.export!.path!, 'utf-8');
+
+      expect(content).not.toMatch(/(^|[;\n])=cmd/);
+      expect(content).toContain("'=cmd|calc");
+
       unlinkSync(result.export!.path!);
     });
 
